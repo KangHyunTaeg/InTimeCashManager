@@ -9,9 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/environmentsetting" />
-            <option value="$PROJECT_DIR$/incomeexpenselist" />
-            <option value="$PROJECT_DIR$/statisticgraph" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

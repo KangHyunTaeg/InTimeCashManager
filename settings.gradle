@@ -1,1 +1,1 @@
-include ':app', ':incomeexpenselist', ':statisticgraph', ':environmentsetting'
+include ':app'

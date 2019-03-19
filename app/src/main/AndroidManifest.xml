@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".IncomeExpenseList" />
+        <activity android:name=".StatisticGraph" />
+        <activity android:name=".EnvironmentSetting"></activity>
     </application>
 
 </manifest>

@@ -1,26 +1,23 @@
-package com.example.incomeexpenselist;
+package com.example.class10.intimecashmanager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class IncomeExpenseList extends AppCompatActivity {
     ListView listIncomeAndExpense;
     ListViewAdapter adapter;
 
@@ -35,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
     String[] categoryID = {"외식", "외식", "외식", "외식", "통신비", "쇼핑", "교통비", "교통비", "외식", "외식", "외식", "외식", "외식", "외식", "통신비", "쇼핑", "교통비", "교통비", "외식", "외식"};
     Integer[] moneyList = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_income_expense_list);
 
         listIncomeAndExpense = (ListView)findViewById(R.id.listIncomeAndExpense);
 
@@ -50,17 +48,17 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListViewAdapter(this, data);
         listIncomeAndExpense.setAdapter(adapter);
 
+        btnCalendar = (Button)findViewById(R.id.btnCalendar);
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.MainActivity.class);
                 startActivity(intent);
             }
         });
-
     }
 
-    public class ListViewAdapter extends BaseAdapter{
+    public class ListViewAdapter extends BaseAdapter {
         Context context;
         List<ItemData> itemDataList;
         LayoutInflater mInflater;
