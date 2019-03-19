@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,11 +21,11 @@ public class MainActivity extends AppCompatActivity {
     ListViewAdapter adapter;
 
     // 임시 배열
-    Integer[] dateList = new Integer[10];
-    Integer[] imgBtnCategoryID = new Integer[10]; // 이미지버튼의 이름 배열, 10은 임의의 숫자
-    String[] usageID = new String[10];
-    String[] categoryID = new String[10];
-    Integer[] moneyList = new Integer[10];
+    // String[] dateList = {};
+    Integer[] imgBtnCategoryID = {R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, }; // 이미지버튼의 이름 배열, 10은 임의의 숫자
+    String[] usageID = {"순대국", "짜장면", "짬뽕", "탕수육", "핸드폰요금", "쇼핑", "택시비", "버스비", "빕스", "한식부폐"};
+    String[] categoryID = {"외식", "외식", "외식", "외식", "통신비", "쇼핑", "교통비", "교통비", "외식", "외식"};
+    Integer[] moneyList = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         List<ItemData> data = new ArrayList<>();
         for(int i=0; i<usageID.length; i++){
-            data.add(new ItemData(dateList[i], imgBtnCategoryID[i], usageID[i], categoryID[i], moneyList[i]));
+            data.add(new ItemData(imgBtnCategoryID[i], usageID[i], categoryID[i], moneyList[i]));
         }
 
         adapter = new ListViewAdapter(this, data);
+        listIncomeAndExpense.setAdapter(adapter);
     }
 
     public class ListViewAdapter extends BaseAdapter{
@@ -72,12 +75,20 @@ public class MainActivity extends AppCompatActivity {
             if(itemView == null){
                 itemView = mInflater.inflate(R.layout.item_listview, null);
             }
-            TextView tvDate = (TextView)itemView.findViewById(R.id.tvDate);
+            // TextView tvDate = (TextView)itemView.findViewById(R.id.tvDate);
+            LinearLayout listOfDetail = (LinearLayout)findViewById(R.id.listOfDetail);
             ImageButton ibtnCategory = (ImageButton)itemView.findViewById(R.id.ibtnCategory);
             TextView tvUsage = (TextView)itemView.findViewById(R.id.tvUsage);
             TextView tvCategory = (TextView)itemView.findViewById(R.id.tvCategory);
             TextView tvSumMoney = (TextView)itemView.findViewById(R.id.tvSumMoney);
-            return null;
+
+            ItemData itemData = itemDataList.get(position);
+            // tvDate.setText(itemData.getDateList().toString());
+            ibtnCategory.setImageResource(itemData.getImgCategory());
+            tvUsage.setText(itemData.getUsage());
+            tvCategory.setText(itemData.getUseCategory());
+            tvSumMoney.setText(new String(String.valueOf(itemData.getSumMoney())));
+            return itemView;
         }
     }
 }

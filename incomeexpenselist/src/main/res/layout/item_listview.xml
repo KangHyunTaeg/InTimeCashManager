@@ -4,32 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/listOfDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_alignParentLeft="true"
+            android:padding="5dp"
+            android:text="date"/>
         <ImageButton
             android:id="@+id/ibtnCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tvUsage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tvCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/tvDate"
+            android:src="@drawable/house"
+            android:background="#000000"/>
+        <LinearLayout
+
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/ibtnCategory"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:id="@+id/tvUsage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="usage" />
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="식비"
+                android:textSize="10dp"/>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvSumMoney"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:padding="5dp"
+            android:text="12000원" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
