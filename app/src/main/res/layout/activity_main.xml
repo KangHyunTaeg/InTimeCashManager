@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,24 +11,29 @@
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/btnCalendar"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="달력"/>
+
         <Button
             android:id="@+id/btnInOutList"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="내역"/>
         <Button
             android:id="@+id/btnStatistic"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="통계"/>
         <Button
             android:id="@+id/btnSetting"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,6 +44,50 @@
         android:layout_height="1dp"
         android:layout_marginBottom="5dp"
         android:background="#cccccc"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:text="2011년 몇월"
+            android:textSize="20sp"
+            android:id="@+id/gv_calendar_activity_tv_title"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textStyle="bold"/>
+        <GridView
+            android:id="@+id/gv_calendar_activity_gv_calendar"
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            android:layout_marginTop="30dp"
+            android:numColumns="7"
+            android:stretchMode="columnWidth"
+            android:listSelector="@drawable/grideview_selector"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/gv_calendar_activity_b_last"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="지난달"  />
+            <Button
+                android:id="@+id/gv_calendar_activity_b_next"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="다음달"  />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>
