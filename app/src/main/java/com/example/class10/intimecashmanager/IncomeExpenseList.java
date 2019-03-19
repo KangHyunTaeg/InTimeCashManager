@@ -58,6 +58,7 @@ public class IncomeExpenseList extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -66,6 +67,7 @@ public class IncomeExpenseList extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.IncomeExpenseList.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -74,6 +76,7 @@ public class IncomeExpenseList extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.StatisticGraph.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -82,6 +85,7 @@ public class IncomeExpenseList extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.EnvironmentSetting.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
