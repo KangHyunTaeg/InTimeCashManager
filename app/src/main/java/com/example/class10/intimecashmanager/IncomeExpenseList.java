@@ -49,10 +49,38 @@ public class IncomeExpenseList extends AppCompatActivity {
         listIncomeAndExpense.setAdapter(adapter);
 
         btnCalendar = (Button)findViewById(R.id.btnCalendar);
+        btnInOutList = (Button)findViewById(R.id.btnInOutList);
+        btnStatistic = (Button)findViewById(R.id.btnStatistic);
+        btnSetting = (Button)findViewById(R.id.btnSetting);
+
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnInOutList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.IncomeExpenseList.class);
+                startActivity(intent);
+            }
+        });
+
+        btnStatistic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.StatisticGraph.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.EnvironmentSetting.class);
                 startActivity(intent);
             }
         });
