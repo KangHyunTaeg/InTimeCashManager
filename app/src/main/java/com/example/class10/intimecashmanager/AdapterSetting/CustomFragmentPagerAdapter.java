@@ -1,9 +1,14 @@
-package com.example.class10.intimecashmanager;
+package com.example.class10.intimecashmanager.AdapterSetting;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticBudgetFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCardFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCategoryFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticGoalFragment;
 
 public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
     private  static int PAGE_NUMBER = 4;

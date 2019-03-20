@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,25 +14,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="달력"/>
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/calendar_button"/>
         <Button
             android:id="@+id/btnInOutList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="내역"/>
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/list_button"/>
         <Button
             android:id="@+id/btnStatistic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="통계"/>
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/statistic_button"/>
         <Button
             android:id="@+id/btnSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="설정"/>
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/setting_button"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -50,15 +53,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="기본 설정"/>
+            android:text="@string/basic_setting"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="로그인 정보"/>
+            android:text="@string/login_info"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="암호 잠금"/>
+            android:text="@string/pass_lock"/>
 
     </LinearLayout>
     <View
@@ -75,40 +78,44 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="분류 관리"/>
+            android:text="@string/category_manage"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
-                android:text="수입분류 관리"/>
+                android:text="@string/income_category_manage"/>
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
-                android:text="지출분류 관리"/>
+                android:text="@string/expense_category_manage"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
-                android:text="카드 관리"/>
+                android:text="@string/card_manage"/>
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
-                android:text="현금계좌 관리"/>
+                android:text="@string/account_manage"/>
         </LinearLayout>
     </LinearLayout>
     <View
@@ -124,23 +131,25 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="내역 관리"/>
+            android:text="@string/list_manage"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
-                android:text="자주쓰는 내역 관리"/>
+                android:text="@string/favorite_list_manage"/>
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
-                android:text="고정금액 관리"/>
+                android:text="@string/fixed_list_manage"/>
         </LinearLayout>
     </LinearLayout>
     <View
@@ -156,23 +165,25 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="목표 및 예산 관리"/>
+            android:text="@string/goal_and_budget_manage"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center">
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
-                android:text="목표 관리"/>
+                android:text="@string/goal_manage"/>
             <Button
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
-                android:text="예산 관리"/>
+                android:text="@string/budget_manage"/>
         </LinearLayout>
     </LinearLayout>
     <View
@@ -189,16 +200,18 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="데이터 초기화"/>
+            android:text="@string/data_init"/>
         <Button
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="수입/지출 내역만 초기화 (통장,카드,고정금액, 분류는 유지)"
+            android:text="@string/money_part_init"
             android:textSize="10dp"/>
         <Button
+            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="가계부 전체 초기화"/>
+            android:text="@string/whole_data_init"/>
 
     </LinearLayout>
 

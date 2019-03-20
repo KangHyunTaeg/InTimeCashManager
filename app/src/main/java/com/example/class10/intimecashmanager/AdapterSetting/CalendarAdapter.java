@@ -1,4 +1,4 @@
-package com.example.class10.intimecashmanager;
+package com.example.class10.intimecashmanager.AdapterSetting;
 
 import java.util.ArrayList;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.class10.intimecashmanager.R;
 
 public class CalendarAdapter extends BaseAdapter {
     private ArrayList<DayInfo> mDayList;

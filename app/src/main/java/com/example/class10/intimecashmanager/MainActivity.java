@@ -1,15 +1,18 @@
 package com.example.class10.intimecashmanager;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.example.class10.intimecashmanager.AdapterSetting.CalendarAdapter;
+import com.example.class10.intimecashmanager.AdapterSetting.DayInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Calendar mThisMonthCalendar;
     Calendar mNextMonthCalendar;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
         btnStatistic = (Button)findViewById(R.id.btnStatistic);
         btnSetting = (Button)findViewById(R.id.btnSetting);
+
+        colorSetting();
 
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,5 +240,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     {
         mCalendarAdapter = new CalendarAdapter(this, R.layout.day, mDayList);
         mGvCalendar.setAdapter(mCalendarAdapter);
+    }
+
+    public void colorSetting(){
+        btnCalendar.setTextColor(Color.RED);
+        btnInOutList.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnStatistic.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnSetting.setBackgroundColor(Color.parseColor("#eeeeee"));
     }
 }

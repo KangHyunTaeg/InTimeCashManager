@@ -2,6 +2,7 @@ package com.example.class10.intimecashmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.class10.intimecashmanager.AdapterSetting.ItemData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,8 @@ public class IncomeExpenseList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income_expense_list);
 
+
+
         listIncomeAndExpense = (ListView)findViewById(R.id.listIncomeAndExpense);
 
         List<ItemData> data = new ArrayList<>();
@@ -52,6 +57,8 @@ public class IncomeExpenseList extends AppCompatActivity {
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
         btnStatistic = (Button)findViewById(R.id.btnStatistic);
         btnSetting = (Button)findViewById(R.id.btnSetting);
+
+        colorSetting();
 
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,5 +144,11 @@ public class IncomeExpenseList extends AppCompatActivity {
             tvSumMoney.setText(new String(String.valueOf(itemData.getSumMoney())));
             return itemView;
         }
+    }
+    public void colorSetting(){
+        btnCalendar.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnInOutList.setTextColor(Color.RED);
+        btnStatistic.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnSetting.setBackgroundColor(Color.parseColor("#eeeeee"));
     }
 }

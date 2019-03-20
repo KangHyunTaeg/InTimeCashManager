@@ -1,4 +1,4 @@
-package com.example.class10.intimecashmanager;
+package com.example.class10.intimecashmanager.StatisticsFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,14 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.class10.intimecashmanager.R;
 
 
-public class StatisticCategoryFragment extends Fragment {
+public class StatisticBudgetFragment extends Fragment {
 
-    public static StatisticCategoryFragment newInstance() {
+    public static StatisticBudgetFragment newInstance() {
         // Required empty public constructor
         Bundle args = new Bundle();
-        StatisticCategoryFragment fragment = new StatisticCategoryFragment();
+        StatisticBudgetFragment fragment = new StatisticBudgetFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -28,7 +29,7 @@ public class StatisticCategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_statistic_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_statistic_budget, container, false);
         return view;
     }
 }

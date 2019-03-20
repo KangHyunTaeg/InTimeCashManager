@@ -15,25 +15,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="달력"/>
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/calendar_button"/>
         <Button
             android:id="@+id/btnInOutList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="내역"/>
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/list_button"/>
         <Button
             android:id="@+id/btnStatistic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="통계"/>
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/statistic_button"/>
         <Button
             android:id="@+id/btnSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="설정"/>
+            style="?android:attr/buttonBarStyle"
+            android:text="@string/setting_button"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

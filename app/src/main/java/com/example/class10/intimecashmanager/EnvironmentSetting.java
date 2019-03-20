@@ -1,6 +1,7 @@
 package com.example.class10.intimecashmanager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,10 +15,14 @@ public class EnvironmentSetting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_environment_setting);
 
+
+
         btnCalendar = (Button)findViewById(R.id.btnCalendar);
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
         btnStatistic = (Button)findViewById(R.id.btnStatistic);
         btnSetting = (Button)findViewById(R.id.btnSetting);
+
+        colorSetting();
 
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,5 +59,12 @@ public class EnvironmentSetting extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void colorSetting(){
+        btnCalendar.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnInOutList.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnStatistic.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnSetting.setTextColor(Color.RED);
     }
 }

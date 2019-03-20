@@ -1,4 +1,4 @@
-package com.example.class10.intimecashmanager;
+package com.example.class10.intimecashmanager.AdapterSetting;
 
 public class DayInfo {
     private String day;

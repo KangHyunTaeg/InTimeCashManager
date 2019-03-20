@@ -1,12 +1,15 @@
 package com.example.class10.intimecashmanager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.class10.intimecashmanager.AdapterSetting.CustomFragmentPagerAdapter;
 
 public class StatisticGraph extends AppCompatActivity {
     Button btnCalendar, btnInOutList, btnStatistic, btnSetting;
@@ -17,10 +20,14 @@ public class StatisticGraph extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic_graph);
 
+
+
         btnCalendar = (Button)findViewById(R.id.btnCalendar);
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
         btnStatistic = (Button)findViewById(R.id.btnStatistic);
         btnSetting = (Button)findViewById(R.id.btnSetting);
+
+        colorSetting();
 
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,5 +77,12 @@ public class StatisticGraph extends AppCompatActivity {
 //        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
 
 
+    }
+
+    public void colorSetting(){
+        btnCalendar.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnInOutList.setBackgroundColor(Color.parseColor("#eeeeee"));
+        btnStatistic.setTextColor(Color.RED);
+        btnSetting.setBackgroundColor(Color.parseColor("#eeeeee"));
     }
 }
