@@ -10,15 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".IncomeExpenseList" />
         <activity android:name=".StatisticGraph" />
-        <activity android:name=".EnvironmentSetting"></activity>
+        <activity android:name=".EnvironmentSetting" />
+        <activity android:name=".IncomeInsert" />
+        <activity android:name=".ExpenseInsert" />
+        <activity android:name=".IntroSplash"
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

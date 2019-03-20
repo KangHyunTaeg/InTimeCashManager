@@ -3,8 +3,9 @@ package com.example.class10.intimecashmanager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,9 @@ public class IncomeExpenseList extends AppCompatActivity {
     ListView listIncomeAndExpense;
     ListViewAdapter adapter;
 
-    Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnSearch;
-    TextView tvSearchPeriod, tvSearchCategory, tvSearcgTag;
+    Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnAddMoney;
+    TextView tvSearchPeriod, tvSearchCategory, tvSearcgTag, tvFeedback;
+    Button btnSearchPeriod, btnSearchCategory, btnSearchTag, btnSearch;
 
     // 임시 배열
     // String[] dateList = {};
@@ -57,6 +59,13 @@ public class IncomeExpenseList extends AppCompatActivity {
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
         btnStatistic = (Button)findViewById(R.id.btnStatistic);
         btnSetting = (Button)findViewById(R.id.btnSetting);
+        btnAddMoney = (Button)findViewById(R.id.btnAddMoney);
+
+        btnSearchPeriod = (Button)findViewById(R.id.btnSearchPeriod);
+        btnSearchCategory = (Button)findViewById(R.id.btnSearchCategory);
+        btnSearchTag = (Button)findViewById(R.id.btnSearchTag);
+
+        tvFeedback = (TextView)findViewById(R.id.tvFeedback);
 
         colorSetting();
 
@@ -93,6 +102,29 @@ public class IncomeExpenseList extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.EnvironmentSetting.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        btnAddMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ExpenseInsert.class);
+                startActivity(intent);
+            }
+        });
+
+        final View[] dialogView = new View[1];
+
+        btnSearchCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 다이얼로그로 분류선택창 불러오기
+                dialogView[0] = (View)View.inflate(IncomeExpenseList.this, R.layout.category_dialog, null);
+                AlertDialog.Builder dlg = new AlertDialog.Builder(IncomeExpenseList.this);
+                dlg.setTitle("지출분류");
+                dlg.setView(dialogView[0]);
+                dlg.setPositiveButton("선택하기", null);
+                dlg.show();
             }
         });
     }

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class EnvironmentSetting extends AppCompatActivity {
-    Button btnCalendar, btnInOutList, btnStatistic, btnSetting;
+    Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnAddMoney;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,7 @@ public class EnvironmentSetting extends AppCompatActivity {
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
         btnStatistic = (Button)findViewById(R.id.btnStatistic);
         btnSetting = (Button)findViewById(R.id.btnSetting);
+        btnAddMoney = (Button)findViewById(R.id.btnAddMoney);
 
         colorSetting();
 
@@ -57,6 +58,14 @@ public class EnvironmentSetting extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.EnvironmentSetting.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        btnAddMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ExpenseInsert.class);
+                startActivity(intent);
             }
         });
     }

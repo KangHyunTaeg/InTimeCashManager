@@ -64,6 +64,7 @@
                     android:gravity="center"
                     android:text="기간"/>
                 <Button
+                    android:id="@+id/btnSearchPeriod"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:text="기간을 설정하세요"
@@ -80,6 +81,7 @@
                     android:gravity="center"
                     android:text="범주"/>
                 <Button
+                    android:id="@+id/btnSearchCategory"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:text="범주를 설정하세요"
@@ -96,6 +98,7 @@
                     android:gravity="center"
                     android:text="태그"/>
                 <Button
+                    android:id="@+id/btnSearchTag"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:text="태그를 설정하세요"
@@ -124,6 +127,7 @@
         android:padding="5dp">
 
         <TextView
+            android:id="@+id/tvFeedback"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="2"
@@ -180,10 +184,10 @@
             android:layout_marginBottom="5dp"
             android:background="#cccccc"/>
         <Button
-            android:id="@+id/addMoney"
+            android:id="@+id/btnAddMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="추가하기"/>
+            android:text="@string/button_add_money"/>
     </LinearLayout>
 
 </LinearLayout>

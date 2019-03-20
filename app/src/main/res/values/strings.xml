@@ -23,5 +23,6 @@
     <string name="data_init">데이터 초기화</string>
     <string name="money_part_init">수입/지출 내역만 초기화(통장,카드,고정금액,분류는 유지)</string>
     <string name="whole_data_init">가계부 전체 초기화</string>
+    <string name="button_add_money">추가하기</string>
 
 </resources>

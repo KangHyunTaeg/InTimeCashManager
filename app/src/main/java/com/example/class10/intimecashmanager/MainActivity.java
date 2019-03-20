@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-    Button btnCalendar, btnInOutList, btnStatistic, btnSetting;
+    Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnAddMoney;
 
     public static int SUNDAY        = 1;
     public static int MONDAY        = 2;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
         btnStatistic = (Button)findViewById(R.id.btnStatistic);
         btnSetting = (Button)findViewById(R.id.btnSetting);
+        btnAddMoney = (Button)findViewById(R.id.btnAddMoney);
 
         colorSetting();
 
@@ -84,6 +85,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.EnvironmentSetting.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+        btnAddMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ExpenseInsert.class);
+                startActivity(intent);
             }
         });
 
