@@ -64,10 +64,22 @@
                     android:gravity="center"
                     android:text="기간"/>
                 <Button
-                    android:id="@+id/btnSearchPeriod"
+                    android:id="@+id/btnStartPeriod"
                     android:layout_width="match_parent"
+                    android:layout_weight="1"
                     android:layout_height="30dp"
-                    android:text="기간을 설정하세요"
+                    android:text="언제부터?"
+                    android:textSize="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="~"/>
+                <Button
+                    android:id="@+id/btnEndPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="30dp"
+                    android:text="언제까지?"
                     android:textSize="10dp"/>
             </LinearLayout>
             <LinearLayout

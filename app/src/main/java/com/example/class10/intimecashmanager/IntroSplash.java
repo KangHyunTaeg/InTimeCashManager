@@ -10,7 +10,7 @@ public class IntroSplash extends Activity {
         super.onCreate(savedInstanceState);
 
         try{
-            Thread.sleep(2500);
+            Thread.sleep(1500);
         } catch (InterruptedException e){
             e.printStackTrace();
         }

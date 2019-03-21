@@ -10,33 +10,53 @@ import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCardFra
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCategoryFragment;
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticGoalFragment;
 
-public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
-    private  static int PAGE_NUMBER = 4;
+import java.util.ArrayList;
 
-    public CustomFragmentPagerAdapter(FragmentManager fm) {
+
+public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
+    private  static int PAGE_NUMBER;
+    ArrayList<String> tabArray;
+
+
+    public CustomFragmentPagerAdapter(FragmentManager fm, ArrayList<String> tabArray) {
         super(fm);
+        this.tabArray = new ArrayList<>();
+        for(int i=0; i<tabArray.size(); i++){
+            this.tabArray.add(tabArray.get(i));
+        }
+        PAGE_NUMBER = tabArray.size();
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
+
+        for(int i=0; i<tabArray.size(); i++){
+            if(position == i){
+                return tabArray.get(i);
+            }
+        }
+
+        /*switch (position){
+
             case 0:
-                return  "분류별";
+                return tabArray.get(0);
             case 1:
-                return "카드별";
+                return tabArray.get(1);
             case 2:
-                return "예산비교";
+                return tabArray.get(2);
             case 3:
-                return "목표현황";
+                return tabArray.get(3);
             default:
                 return null;
-        }
+        }*/
+        return null;
     }
 
     @Override
-    public Fragment getItem(int i) {
-        switch (i){
+    public Fragment getItem(int position) {
+
+        switch (position){
             case 0:
                 return StatisticCategoryFragment.newInstance();
             case 1:

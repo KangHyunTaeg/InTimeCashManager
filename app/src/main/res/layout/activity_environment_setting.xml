@@ -66,14 +66,16 @@
                 android:layout_margin="3dp"
                 android:text="@string/login_info"
                 android:textSize="10dp"
-                android:background="#33FF33"/>
+                android:background="#333333"
+                android:textColor="#ffffff"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_margin="3dp"
                 android:text="@string/pass_lock"
                 android:textSize="10dp"
-                android:background="#33FF33"/>
+                android:background="#333333"
+                android:textColor="#ffffff"/>
 
         </LinearLayout>
         <View
@@ -98,18 +100,24 @@
                 android:gravity="center">
                 <Button
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:layout_marginRight="10dp"
+
+                    android:layout_margin="3dp"
                     android:text="@string/income_category_manage"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    android:background="#333333"
+                    android:textColor="#ffffff"/>
                 <Button
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
+
+                    android:layout_margin="3dp"
                     android:text="@string/expense_category_manage"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    android:background="#333333"
+                    android:textColor="#ffffff"/>
             </LinearLayout>
 
             <LinearLayout
@@ -117,18 +125,22 @@
                 android:layout_height="wrap_content">
                 <Button
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:layout_marginRight="10dp"
+                    android:layout_margin="3dp"
                     android:text="@string/card_manage"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    android:background="#333333"
+                    android:textColor="#ffffff"/>
                 <Button
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
+                    android:layout_margin="3dp"
                     android:text="@string/account_manage"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    android:background="#333333"
+                    android:textColor="#ffffff"/>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -152,18 +164,22 @@
                 android:gravity="center">
                 <Button
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:layout_marginRight="10dp"
                     android:text="@string/favorite_list_manage"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    android:background="#333333"
+                    android:textColor="#ffffff"/>
                 <Button
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:layout_marginLeft="10dp"
                     android:text="@string/fixed_list_manage"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    android:background="#333333"
+                    android:textColor="#ffffff"/>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -187,18 +203,22 @@
                 android:gravity="center">
                 <Button
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:layout_marginRight="10dp"
                     android:text="@string/goal_manage"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    android:background="#333333"
+                    android:textColor="#ffffff"/>
                 <Button
                     android:layout_width="100dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:layout_marginLeft="10dp"
                     android:text="@string/budget_manage"
-                    android:textSize="10dp"/>
+                    android:textSize="10dp"
+                    android:background="#333333"
+                    android:textColor="#ffffff"/>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -219,15 +239,20 @@
                 android:textSize="10dp"/>
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
+                android:layout_margin="3dp"
                 android:text="@string/money_part_init"
                 android:textSize="10dp"
-                />
+                android:background="#333333"
+                android:textColor="#ffffff"/>
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
+                android:layout_margin="3dp"
                 android:text="@string/whole_data_init"
-                android:textSize="10dp"/>
+                android:textSize="10dp"
+                android:background="#333333"
+                android:textColor="#ffffff"/>
 
         </LinearLayout>
 

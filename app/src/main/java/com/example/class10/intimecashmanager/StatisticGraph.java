@@ -11,6 +11,8 @@ import android.widget.Button;
 
 import com.example.class10.intimecashmanager.AdapterSetting.CustomFragmentPagerAdapter;
 
+import java.util.ArrayList;
+
 public class StatisticGraph extends AppCompatActivity {
     Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnAddMoney;
 
@@ -74,7 +76,15 @@ public class StatisticGraph extends AppCompatActivity {
             }
         });
 
-        CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager());
+        // 프레그먼트어뎁터
+        ArrayList<String> tabArray = new ArrayList<>();
+        tabArray.add("분류별");
+        tabArray.add("카드별");
+        tabArray.add("예산비교");
+        tabArray.add("목표현황");
+
+
+        CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabArray);
         TabLayout tabs = (TabLayout)findViewById(R.id.tabs);
         ViewPager pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(adapter);

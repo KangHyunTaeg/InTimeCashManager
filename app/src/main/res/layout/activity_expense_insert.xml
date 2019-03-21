@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
+
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
@@ -55,19 +56,23 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:id="@+id/btnExpenseAtExpensePage"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:text="지출"
+                    android:textSize="12dp"
                     android:layout_marginRight="10dp"
-                    android:text="지출"/>
-                <Switch
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:background="#FF3300"/>
+                <Button
+                    android:id="@+id/btnIncomeAtExpensePage"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:text="수입"
+                    android:textSize="12dp"
                     android:layout_marginLeft="10dp"
-                    android:text="수입"/>
+                    android:background="#00CCCC"/>
+
             </LinearLayout>
         </LinearLayout>
         <View
@@ -163,6 +168,7 @@
                 android:paddingRight="5dp"
                 android:text="출금계좌 : "/>
             <Button
+                android:id="@+id/btnAcount"
                 android:layout_width="180dp"
                 android:layout_height="30dp"
                 android:text="카드 > 롯데DC카드"
