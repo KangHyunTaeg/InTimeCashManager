@@ -195,18 +195,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:background="#CCFFCC"
         android:gravity="right">
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
-            android:background="#cccccc"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Time is Money"
+                android:textColor="#003300"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:text="000.000.000.000.000"
+                android:textColor="#33FF33"/>
+        </LinearLayout>
+
         <Button
             android:id="@+id/btnAddMoney"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_add_money"/>
+            android:layout_height="40dp"
+            android:background="#003300"
+            android:textColor="#CCFFCC"
+            android:text="@string/button_add_money" />
+
     </LinearLayout>
 
 </LinearLayout>
