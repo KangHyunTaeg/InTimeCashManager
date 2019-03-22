@@ -8,22 +8,28 @@ import android.view.View;
 import android.widget.Button;
 
 public class EnvironmentSetting extends AppCompatActivity {
+    //상단 메뉴바 버튼
     Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnAddMoney;
+
+    // 설정버튼들
+    Button btnLoginSetting, btnPassLock,
+            btnIncomeCategorySetting, btnExpenseCategorySetting, btnCardSetting, btnAcountSetting,
+            btnFavoriteMoneySetting, btnFixedMoneySetting,
+            btnGoalSetting, btnBudgetSetting,
+            btnInitALittle, btnInitWhole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_environment_setting);
 
-
-
+        // 상단 메뉴바 버튼
         btnCalendar = (Button)findViewById(R.id.btnCalendar);
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
         btnStatistic = (Button)findViewById(R.id.btnStatistic);
         btnSetting = (Button)findViewById(R.id.btnSetting);
         btnAddMoney = (Button)findViewById(R.id.btnAddMoney);
-
-        colorSetting();
+        colorSetting(); // 메뉴바 컬러 세팅
 
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +74,30 @@ public class EnvironmentSetting extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //설정 버튼들
+        btnLoginSetting = (Button)findViewById(R.id.btnLoginSetting);
+        btnPassLock = (Button)findViewById(R.id.btnPassLock);
+        btnIncomeCategorySetting = (Button)findViewById(R.id.btnIncomeCategorySetting);
+        btnExpenseCategorySetting = (Button)findViewById(R.id.btnExpenseCategorySetting);
+        btnCardSetting = (Button)findViewById(R.id.btnCardSetting);
+        btnAcountSetting = (Button)findViewById(R.id.btnAcountSetting);
+        btnFavoriteMoneySetting = (Button)findViewById(R.id.btnFavoriteMoneySetting);
+        btnFixedMoneySetting = (Button)findViewById(R.id.btnFixedMoneySetting);
+        btnGoalSetting = (Button)findViewById(R.id.btnGoalSetting);
+        btnBudgetSetting = (Button)findViewById(R.id.btnBudgetSetting);
+        btnInitALittle = (Button)findViewById(R.id.btnInitALittle);
+        btnInitWhole = (Button)findViewById(R.id.btnInitWhole);
+
+        btnExpenseCategorySetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.CategoryManager.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     public void colorSetting(){

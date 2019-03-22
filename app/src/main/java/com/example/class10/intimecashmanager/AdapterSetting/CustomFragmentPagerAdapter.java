@@ -11,20 +11,27 @@ import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCategor
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticGoalFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
     private  static int PAGE_NUMBER;
     ArrayList<String> tabArray;
+    List<Fragment> fragList;
 
 
-    public CustomFragmentPagerAdapter(FragmentManager fm, ArrayList<String> tabArray) {
+    public CustomFragmentPagerAdapter(FragmentManager fm, ArrayList<String> tabArray, List<Fragment> fragList) {
         super(fm);
         this.tabArray = new ArrayList<>();
         for(int i=0; i<tabArray.size(); i++){
             this.tabArray.add(tabArray.get(i));
         }
         PAGE_NUMBER = tabArray.size();
+
+        this.fragList = new ArrayList<>();
+        for(int j=0; j<fragList.size(); j++){
+            this.fragList.add(fragList.get(j));
+        }
     }
 
     @Nullable
@@ -36,6 +43,7 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
                 return tabArray.get(i);
             }
         }
+        return null;
 
         /*switch (position){
 
@@ -50,13 +58,22 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }*/
-        return null;
+
     }
+
+
+
 
     @Override
     public Fragment getItem(int position) {
 
-        switch (position){
+        for(int i=0; i<fragList.size(); i++){
+            if(position == i){
+                return fragList.get(i);
+            }
+        }
+
+        /*switch (position){
             case 0:
                 return StatisticCategoryFragment.newInstance();
             case 1:
@@ -67,7 +84,8 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
                 return StatisticGoalFragment.newInstance();
             default:
                 return null;
-        }
+        }*/
+        return null;
     }
 
     @Override

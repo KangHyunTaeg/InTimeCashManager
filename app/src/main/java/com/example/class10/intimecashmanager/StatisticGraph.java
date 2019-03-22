@@ -4,14 +4,20 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.class10.intimecashmanager.AdapterSetting.CustomFragmentPagerAdapter;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticBudgetFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCardFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCategoryFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticGoalFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StatisticGraph extends AppCompatActivity {
     Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnAddMoney;
@@ -83,8 +89,13 @@ public class StatisticGraph extends AppCompatActivity {
         tabArray.add("예산비교");
         tabArray.add("목표현황");
 
+        List<Fragment> fragList = new ArrayList<>();
+        fragList.add(StatisticCategoryFragment.newInstance());
+        fragList.add(StatisticCardFragment.newInstance());
+        fragList.add(StatisticBudgetFragment.newInstance());
+        fragList.add(StatisticGoalFragment.newInstance());
 
-        CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabArray);
+        CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabArray, fragList);
         TabLayout tabs = (TabLayout)findViewById(R.id.tabs);
         ViewPager pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(adapter);
