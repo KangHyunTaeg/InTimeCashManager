@@ -15,6 +15,8 @@ public class DatabaseCreate extends SQLiteOpenHelper {
                 "`place` TEXT,  `cardCheck` INTEGER,  `card` INTEGER,  `acount` INTEGER,  `category` INTEGER,  `tag` TEXT,  " +
                 "`favoiteExpense` INTEGER,  `fixedExpense` INTEGER,  `timeValue` INTEGER );");
 
+        db.execSQL("CREATE TABLE `expenseCategoryTBL` (`id` INTEGER NOT NULL)");
+
     }
 
     @Override

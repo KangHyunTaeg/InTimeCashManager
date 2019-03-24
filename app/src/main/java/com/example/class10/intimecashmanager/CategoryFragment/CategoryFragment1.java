@@ -1,7 +1,5 @@
 package com.example.class10.intimecashmanager.CategoryFragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -20,6 +18,7 @@ import java.util.ArrayList;
 
 public class CategoryFragment1 extends Fragment {
     ListView listViewCategory1;
+    Button btnAddItem;
     int num; // 롱 클릭했을 때 컨텍스트 메뉴에 넘겨줄 값을 받을 변수 선언
 
     // String[] foods = {"주식", "부식", "간식", "외식", "커피/음료", "술/유흥", "기타"};
@@ -50,8 +49,7 @@ public class CategoryFragment1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_category_fragment1, container, false);
 
         listViewCategory1 = (ListView)view.findViewById(R.id.listViewCategory1);
-        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_single_choice, arrayList);
-        listViewCategory1.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList);
         listViewCategory1.setAdapter(adapter);
 
         arrayList.add("주식");
@@ -71,6 +69,24 @@ public class CategoryFragment1 extends Fragment {
                 return false;
             }
         });
+
+        listViewCategory1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // 클릭시 항목선택하기
+            }
+        });
+
+        // 항목 추가하기 - 다이얼로그 띄어서 입력후 반영하기
+        btnAddItem = (Button)view.findViewById(R.id.btnAddItem);
+        btnAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrayList.add("TEST INPUT");
+                adapter.notifyDataSetChanged();
+            }
+        });
+
 
         return view;
     }

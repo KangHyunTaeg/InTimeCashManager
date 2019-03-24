@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.class10.intimecashmanager.SubAtcivities.CategoryManager;
+import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
+
 public class EnvironmentSetting extends AppCompatActivity {
     //상단 메뉴바 버튼
     Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnAddMoney;
@@ -92,7 +95,7 @@ public class EnvironmentSetting extends AppCompatActivity {
         btnExpenseCategorySetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.CategoryManager.class);
+                Intent intent = new Intent(getApplicationContext(), CategoryManager.class);
                 startActivity(intent);
             }
         });

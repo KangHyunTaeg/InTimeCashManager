@@ -1,9 +1,6 @@
 package com.example.class10.intimecashmanager;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,18 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
 import com.example.class10.intimecashmanager.AdapterSetting.ItemData;
+import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class IncomeExpenseList extends AppCompatActivity {
@@ -38,7 +34,6 @@ public class IncomeExpenseList extends AppCompatActivity {
     TextView tvSearchPeriod, tvSearchCategory, tvSearcgTag, tvFeedback;
     Button btnStartPeriod, btnEndPeriod, btnSearchCategory, btnSearchTag, btnSearch;
     EditText edtInputTag;
-
 
     // 임시 배열
     // String[] dateList = {};
@@ -66,7 +61,7 @@ public class IncomeExpenseList extends AppCompatActivity {
         adapter = new ListViewAdapter(this, data);
         listIncomeAndExpense.setAdapter(adapter);
 
-        final View[] dialogView = new View[1];
+
 
         btnCalendar = (Button)findViewById(R.id.btnCalendar);
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
@@ -133,7 +128,7 @@ public class IncomeExpenseList extends AppCompatActivity {
         btnStartPeriod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogDatePicker(btnStartPeriod);
+                DialogLoad.DialogDatePicker(btnStartPeriod, IncomeExpenseList.this);
 
             }
         });
@@ -141,25 +136,14 @@ public class IncomeExpenseList extends AppCompatActivity {
         btnEndPeriod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogDatePicker(btnEndPeriod);
+                DialogLoad.DialogDatePicker(btnEndPeriod, IncomeExpenseList.this);
             }
         });
 
         btnSearchTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogView[0] = (View)View.inflate(IncomeExpenseList.this, R.layout.dialog_input_tag, null);
-                AlertDialog.Builder dlg = new AlertDialog.Builder(IncomeExpenseList.this);
-                dlg.setTitle("# 태그입력");
-                dlg.setView(dialogView[0]);
-                dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // btnSearchTag.setText(edtInputTag.getText().toString()); - Why NullPointerException?
-                    }
-                });
-                dlg.setNegativeButton("취소", null);
-                dlg.show();
+                DialogLoad.DialogInputTag(btnSearchTag, IncomeExpenseList.this);
             }
         });
     }
@@ -230,26 +214,5 @@ public class IncomeExpenseList extends AppCompatActivity {
         btnSetting.setBackgroundColor(Color.parseColor("#eeeeee"));
     }
 
-    private void DialogDatePicker(final Button btn){
-        Calendar c = Calendar.getInstance();
-        int cyear = c.get(Calendar.YEAR);
-        int cmonth = c.get(Calendar.MONTH);
-        int cday = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog.OnDateSetListener mDateSetListener =
-                new DatePickerDialog.OnDateSetListener() {
-                    // onDateSet method
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        String date_selected = String.valueOf(year) + "년 " + String.valueOf(monthOfYear+1)+
-                                "월 "+String.valueOf(dayOfMonth) + "일 ";
-
-                        btn.setText(date_selected);
-                        /*Toast.makeText(IncomeExpenseList.this,
-                                "Selected Date is ="+date_selected, Toast.LENGTH_SHORT).show();*/
-                    }
-                };
-        DatePickerDialog alert = new DatePickerDialog(this,  mDateSetListener,
-                cyear, cmonth, cday);
-        alert.show();
-    }
 }

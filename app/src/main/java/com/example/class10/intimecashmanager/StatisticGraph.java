@@ -15,6 +15,7 @@ import com.example.class10.intimecashmanager.StatisticsFragment.StatisticBudgetF
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCardFragment;
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCategoryFragment;
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticGoalFragment;
+import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
 import java.util.List;

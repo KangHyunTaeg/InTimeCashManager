@@ -1,12 +1,13 @@
-package com.example.class10.intimecashmanager;
+package com.example.class10.intimecashmanager.SubAtcivities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
+
+import com.example.class10.intimecashmanager.R;
+import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 public class IncomeInsert extends AppCompatActivity {
     Button btnCancle, btnSave, btnExpenseAtIncomePage, btnIncomeAtIncomePage;

@@ -1,13 +1,10 @@
-package com.example.class10.intimecashmanager;
+package com.example.class10.intimecashmanager.SubAtcivities;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import com.example.class10.intimecashmanager.AdapterSetting.CustomFragmentPagerAdapter;
 import com.example.class10.intimecashmanager.CategoryFragment.CategoryFragment1;
@@ -22,10 +19,7 @@ import com.example.class10.intimecashmanager.CategoryFragment.CategoryFragment6;
 import com.example.class10.intimecashmanager.CategoryFragment.CategoryFragment7;
 import com.example.class10.intimecashmanager.CategoryFragment.CategoryFragment8;
 import com.example.class10.intimecashmanager.CategoryFragment.CategoryFragment9;
-import com.example.class10.intimecashmanager.StatisticsFragment.StatisticBudgetFragment;
-import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCardFragment;
-import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCategoryFragment;
-import com.example.class10.intimecashmanager.StatisticsFragment.StatisticGoalFragment;
+import com.example.class10.intimecashmanager.R;
 
 import java.util.ArrayList;
 import java.util.List;
