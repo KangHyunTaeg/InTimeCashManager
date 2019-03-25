@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".IncomeExpenseList" />
         <activity android:name=".StatisticGraph" />
         <activity android:name=".EnvironmentSetting" />
@@ -25,7 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SubAtcivities.CategoryManager"></activity>
+        <activity android:name=".SubAtcivities.ExpenseCategoryManager" />
+        <activity android:name=".SubAtcivities.IncomeCategoryManager"></activity>
     </application>
 
 </manifest>

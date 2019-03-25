@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CategoryExpenseFragment.CategoryFragment6">
+    tools:context=".CategoryIncomeFragment.CategoryIncomeFragment2">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <ListView
-            android:id="@+id/listViewCategory6"
+            android:id="@+id/listViewCategoryInIncome2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
     </LinearLayout>
@@ -37,6 +37,5 @@
             android:text="[추가하기]"/>
 
     </LinearLayout>
-
 
 </LinearLayout>

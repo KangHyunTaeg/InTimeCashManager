@@ -2,13 +2,14 @@ package com.example.class10.intimecashmanager;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.class10.intimecashmanager.SubAtcivities.CategoryManager;
+import com.example.class10.intimecashmanager.SubAtcivities.ExpenseCategoryManager;
 import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
+import com.example.class10.intimecashmanager.SubAtcivities.IncomeCategoryManager;
 
 public class EnvironmentSetting extends AppCompatActivity {
     //상단 메뉴바 버튼
@@ -95,7 +96,15 @@ public class EnvironmentSetting extends AppCompatActivity {
         btnExpenseCategorySetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CategoryManager.class);
+                Intent intent = new Intent(getApplicationContext(), ExpenseCategoryManager.class);
+                startActivity(intent);
+            }
+        });
+
+        btnIncomeCategorySetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), IncomeCategoryManager.class);
                 startActivity(intent);
             }
         });

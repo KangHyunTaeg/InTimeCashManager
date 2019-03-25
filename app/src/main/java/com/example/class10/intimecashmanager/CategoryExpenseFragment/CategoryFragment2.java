@@ -1,4 +1,4 @@
-package com.example.class10.intimecashmanager.CategoryFragment;
+package com.example.class10.intimecashmanager.CategoryExpenseFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,85 +12,82 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
+import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
 import com.example.class10.intimecashmanager.R;
 
 import java.util.ArrayList;
 
-public class CategoryFragment1 extends Fragment {
-    ListView listViewCategory1;
+public class CategoryFragment2 extends Fragment {
+    public static DatabaseCreate myDB;
+    public static ArrayAdapter<String> adapter;
+    ListView listViewCategory2;
     Button btnAddItem;
     int num; // 롱 클릭했을 때 컨텍스트 메뉴에 넘겨줄 값을 받을 변수 선언
+    String selectedItem;
 
-    // String[] foods = {"주식", "부식", "간식", "외식", "커피/음료", "술/유흥", "기타"};
-    ArrayList<String> arrayList = new ArrayList<>();
-    ArrayAdapter<String> adapter;
+    public static ArrayList<String> arrayList = new ArrayList<>();
 
+    String sqlSelectSentence;
+    String table = "homeListInExpnseCategoryTBL";
+    String[] columns = {"homeList", "menuReference"};
 
-
-    public static CategoryFragment1 newInstance() {
+    public static CategoryFragment2 newInstance() {
         // Required empty public constructor
         Bundle args = new Bundle();
-        CategoryFragment1 fragment1 = new CategoryFragment1();
-        fragment1.setArguments(args);
-        return fragment1;
+        CategoryFragment2 fragment2 = new CategoryFragment2();
+        fragment2.setArguments(args);
+        return fragment2;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_category_fragment1, container, false);
-
-        listViewCategory1 = (ListView)view.findViewById(R.id.listViewCategory1);
+        View view = inflater.inflate(R.layout.fragment_category_fragment2, container, Boolean.parseBoolean(null));
+        listViewCategory2 = (ListView)view.findViewById(R.id.listViewCategory2);
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList);
-        listViewCategory1.setAdapter(adapter);
+        listViewCategory2.setAdapter(adapter);
 
-        arrayList.add("주식");
-        arrayList.add("부식");
-        arrayList.add("간식");
-        arrayList.add("외식");
-        arrayList.add("커피/음료");
-        arrayList.add("술/유흥");
-        arrayList.add("기타");
+        myDB = new DatabaseCreate(getActivity());
+        arrayList.clear();
+        if(adapter.isEmpty()){
+
+            sqlSelectSentence = "SELECT homeList FROM homeListInExpnseCategoryTBL;";
+            DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList);
+        }
 
         // 리스트뷰의 아이템을 롱클릭하면 컨텍스트 메뉴가 나오고 삭제와 수정 가능
-        registerForContextMenu(listViewCategory1);
-        listViewCategory1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        registerForContextMenu(listViewCategory2);
+        listViewCategory2.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
                 num = position;
+                selectedItem = listViewCategory2.getItemAtPosition(position).toString();
+
                 return false;
             }
         });
 
-        listViewCategory1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // 클릭시 항목선택하기
-            }
-        });
 
         // 항목 추가하기 - 다이얼로그 띄어서 입력후 반영하기
         btnAddItem = (Button)view.findViewById(R.id.btnAddItem);
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrayList.add("TEST INPUT");
+
+                DialogLoad.DialogAddMenu(getContext(), table, columns, arrayList);
                 adapter.notifyDataSetChanged();
             }
         });
-
-
         return view;
     }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -100,15 +97,16 @@ public class CategoryFragment1 extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
         switch (item.getItemId()){
             case 1:
-                arrayList.remove(num);
+                DialogLoad.DialogDeleteMenu(arrayList, myDB, num, selectedItem,listViewCategory2, adapter, table, columns);
                 adapter.notifyDataSetChanged();
-                break;
+                return true;
             case 2:
-                arrayList.add("test");
+                DialogLoad.DialogUpdateMenu(getContext(), num, table, columns, listViewCategory2, arrayList, selectedItem);
                 adapter.notifyDataSetChanged();
-                break;
+                return true;
         }
         return super.onContextItemSelected(item);
     }
