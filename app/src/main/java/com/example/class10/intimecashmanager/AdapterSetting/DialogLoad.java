@@ -20,6 +20,7 @@ import com.example.class10.intimecashmanager.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class DialogLoad {
@@ -28,6 +29,67 @@ public class DialogLoad {
     static DatabaseCreate myDB;
     static SQLiteDatabase sqlDB;
     static String menuData;
+
+    public static ArrayList<String> arrayList = new ArrayList<>();
+
+    public static void DialogSearchCategory(Context context){
+        dialogView[0] = (View)View.inflate(context, R.layout.activity_expense_category_manager, null);
+        AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+        dlg.setTitle("# 범주 추가");
+        dlg.setView(dialogView[0]);
+        dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        dlg.setNegativeButton("취소", null);
+        dlg.show();
+    }
+
+    // 자주쓰는 내역 불러오기
+    public static void LoadFavoriteInExpense(Context context){
+        dialogView[0] = (View)View.inflate(context, R.layout.dialog_favorite_menu, null);
+        AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+        ListView listFavorite = (ListView) dialogView[0].findViewById(R.id.listFavorite);
+
+        // 데이터베이스 사용 전 임시로 값 넣어보기
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, arrayList);
+        listFavorite.setAdapter(adapter);
+
+        myDB = new DatabaseCreate(context);
+        arrayList.clear();
+        if(adapter.isEmpty()){
+            String sqlSelectSentence = "SELECT foodsList FROM foodsListInExpnseCategoryTBL;";
+            DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList);
+        }
+
+        dlg.setTitle("# 항목 추가");
+        dlg.setView(dialogView[0]);
+        dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        dlg.setNegativeButton("취소", null);
+        dlg.show();
+
+
+        // 데이터베이스에서 값을 불러와서 리스트에 넣기
+        //myDB = new DatabaseCreate(context);
+        //myDB.getReadableDatabase();
+        //String sqlSelectSentence ="SELECT * FROM expenseTBL WHERE favorite=1;";
+        //DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList);
+
+
+
+
+        // 리스트뷰에 리스트뷰 아답터 장착
+
+
+
+    }
 
 
     public static void DialogAddMenu(final Context context, final String table, final String[] columns, final ArrayList<String> arrayList){

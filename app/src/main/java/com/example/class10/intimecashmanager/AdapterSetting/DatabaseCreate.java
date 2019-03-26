@@ -186,6 +186,22 @@ public class DatabaseCreate extends SQLiteOpenHelper {
                 db.execSQL("INSERT INTO depositListInincomeCategoryTBL(depositList, menuReference) VALUES ('" + menuItemIncome4.get(i) + "', 4);");
             }
 
+            // 지출 테이블
+            db.execSQL("CREATE TABLE `expenseTBL` (" +
+                    "`ID` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                    "`date` TEXT NOT NULL, " +
+                    "`amount` INTEGER NOT NULL, " +
+                    "`usage` TEXT NOT NULL, " +
+                    "`usedPlance` TEXT NOT NULL, " +
+                    "`paymentCheck` INTEGER, " +
+                    "`acount` INTEGER, " +
+                    "`card` INTEGER, " +
+                    "`category` INTEGER, " +
+                    "`tag` INTEGER, " +
+                    "`favorite` INTEGER, " +
+                    "`fixed` INTEGER, " +
+                    "`timeValue` INTEGER);");
+
         } else{
             // db 파일이 있으면, 그냥 열면 되지 않을까?
             SQLiteDatabase.openDatabase("/data/data/com.example.class10.intimecashmanager/databases/inTimeCashManagerDB.db", null, SQLiteDatabase.OPEN_READWRITE);

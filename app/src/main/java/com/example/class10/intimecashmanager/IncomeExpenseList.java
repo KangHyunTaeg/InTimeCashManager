@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
 import com.example.class10.intimecashmanager.AdapterSetting.ItemData;
+import com.example.class10.intimecashmanager.AdapterSetting.ListViewAdapter;
 import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
@@ -48,20 +49,6 @@ public class IncomeExpenseList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income_expense_list);
-
-
-
-        listIncomeAndExpense = (ListView)findViewById(R.id.listIncomeAndExpense);
-
-        List<ItemData> data = new ArrayList<>();
-        for(int i=0; i<usageID.length; i++){
-            data.add(new ItemData(imgBtnCategoryID[i], usageID[i], categoryID[i], moneyList[i]));
-        }
-
-        adapter = new ListViewAdapter(this, data);
-        listIncomeAndExpense.setAdapter(adapter);
-
-
 
         btnCalendar = (Button)findViewById(R.id.btnCalendar);
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
@@ -140,73 +127,39 @@ public class IncomeExpenseList extends AppCompatActivity {
             }
         });
 
+
+
+        /*tvSearchCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogLoad.DialogSearchCategory(IncomeExpenseList.this);
+            }
+        });*/
+
         btnSearchTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogLoad.DialogInputTag(btnSearchTag, IncomeExpenseList.this);
             }
         });
+
+        // 검색
+
+
+
+
+        // my 리스트뷰 세팅
+        listIncomeAndExpense = (ListView)findViewById(R.id.listIncomeAndExpense);
+        List<ItemData> data = new ArrayList<>();
+        for(int i=0; i<usageID.length; i++){
+            data.add(new ItemData(imgBtnCategoryID[i], usageID[i], categoryID[i], moneyList[i]));
+        }
+
+        adapter = new ListViewAdapter(this, data);
+        listIncomeAndExpense.setAdapter(adapter);
     }
 
-    public class ListViewAdapter extends BaseAdapter {
-        Context context;
-        List<ItemData> itemDataList;
-        LayoutInflater mInflater;
 
-
-
-        public ListViewAdapter(Context context, List<ItemData> itemDataList) {
-            this.context = context;
-            this.itemDataList = itemDataList;
-            this.mInflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public int getCount() {
-            return itemDataList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            /*btnSearchPeriod.setText(); // 기간검색 결과
-            String categorySearch; // 분류검색 결과
-            String tagSearch; // 태그검색 결과
-
-            sqlDB = myDB.getReadableDatabase();
-            Cursor cursor;
-            cursor = sqlDB.rawQuery("SELECT date, FROM expenseTBL WHERE date=" + btnSearchPeriod.getText().toString() + ", " )*/
-
-            View itemView = convertView;
-            if(itemView == null){
-                itemView = mInflater.inflate(R.layout.item_listview, null);
-            }
-            // TextView tvDate = (TextView)itemView.findViewById(R.id.tvDate);
-            RelativeLayout listOfDetail = (RelativeLayout) itemView.findViewById(R.id.listOfDetail);
-            ImageButton ibtnCategory = (ImageButton)itemView.findViewById(R.id.ibtnCategory);
-            TextView tvUsage = (TextView)itemView.findViewById(R.id.tvUsage);
-            TextView tvCategory = (TextView)itemView.findViewById(R.id.tvCategory);
-            TextView tvSumMoney = (TextView)itemView.findViewById(R.id.tvSumMoney);
-
-            ItemData itemData = itemDataList.get(position);
-            // tvDate.setText(itemData.getDateList().toString());
-            ibtnCategory.setImageResource(itemData.getImgCategory());
-            tvUsage.setText(itemData.getUsage());
-            tvCategory.setText(itemData.getUseCategory());
-            tvSumMoney.setText(new String(String.valueOf(itemData.getSumMoney())));
-            return itemView;
-        }
-    }
     public void colorSetting(){
         btnCalendar.setBackgroundColor(Color.parseColor("#eeeeee"));
         btnInOutList.setTextColor(Color.RED);
@@ -215,4 +168,9 @@ public class IncomeExpenseList extends AppCompatActivity {
     }
 
 
+    public void getSearchContion(){
+        String StartPeriod = btnStartPeriod.getText().toString();
+        String EndPeriod = btnEndPeriod.getText().toString();
+
+    }
 }

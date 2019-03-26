@@ -13,15 +13,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="5dp">
-        <TextView
+        <Button
+            android:id="@+id/btnTodayOrSomeday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="?android:attr/buttonBarStyle"
             android:text="2018년 2월 18일 (월)"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right">
             <Button
+                android:id="@+id/btnLoadFavoriteInExpense"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
                 android:text="자주쓰는 내역 불러오기"
@@ -96,6 +99,7 @@
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:hint="금액을 입력하세요"
+                android:inputType="number"
                 android:textSize="15dp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -123,6 +127,7 @@
                 android:paddingRight="5dp"
                 android:text="사용내역 : "/>
             <EditText
+                android:id="@+id/edtUsage"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:hint="ex) 비빔국수"
@@ -152,6 +157,7 @@
                 android:paddingRight="5dp"
                 android:text="사용처 : "/>
             <EditText
+                android:id="@+id/edtUsedPlace"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:hint="ex) 망향식당"
@@ -198,6 +204,7 @@
                 android:paddingRight="5dp"
                 android:text="분류 : "/>
             <Button
+                android:id="@+id/btnCategoryCheck"
                 android:layout_width="180dp"
                 android:layout_height="30dp"
                 android:text="공과금 > 전기세"
@@ -221,6 +228,7 @@
                 android:paddingRight="5dp"
                 android:text="태그 : "/>
             <EditText
+                android:id="@+id/edtInputTagInExpenseInsert"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:hint="ex) #고정비용"
@@ -236,6 +244,7 @@
             android:layout_height="wrap_content"
             android:gravity="center">
             <CheckBox
+                android:id="@+id/chkFavorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
