@@ -131,8 +131,8 @@ public class DialogLoad {
 
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);
         dlg.setTitle("# 항목 수정");
-        menuData = list.getItemAtPosition(num).toString();
-        edtUpdateMenu.setText(menuData);
+
+        edtUpdateMenu.setText(selectedItem);
         dlg.setView(dialogView[0]);
         myDB = new DatabaseCreate(context);
         sqlDB = myDB.getWritableDatabase();

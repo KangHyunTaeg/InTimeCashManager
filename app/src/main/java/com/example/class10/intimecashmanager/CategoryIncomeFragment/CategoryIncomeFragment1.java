@@ -32,10 +32,15 @@ public class CategoryIncomeFragment1 extends Fragment {
     String table = "revenewListInincomeCategoryTBL";
     String[] columns = {"revenueList", "menuReference"};
 
-    public static CategoryIncomeFragment1 newInstance() {
+    public static CategoryIncomeFragment1 newInstance(String sqlSelectSentence, String table, String[] columns) {
         // Required empty public constructor
         Bundle args = new Bundle();
         CategoryIncomeFragment1 fragment1 = new CategoryIncomeFragment1();
+
+        args.putString("ARG_sqlSelectSentence", sqlSelectSentence);
+        args.putString("ARG_table", table);
+        args.putStringArray("ARG_colums", columns);
+
         fragment1.setArguments(args);
         return fragment1;
     }
@@ -43,6 +48,11 @@ public class CategoryIncomeFragment1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getArguments() != null){
+            sqlSelectSentence = getArguments().getString("ARG_sqlSelectSentence");
+            table = getArguments().getString("ARG_table");
+            columns = getArguments().getStringArray("ARG_colums");
+        }
     }
 
     @Override
@@ -57,8 +67,6 @@ public class CategoryIncomeFragment1 extends Fragment {
         myDB = new DatabaseCreate(getActivity());
         arrayList.clear();
         if(adapter.isEmpty()){
-
-            sqlSelectSentence = "SELECT revenueList FROM revenewListInincomeCategoryTBL;";
             DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList);
         }
 

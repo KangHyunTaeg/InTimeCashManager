@@ -43,7 +43,10 @@ public class IncomeCategoryManager extends AppCompatActivity {
 
         List<Fragment> fragList = new ArrayList<>();
         // 뷰 페이저 추가
-        fragList.add(CategoryIncomeFragment1.newInstance());
+        String sqlSelectSentence = "SELECT revenueList FROM revenewListInincomeCategoryTBL;";
+        String table = "revenewListInincomeCategoryTBL";
+        String[] columns = {"revenueList", "menuReference"};
+        fragList.add(CategoryIncomeFragment1.newInstance(sqlSelectSentence, table, columns));
         fragList.add(CategoryIncomeFragment2.newInstance());
         fragList.add(CategoryIncomeFragment3.newInstance());
         fragList.add(CategoryIncomeFragment4.newInstance());
