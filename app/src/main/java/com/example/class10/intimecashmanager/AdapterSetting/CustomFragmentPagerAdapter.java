@@ -37,7 +37,6 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-
         for(int i=0; i<tabArray.size(); i++){
             if(position == i){
                 return tabArray.get(i);

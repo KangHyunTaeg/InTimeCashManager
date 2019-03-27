@@ -18,7 +18,7 @@ import com.example.class10.intimecashmanager.R;
 
 import java.util.ArrayList;
 
-public class CategoryFragment1 extends Fragment {
+public class CategoryExpenseFragment extends Fragment {
 
     public static DatabaseCreate myDB;
     public static ArrayAdapter<String> adapter;
@@ -31,32 +31,37 @@ public class CategoryFragment1 extends Fragment {
     public static ArrayList<String> arrayList = new ArrayList<>();
 
     String sqlSelectSentence;
-    String table = "foodsListInExpnseCategoryTBL";
-    String[] columns = {"foodsList", "menuReference"};
+    String table;
+    String[] columns;
 
-
-
-    public static CategoryFragment1 newInstance() {
+    public static CategoryExpenseFragment newInstance(String sqlSelectSentence, String table, String[] columns) {
         // Required empty public constructor
         Bundle args = new Bundle();
-        CategoryFragment1 fragment1 = new CategoryFragment1();
-        fragment1.setArguments(args);
-        return fragment1;
+        CategoryExpenseFragment fragment = new CategoryExpenseFragment();
+
+        args.putString("ARG_sqlSelectSentence", sqlSelectSentence);
+        args.putString("ARG_table", table);
+        args.putStringArray("ARG_colums", columns);
+
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        if(getArguments() != null){
+            sqlSelectSentence = getArguments().getString("ARG_sqlSelectSentence");
+            table = getArguments().getString("ARG_table");
+            columns = getArguments().getStringArray("ARG_colums");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_category_fragment1, container, Boolean.parseBoolean(null));
-
+        View view = inflater.inflate(R.layout.fragment_category_expense_fragment, container, Boolean.parseBoolean(null));
         listViewCategory1 = (ListView)view.findViewById(R.id.listViewCategory1);
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList);
         listViewCategory1.setAdapter(adapter);
@@ -64,8 +69,6 @@ public class CategoryFragment1 extends Fragment {
         myDB = new DatabaseCreate(getActivity());
         arrayList.clear();
         if(adapter.isEmpty()){
-
-            sqlSelectSentence = "SELECT foodsList FROM foodsListInExpnseCategoryTBL;";
             DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList);
         }
 
