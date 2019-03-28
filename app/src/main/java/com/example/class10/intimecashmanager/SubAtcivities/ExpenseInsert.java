@@ -1,10 +1,13 @@
 package com.example.class10.intimecashmanager.SubAtcivities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,6 +21,8 @@ import com.example.class10.intimecashmanager.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static com.example.class10.intimecashmanager.AdapterSetting.DialogLoad.DialogSearchCategory;
 
 public class ExpenseInsert extends AppCompatActivity {
     Button btnTodayOrSomeday; // 날짜 입력, 기본적으로 오늘 날짜 표시, 클릭시 캘린더 불러오기, 날짜 선택
@@ -49,7 +54,7 @@ public class ExpenseInsert extends AppCompatActivity {
     int fixedExpense; // 고정비용 여부
     int timeValue; // 시간환산 가치
 
-    // 입력된 데이터를 담을 배열 - List<DataList> 만들어서 담기
+    // 입력된 데이터를 담을 배열 - List<InputData> 만들어서 담기
 
 
     String weekdayResult =""; // 요일 문자열을 담을 변수
@@ -108,10 +113,84 @@ public class ExpenseInsert extends AppCompatActivity {
             }
         });
 
-        // 금액 입력
-        if(edtAmountOfMoney.getText().toString() != null){
-            sumMoney = Integer.parseInt(edtAmountOfMoney.getText().toString());
+        // 금액 입력 - 입력되지 않으면 저장되지 않는다
+        try{
+            if(edtAmountOfMoney.getText().toString() != null){
+                sumMoney = Integer.parseInt(edtAmountOfMoney.getText().toString());
+            }
+        } catch(NullPointerException e){
+            Toast.makeText(this, "금액을 입력하세요.", Toast.LENGTH_SHORT).show();
         }
+
+        // 사용내역 입력 - 입력되지 않으면 저장되지 않는다
+        try{
+            if(edtUsage.getText().toString() != null){
+                usage = edtUsage.getText().toString();
+            }
+        } catch(NullPointerException e){
+            Toast.makeText(this, "사용내역을 입력하세요.", Toast.LENGTH_SHORT).show();
+        }
+
+
+        // 사용처 입력
+        try{
+            if(edtUsedPlace.getText().toString() != null){
+                usedPlance = edtUsedPlace.getText().toString();
+            }
+        } catch (NullPointerException e){
+
+        }
+
+
+        // 카드 현금 체크
+        btnAcount = (Button)findViewById(R.id.btnAcount);
+        btnAcount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                paymentCheck = 1;
+            }
+        });
+
+        btnCategoryCheck = (Button)findViewById(R.id.btnCategoryCheck);
+        btnCategoryCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // List Adater 생성
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ExpenseInsert.this);
+                alertBuilder.setTitle("항목 중에 하나를 선택하세요.");
+
+                 final ArrayAdapter<String> adapter = new ArrayAdapter<>(ExpenseInsert.this, android.R.layout.simple_list_item_1);
+                 adapter.add("database");
+
+                 // 버튼 생성
+                alertBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                // Adapter 세팅
+                alertBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = adapter.getItem(which);
+                        AlertDialog.Builder innBuilder = new AlertDialog.Builder(ExpenseInsert.this);
+                        innBuilder.setMessage(strName);
+                        innBuilder.setTitle("당신이 선택한 것은?");
+                        innBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        innBuilder.show();
+                    }
+                });
+                alertBuilder.show();
+            }
+        });
 
 
         btnIncomeAtExpensePage = (Button)findViewById(R.id.btnIncomeAtExpensePage);

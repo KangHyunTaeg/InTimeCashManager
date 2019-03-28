@@ -31,6 +31,7 @@ public class DialogLoad {
 
     public static ArrayList<String> arrayList = new ArrayList<>();
 
+
     public static void DialogSearchCategory(Context context){
         dialogView[0] = (View)View.inflate(context, R.layout.activity_expense_category_manager, null);
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);

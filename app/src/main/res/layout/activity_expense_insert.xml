@@ -203,13 +203,14 @@
                 android:gravity="right"
                 android:paddingRight="5dp"
                 android:text="분류 : "/>
+
             <Button
                 android:id="@+id/btnCategoryCheck"
                 android:layout_width="180dp"
                 android:layout_height="30dp"
+                android:background="#FF3300"
                 android:text="공과금 > 전기세"
-                android:textSize="12dp"
-                android:background="#FF3300"/>
+                android:textSize="12dp" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"
