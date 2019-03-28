@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
@@ -34,6 +35,21 @@ public class ExpenseInsert extends AppCompatActivity {
     public static DatabaseCreate myDB; // 데이터베이스 사용하기 위해서 my 데이터베이스 생성 클래스 불러오기
     ArrayList<String> arrayList;
 
+    // 입력 내용을 담을 변수들
+    String dateExpenseIncome; // 날짜
+    int sumMoney; // 금액
+    String usage; // 사용내역
+    String usedPlance; // 사용처
+    int paymentCheck; // 지불방법
+    int acount; // 현금지불시 현금계좌
+    int card; // 카드지불시 사용카드
+    int useCategory; // 분류
+    String tag; // 태그
+    int favoiteExpense; // 자주쓰는 내역 여부
+    int fixedExpense; // 고정비용 여부
+    int timeValue; // 시간환산 가치
+
+    // 입력된 데이터를 담을 배열 - List<DataList> 만들어서 담기
 
 
     String weekdayResult =""; // 요일 문자열을 담을 변수
@@ -67,13 +83,19 @@ public class ExpenseInsert extends AppCompatActivity {
             case 7:
                 weekdayResult = "(토요일)";
         }
-        btnTodayOrSomeday.setText(cyear+"년 "+cmonth+"월 "+cday+"일 ");
+        btnTodayOrSomeday.setText(cyear+"년 "+cmonth+"월 "+cday+"일 " + weekdayResult);
         btnTodayOrSomeday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogLoad.DialogDatePicker(btnTodayOrSomeday, ExpenseInsert.this);
             }
         });
+        if(btnTodayOrSomeday.getText().toString() != null){
+            dateExpenseIncome = btnTodayOrSomeday.getText().toString();
+        } else{
+            Toast.makeText(this, "날짜를 클릭해서 입력하세요", Toast.LENGTH_SHORT).show();
+        }
+
 
         // 자주쓰는 내역 불러오기
         btnLoadFavoriteInExpense = (Button)findViewById(R.id.btnLoadFavoriteInExpense);
@@ -86,7 +108,10 @@ public class ExpenseInsert extends AppCompatActivity {
             }
         });
 
-
+        // 금액 입력
+        if(edtAmountOfMoney.getText().toString() != null){
+            sumMoney = Integer.parseInt(edtAmountOfMoney.getText().toString());
+        }
 
 
         btnIncomeAtExpensePage = (Button)findViewById(R.id.btnIncomeAtExpensePage);

@@ -10,10 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.class10.intimecashmanager.AdapterSetting.CustomFragmentPagerAdapter;
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
-import com.example.class10.intimecashmanager.CategoryIncomeFragment.CategoryIncomeFragment1;
-import com.example.class10.intimecashmanager.CategoryIncomeFragment.CategoryIncomeFragment2;
-import com.example.class10.intimecashmanager.CategoryIncomeFragment.CategoryIncomeFragment3;
-import com.example.class10.intimecashmanager.CategoryIncomeFragment.CategoryIncomeFragment4;
+import com.example.class10.intimecashmanager.CategoryIncomeFragment.CategoryIncomeFragment;
 import com.example.class10.intimecashmanager.R;
 
 import java.util.ArrayList;
@@ -43,19 +40,20 @@ public class IncomeCategoryManager extends AppCompatActivity {
 
         List<Fragment> fragList = new ArrayList<>();
         // 뷰 페이저 추가
-        String sqlSelectSentence = "SELECT revenueList FROM revenewListInincomeCategoryTBL;";
-        String table = "revenewListInincomeCategoryTBL";
-        String[] columns = {"revenueList", "menuReference"};
-        fragList.add(CategoryIncomeFragment1.newInstance(sqlSelectSentence, table, columns));
-        fragList.add(CategoryIncomeFragment2.newInstance());
-        fragList.add(CategoryIncomeFragment3.newInstance());
-        fragList.add(CategoryIncomeFragment4.newInstance());
+        fragList.add(0, CategoryIncomeFragment.newInstance("SELECT revenueList FROM revenewListInincomeCategoryTBL WHERE menuReference=1;", "revenewListInincomeCategoryTBL", new String[]{"revenueList", "menuReference"}));
+        fragList.add(1, CategoryIncomeFragment.newInstance("SELECT extraIncomeList FROM extraIncomeListInincomeCategoryTBL WHERE menuReference=2;", "extraIncomeListInincomeCategoryTBL", new String[]{"extraIncomeList", "menuReference"}));
+        fragList.add(2, CategoryIncomeFragment.newInstance("SELECT previousMonthList FROM previousMonthListInincomeCategoryTBL WHERE menuReference=3;", "previousMonthListInincomeCategoryTBL", new String[]{"previousMonthList", "menuReference"}));
+        fragList.add(3, CategoryIncomeFragment.newInstance("SELECT depositList FROM depositListInincomeCategoryTBL WHERE menuReference=4;", "depositListInincomeCategoryTBL", new String[]{"depositList", "menuReference"}));
+
 
         CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), arrayIncomeMenuTab, fragList);
 
-        TabLayout tabs = (TabLayout)findViewById(R.id.tabsInIncomeCategoryManager);
-        ViewPager pager = (ViewPager)findViewById(R.id.pagerInIncomeCategoryManager);
+        final TabLayout tabs = (TabLayout)findViewById(R.id.tabsInIncomeCategoryManager);
+        final ViewPager pager = (ViewPager)findViewById(R.id.pagerInIncomeCategoryManager);
+
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
     }
 }
+
+

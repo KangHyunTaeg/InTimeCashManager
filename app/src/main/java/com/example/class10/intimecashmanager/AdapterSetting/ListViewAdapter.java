@@ -90,7 +90,7 @@ public class ListViewAdapter extends BaseAdapter {
         if(itemView == null){
             itemView = mInflater.inflate(R.layout.item_listview, null);
         }
-        // TextView tvDate = (TextView)itemView.findViewById(R.id.tvDate);
+        TextView tvDate = (TextView)itemView.findViewById(R.id.tvDate);
         RelativeLayout listOfDetail = (RelativeLayout) itemView.findViewById(R.id.listOfDetail);
         ImageButton ibtnCategory = (ImageButton)itemView.findViewById(R.id.ibtnCategory);
         TextView tvUsage = (TextView)itemView.findViewById(R.id.tvUsage);
@@ -100,7 +100,7 @@ public class ListViewAdapter extends BaseAdapter {
 
 
         ItemData itemData = itemDataList.get(position);
-        // tvDate.setText(itemData.getDateList().toString());
+        tvDate.setText(itemData.getDateList().toString());
         ibtnCategory.setImageResource(itemData.getImgCategory());
         tvUsage.setText(itemData.getUsage());
         tvCategory.setText(itemData.getUseCategory());

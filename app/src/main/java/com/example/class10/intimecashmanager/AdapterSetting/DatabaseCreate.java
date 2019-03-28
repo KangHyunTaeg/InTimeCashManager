@@ -17,8 +17,8 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE `expenseTBL` (`date` TEXT NOT NULL, `amount` INTEGER NOT NULL,  `use` TEXT NOT NULL,  " +
-                "`place` TEXT,  `cardCheck` INTEGER,  `card` INTEGER,  `acount` INTEGER,  `category` INTEGER,  `tag` TEXT,  " +
+        db.execSQL("CREATE TABLE `expenseTBL` (`dateExpenseIncome` TEXT NOT NULL, `sumMoney` INTEGER NOT NULL,  `usage` TEXT NOT NULL,  " +
+                "`usePlace` TEXT,  `paymentCheck` INTEGER,  `card` INTEGER,  `acount` INTEGER,  `useCategory` INTEGER,  `tag` TEXT,  " +
                 "`favoiteExpense` INTEGER,  `fixedExpense` INTEGER,  `timeValue` INTEGER );");
 
         // 메뉴 테이블 만들고, 컬럼에 메뉴 불러와서 인서트하기

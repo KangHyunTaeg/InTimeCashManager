@@ -16,7 +16,6 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
     ArrayList<String> tabArray; // TabLayout에 담을 데이터 배열 (String)
     List<Fragment> fragList; // ViewPager에 inflate시킬 데이터 배열
 
-
     public CustomFragmentPagerAdapter(FragmentManager fm, ArrayList<String> tabArray, List<Fragment> fragList) {
         super(fm);
 
@@ -65,6 +64,7 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+
         for(int i=0; i<fragList.size(); i++){
             if(position == i){
                 return fragList.get(i);

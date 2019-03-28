@@ -31,9 +31,9 @@ public class CategoryExpenseFragment extends Fragment {
 
     public static ArrayList<String> arrayList = new ArrayList<>();
 
-    String sqlSelectSentence;
-    String table;
-    String[] columns;
+    static String sqlSelectSentence;
+    static String table;
+    static String[] columns;
 
     public static CategoryExpenseFragment newInstance(String sqlSelectSentence, String table, String[] columns) {
         // Required empty public constructor
@@ -63,11 +63,16 @@ public class CategoryExpenseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_category_expense_fragment, container, false);
-        arrayList.clear();
-        myDB = new DatabaseCreate(getContext());
         listViewCategory = (ListView)view.findViewById(R.id.listViewCategory);
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList);
+        listViewCategory.setAdapter(adapter);
 
-        DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList); // myDB로 생성된 DB에서 sqlSelectSentence을 통해 테이블 데이터를 읽고, 그것을 arrayList<String> 배열에 담기
+        myDB = new DatabaseCreate(getContext());
+        arrayList.removeAll(arrayList);
+        if(adapter.isEmpty()){
+            DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList); // myDB로 생성된 DB에서 sqlSelectSentence을 통해 테이블 데이터를 읽고, 그것을 arrayList<String> 배열에 담기
+        }
+
         // selectDB 메소드 내용 :
                 /*SQLiteDatabase sqlDB = myDB.getReadableDatabase();
                 Cursor cursor;
@@ -78,8 +83,7 @@ public class CategoryExpenseFragment extends Fragment {
                 sqlDB.close();
                 cursor.close();*/
 
-        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList);
-        listViewCategory.setAdapter(adapter);
+
 
         // 리스트뷰의 아이템을 롱클릭하면 컨텍스트 메뉴가 나오고 삭제와 수정 가능
         registerForContextMenu(listViewCategory);

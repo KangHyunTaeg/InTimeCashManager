@@ -24,11 +24,10 @@ import java.util.List;
 
 
 public class DialogLoad {
-    private static EditText edtInputTag, edtInputMonth, edtAddMenu, edtUpdateMenu;
+    private static EditText edtInputTag, edtInputMonth, edtUpdateMenu;
     final static View[] dialogView = new View[1];
     static DatabaseCreate myDB;
     static SQLiteDatabase sqlDB;
-    static String menuData;
 
     public static ArrayList<String> arrayList = new ArrayList<>();
 
@@ -94,16 +93,17 @@ public class DialogLoad {
 
     public static void DialogAddMenu(final Context context, final String table, final String[] columns, final ArrayList<String> arrayList){
         dialogView[0] = (View)View.inflate(context, R.layout.dialog_add_menu, null);
-        edtAddMenu = (EditText)dialogView[0].findViewById(R.id.edtAddMenu);
+        final EditText edtAddMenu = (EditText)dialogView[0].findViewById(R.id.edtAddMenu);
+        myDB = new DatabaseCreate(context);
+        sqlDB = myDB.getWritableDatabase();
+
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);
         dlg.setTitle("# 항목 추가");
         dlg.setView(dialogView[0]);
         dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                menuData = edtAddMenu.getText().toString();
-                myDB = new DatabaseCreate(context);
-                sqlDB = myDB.getWritableDatabase();
+                String menuData = edtAddMenu.getText().toString();
                 try{
                     if(menuData != null){
                         sqlDB.execSQL("INSERT INTO " + table + "(" + columns[0] + ", " + columns[1] + ") VALUES ('" + menuData + "', 1);");
@@ -158,8 +158,6 @@ public class DialogLoad {
         sqlDB = myDB.getWritableDatabase();
         // sqlDB.execSQL("DELETE FROM homeListInExpnseCategoryTBL WHERE homeList='"+ selectedItem +"'");
         sqlDB.execSQL("DELETE FROM " + table + " WHERE " + columns[0] + " ='" + selectedItem + "';");
-        // list.clearChoices();
-        adapter.notifyDataSetChanged();
     }
 
     public static void DialogInputTag(final Button btn, Context context){

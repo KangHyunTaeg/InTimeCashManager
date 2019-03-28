@@ -1,6 +1,8 @@
 package com.example.class10.intimecashmanager.AdapterSetting;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MenuSetting {
 
