@@ -1,5 +1,6 @@
 package com.example.class10.intimecashmanager.CategoryExpenseFragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,7 +17,9 @@ import android.widget.ListView;
 
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
+import com.example.class10.intimecashmanager.AdapterSetting.MenuSetting;
 import com.example.class10.intimecashmanager.R;
+import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
 
@@ -55,6 +58,8 @@ public class CategoryExpenseFragment extends Fragment {
             sqlSelectSentence = getArguments().getString("ARG_sqlSelectSentence");
             table = getArguments().getString("ARG_table");
             columns = getArguments().getStringArray("ARG_colums");
+
+
         }
     }
 
@@ -72,17 +77,57 @@ public class CategoryExpenseFragment extends Fragment {
         if(adapter.isEmpty()){
             DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList); // myDB로 생성된 DB에서 sqlSelectSentence을 통해 테이블 데이터를 읽고, 그것을 arrayList<String> 배열에 담기
         }
+        adapter.notifyDataSetChanged();
 
-        // selectDB 메소드 내용 :
-                /*SQLiteDatabase sqlDB = myDB.getReadableDatabase();
-                Cursor cursor;
-                cursor = sqlDB.rawQuery(sqlSelectSentence, null);
-                while(cursor.moveToNext()){
-                    arrayList.add(cursor.getString(0));
+
+
+
+        listViewCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<String> selectedArrayList = new ArrayList<>(); // 선택된 리스트뷰의 항목을 배열에 담기
+
+                selectedItem = arrayList.get(position); //  선택한항목(탭이름별테이블의 해당아이템
+                DatabaseCreate.selectDB("SELECT listItem FROM " + table + " WHERE listItem = '" + selectedItem + "';", myDB, selectedArrayList);
+
+                String[] tableName = {"foodsListInExpnseCategoryTBL", "homeListInExpnseCategoryTBL", "livingListInExpnseCategoryTBL", "beautyListInExpnseCategoryTBL", "healthListInExpnseCategoryTBL",
+                        "educationListInExpnseCategoryTBL", "trafficListInExpnseCategoryTBL", "eventListInExpnseCategoryTBL", "taxListInExpnseCategoryTBL", "etcListInExpnseCategoryTBL", "depositListInExpnseCategoryTBL"};
+                ArrayList<String> menuNameList = new ArrayList<>();
+                MenuSetting.expenseMenuItem(menuNameList);
+
+                String menuName = null;
+                /*switch (table){
+                    case tableName[0]:
+                        menuName = menuNameList.get(0);
+                        break;
+                }*/
+
+                for(int i=0; i<tableName.length; i++){
+                    if(table ==  tableName[i]){
+                        menuName = menuNameList.get(i);
+                    }
                 }
-                sqlDB.close();
-                cursor.close();*/
 
+                /*tableName.add("foodsListInExpnseCategoryTBL");
+                tableName.add("homeListInExpnseCategoryTBL");
+                tableName.add("livingListInExpnseCategoryTBL");
+                tableName.add("beautyListInExpnseCategoryTBL");
+                tableName.add("healthListInExpnseCategoryTBL");
+                tableName.add("educationListInExpnseCategoryTBL");
+                tableName.add("trafficListInExpnseCategoryTBL");
+                tableName.add("eventListInExpnseCategoryTBL");
+                tableName.add("taxListInExpnseCategoryTBL");
+                tableName.add("etcListInExpnseCategoryTBL");
+                tableName.add("depositListInExpnseCategoryTBL");*/
+
+                String categoryID = selectedArrayList.get(0);
+                Intent putIntent = new Intent(getContext(), ExpenseInsert.class);
+                putIntent.putExtra("categoryID", categoryID);
+                putIntent.putExtra("menuName", menuName);
+                startActivity(putIntent);
+
+            }
+        });
 
 
         // 리스트뷰의 아이템을 롱클릭하면 컨텍스트 메뉴가 나오고 삭제와 수정 가능
@@ -133,5 +178,6 @@ public class CategoryExpenseFragment extends Fragment {
         }
         return super.onContextItemSelected(item);
     }
+
 
 }

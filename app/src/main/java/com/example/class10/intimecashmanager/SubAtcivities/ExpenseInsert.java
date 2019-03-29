@@ -22,7 +22,7 @@ import com.example.class10.intimecashmanager.R;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static com.example.class10.intimecashmanager.AdapterSetting.DialogLoad.DialogSearchCategory;
+// import static com.example.class10.intimecashmanager.AdapterSetting.DialogLoad.DialogSearchCategory;
 
 public class ExpenseInsert extends AppCompatActivity {
     Button btnTodayOrSomeday; // 날짜 입력, 기본적으로 오늘 날짜 표시, 클릭시 캘린더 불러오기, 날짜 선택
@@ -152,45 +152,32 @@ public class ExpenseInsert extends AppCompatActivity {
             }
         });
 
+        // 카테고리 입력
         btnCategoryCheck = (Button)findViewById(R.id.btnCategoryCheck);
         btnCategoryCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // List Adater 생성
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ExpenseInsert.this);
-                alertBuilder.setTitle("항목 중에 하나를 선택하세요.");
-
-                 final ArrayAdapter<String> adapter = new ArrayAdapter<>(ExpenseInsert.this, android.R.layout.simple_list_item_1);
-                 adapter.add("database");
-
-                 // 버튼 생성
-                alertBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                // Adapter 세팅
-                alertBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String strName = adapter.getItem(which);
-                        AlertDialog.Builder innBuilder = new AlertDialog.Builder(ExpenseInsert.this);
-                        innBuilder.setMessage(strName);
-                        innBuilder.setTitle("당신이 선택한 것은?");
-                        innBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        innBuilder.show();
-                    }
-                });
-                alertBuilder.show();
+                // DialogLoad.DialogSearchCategory(ExpenseInsert.this, btnCategoryCheck);
+                Intent intent = new Intent(getApplicationContext(), ExpenseCategoryManager.class);
+                intent.putExtra("CHECK_INT", 1); // 인텐트된 액티비티에서 1을 받을 경우와 2를 받을 경우 다른 액션을 주기 위해
+                startActivity(intent);
             }
         });
+
+        Intent inIntent = getIntent();
+        btnCategoryCheck.setText(inIntent.getStringExtra("menuName") + " > " + inIntent.getStringExtra("categoryID"));
+
+        // useCategory = inIntent.getStringExtra("categoryID"); 해당 분류의 아이디를 저장하기 Q.현재 String 값으로 받아왔는데, 어떻게 이것의 아이디를 선택해 변수에 할당할 것인가?
+
+        try{
+            if(btnCategoryCheck.getText().toString() != null){
+                // useCategory = btnCategoryCheck.getText().toString();
+
+            }
+        } catch (NullPointerException e){
+
+        }
+
 
 
         btnIncomeAtExpensePage = (Button)findViewById(R.id.btnIncomeAtExpensePage);
@@ -202,6 +189,8 @@ public class ExpenseInsert extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
         btnMonthlyInstallment = (Button)findViewById(R.id.btnMonthlyInstallment);
         edtAmountOfMoney = (EditText)findViewById(R.id.edtAmountOfMoney);

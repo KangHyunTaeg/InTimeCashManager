@@ -40,11 +40,16 @@ public class IncomeCategoryManager extends AppCompatActivity {
 
         List<Fragment> fragList = new ArrayList<>();
         // 뷰 페이저 추가
-        fragList.add(0, CategoryIncomeFragment.newInstance("SELECT revenueList FROM revenewListInincomeCategoryTBL WHERE menuReference=1;", "revenewListInincomeCategoryTBL", new String[]{"revenueList", "menuReference"}));
-        fragList.add(1, CategoryIncomeFragment.newInstance("SELECT extraIncomeList FROM extraIncomeListInincomeCategoryTBL WHERE menuReference=2;", "extraIncomeListInincomeCategoryTBL", new String[]{"extraIncomeList", "menuReference"}));
-        fragList.add(2, CategoryIncomeFragment.newInstance("SELECT previousMonthList FROM previousMonthListInincomeCategoryTBL WHERE menuReference=3;", "previousMonthListInincomeCategoryTBL", new String[]{"previousMonthList", "menuReference"}));
-        fragList.add(3, CategoryIncomeFragment.newInstance("SELECT depositList FROM depositListInincomeCategoryTBL WHERE menuReference=4;", "depositListInincomeCategoryTBL", new String[]{"depositList", "menuReference"}));
 
+        ArrayList<String> tableName = new ArrayList<>();
+        tableName.add("revenewListInincomeCategoryTBL");
+        tableName.add("extraIncomeListInincomeCategoryTBL");
+        tableName.add("previousMonthListInincomeCategoryTBL");
+        tableName.add("depositListInincomeCategoryTBL");
+
+        for(int i=0; i<tableName.size(); i++){
+            fragList.add(i, CategoryIncomeFragment.newInstance("SELECT listItem FROM " + tableName.get(i) + " WHERE menuReference=" + (i+1) + ";", tableName.get(i), new String[]{"listItem", "menuReference"}));
+        }
 
         CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), arrayIncomeMenuTab, fragList);
 

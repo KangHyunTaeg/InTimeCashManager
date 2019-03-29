@@ -7,6 +7,10 @@ import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,10 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.class10.intimecashmanager.R;
+import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 
 public class DialogLoad {
@@ -32,20 +36,52 @@ public class DialogLoad {
     public static ArrayList<String> arrayList = new ArrayList<>();
 
 
-    public static void DialogSearchCategory(Context context){
-        dialogView[0] = (View)View.inflate(context, R.layout.activity_expense_category_manager, null);
+    /*public static void DialogSearchCategory(Context context, final Button btn){
+        dialogView[0] = (View)View.inflate(context, R.layout.dialog_expense_category, null);
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+        TabLayout tabs = (TabLayout)dialogView[0].findViewById(R.id.tabsInDialog);
+        ViewPager pager = (ViewPager)dialogView[0].findViewById(R.id.pagerInDialog);
         dlg.setTitle("# 범주 추가");
+
+        *//*final ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1);
+        adapter.add("database1");
+        adapter.add("database2");
+        adapter.add("database3");
+        adapter.add("database4");
+        adapter.add("database5");
+        adapter.add("database6");
+        adapter.add("database7");*//*
+
+        PagerAdapter adapter = new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return 0;
+            }
+
+            @Override
+            public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
+                return false;
+            }
+        }
+
+        pager.setAdapter(adapter); // 뷰페이저에 어댑터 장착
+        tabs.setupWithViewPager(pager); // 탭레이아웃에 뷰페이저 연결
+
+
         dlg.setView(dialogView[0]);
-        dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+        dlg.setNegativeButton("취소", null);
+
+        dlg.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                btn.setText(adapter.getItem(which));
             }
         });
-        dlg.setNegativeButton("취소", null);
+
+
+
         dlg.show();
-    }
+    }*/
 
     // 자주쓰는 내역 불러오기
     public static void LoadFavoriteInExpense(Context context){

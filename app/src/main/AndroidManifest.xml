@@ -25,8 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SubAtcivities.ExpenseCategoryManager"/>
-        <activity android:name=".SubAtcivities.IncomeCategoryManager"></activity>
+        <activity android:name=".SubAtcivities.ExpenseCategoryManager"
+            android:theme="@style/Theme.MyDialog"/>
+        <activity android:name=".SubAtcivities.IncomeCategoryManager"
+            android:theme="@style/Theme.MyDialog"></activity>
     </application>
 
 </manifest>
