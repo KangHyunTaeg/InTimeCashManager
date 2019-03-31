@@ -1,5 +1,6 @@
 package com.example.class10.intimecashmanager.CategoryExpenseFragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,11 +20,14 @@ import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
 import com.example.class10.intimecashmanager.AdapterSetting.MenuSetting;
 import com.example.class10.intimecashmanager.R;
+import com.example.class10.intimecashmanager.SubAtcivities.ExpenseCategoryManager;
 import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
 
 public class CategoryExpenseFragment extends Fragment {
+
+
 
     public static DatabaseCreate myDB;
     public static ArrayAdapter<String> adapter;
@@ -108,23 +112,17 @@ public class CategoryExpenseFragment extends Fragment {
                     }
                 }
 
-                /*tableName.add("foodsListInExpnseCategoryTBL");
-                tableName.add("homeListInExpnseCategoryTBL");
-                tableName.add("livingListInExpnseCategoryTBL");
-                tableName.add("beautyListInExpnseCategoryTBL");
-                tableName.add("healthListInExpnseCategoryTBL");
-                tableName.add("educationListInExpnseCategoryTBL");
-                tableName.add("trafficListInExpnseCategoryTBL");
-                tableName.add("eventListInExpnseCategoryTBL");
-                tableName.add("taxListInExpnseCategoryTBL");
-                tableName.add("etcListInExpnseCategoryTBL");
-                tableName.add("depositListInExpnseCategoryTBL");*/
 
                 String categoryID = selectedArrayList.get(0);
+
                 Intent putIntent = new Intent(getContext(), ExpenseInsert.class);
                 putIntent.putExtra("categoryID", categoryID);
                 putIntent.putExtra("menuName", menuName);
                 startActivity(putIntent);
+
+                ExpenseCategoryManager expenseCategoryManager = (ExpenseCategoryManager)ExpenseCategoryManager._ExpenseCategoryManager;  // ExpenseCategoryManager를 여기서 죵료시키기 위해
+                // 여기에서 ExpenseCategoryManager를 선언하여 그 객체에 실제 ExpenseCategoryManager에 만들어 놓은 _ExpenseCategoryManager를 담는 것
+                expenseCategoryManager.finish();
 
             }
         });

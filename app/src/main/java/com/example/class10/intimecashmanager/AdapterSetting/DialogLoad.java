@@ -4,13 +4,17 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -20,11 +24,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.class10.intimecashmanager.CategoryExpenseFragment.CategoryExpenseFragment;
+import com.example.class10.intimecashmanager.AdapterSetting.CustomFragmentPagerAdapter;
 import com.example.class10.intimecashmanager.R;
 import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class DialogLoad {
@@ -36,52 +43,54 @@ public class DialogLoad {
     public static ArrayList<String> arrayList = new ArrayList<>();
 
 
-    /*public static void DialogSearchCategory(Context context, final Button btn){
+    public static void DialogSearchCategory(Context context){
         dialogView[0] = (View)View.inflate(context, R.layout.dialog_expense_category, null);
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);
-        TabLayout tabs = (TabLayout)dialogView[0].findViewById(R.id.tabsInDialog);
-        ViewPager pager = (ViewPager)dialogView[0].findViewById(R.id.pagerInDialog);
-        dlg.setTitle("# 범주 추가");
 
-        *//*final ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1);
-        adapter.add("database1");
-        adapter.add("database2");
-        adapter.add("database3");
-        adapter.add("database4");
-        adapter.add("database5");
-        adapter.add("database6");
-        adapter.add("database7");*//*
+        Cursor cursor;
+        ArrayList<String> arrayExpenseMenuTab = new ArrayList<>();
+        String sqlSelectSentence;
 
-        PagerAdapter adapter = new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
-
-            @Override
-            public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
-                return false;
-            }
+        // CustomFragmentPagerAdapter 적용하기
+        // 프레그먼트어뎁터
+        // 탭 추가 - 데이터베이스 메뉴 테이블에서 불러오기
+        myDB = new DatabaseCreate(context);
+        sqlDB = myDB.getReadableDatabase();
+        sqlSelectSentence = "SELECT categoryMenu FROM expenseCategoryTBL;";
+        cursor = sqlDB.rawQuery(sqlSelectSentence, null);
+        while(cursor.moveToNext()){
+            arrayExpenseMenuTab.add(cursor.getString(0));
         }
 
+        List<Fragment> fragList = new ArrayList<>();
+        DataInit dataInit = new DataInit();
+
+        for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
+            fragList.add(i, CategoryExpenseFragment.newInstance("SELECT listItem FROM " + dataInit.tableInExpenseCategory().get(i)
+                    + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}));
+        }
+        // 커스텀프래그먼트 어댑터 객체 생성, 매개변수로 탭과 뷰페이져용 데이터 배열 받으면 반복문을 통해 탭과 뷰페이저에 매칭시킨다
+        CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(((AppCompatActivity)context).getSupportFragmentManager(), arrayExpenseMenuTab, fragList);
+
+        // 탭레이아웃, 뷰페이저에 장착하기
+        TabLayout tabs = (TabLayout)dialogView[0].findViewById(R.id.tabsInDialog);
+        final ViewPager pager = (ViewPager)dialogView[0].findViewById(R.id.pagerInDialog);
         pager.setAdapter(adapter); // 뷰페이저에 어댑터 장착
         tabs.setupWithViewPager(pager); // 탭레이아웃에 뷰페이저 연결
 
 
+        dlg.setTitle("# 항목 추가");
         dlg.setView(dialogView[0]);
-        dlg.setNegativeButton("취소", null);
-
-        dlg.setAdapter(adapter, new DialogInterface.OnClickListener() {
+        dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                btn.setText(adapter.getItem(which));
+
             }
         });
-
-
-
+        dlg.setNegativeButton("취소", null);
         dlg.show();
-    }*/
+
+    }
 
     // 자주쓰는 내역 불러오기
     public static void LoadFavoriteInExpense(Context context){
@@ -224,11 +233,16 @@ public class DialogLoad {
         dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String month = edtInputMonth.getText().toString();
-                int monthlyInstallment = Integer.parseInt(edt.getText().toString())/Integer.parseInt(month);
-                tv.setText(" ("+ month + "개월)");
-                tv.setTextColor(Color.RED);
-                edt.setText(""+monthlyInstallment);
+                try{
+                    String month = edtInputMonth.getText().toString();
+                    int monthlyInstallment = Integer.parseInt(edt.getText().toString())/Integer.parseInt(month);
+                    tv.setText(" ("+ month + "개월)");
+                    tv.setTextColor(Color.RED);
+                    edt.setText(""+monthlyInstallment);
+                } catch(NumberFormatException e){
+                    Toast.makeText(context, "금액을 먼저 입력하세요.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         dlg.setNegativeButton("취소", null);

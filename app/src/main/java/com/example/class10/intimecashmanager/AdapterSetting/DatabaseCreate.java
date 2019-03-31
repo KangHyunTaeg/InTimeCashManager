@@ -200,14 +200,4 @@ public class DatabaseCreate extends SQLiteOpenHelper {
         sqlDB.close();
         cursor.close();
     }
-    public static void selectDBIntData(String sqlSelectSentence, DatabaseCreate myDB, ArrayList<Integer> arrayList){
-        Cursor cursor;
-        sqlDB = myDB.getReadableDatabase();
-        cursor = sqlDB.rawQuery(sqlSelectSentence, null);
-        while(cursor.moveToNext()){
-            arrayList.add(cursor.getInt(0));
-        }
-        sqlDB.close();
-        cursor.close();
-    }
 }

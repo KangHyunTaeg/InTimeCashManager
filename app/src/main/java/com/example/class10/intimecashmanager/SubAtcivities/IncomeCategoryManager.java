@@ -9,7 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.class10.intimecashmanager.AdapterSetting.CustomFragmentPagerAdapter;
+import com.example.class10.intimecashmanager.AdapterSetting.DataInit;
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
+import com.example.class10.intimecashmanager.CategoryExpenseFragment.CategoryExpenseFragment;
 import com.example.class10.intimecashmanager.CategoryIncomeFragment.CategoryIncomeFragment;
 import com.example.class10.intimecashmanager.R;
 
@@ -38,17 +40,12 @@ public class IncomeCategoryManager extends AppCompatActivity {
             arrayIncomeMenuTab.add(cursor.getString(0));
         }
 
-        List<Fragment> fragList = new ArrayList<>();
         // 뷰 페이저 추가
-
-        ArrayList<String> tableName = new ArrayList<>();
-        tableName.add("revenewListInincomeCategoryTBL");
-        tableName.add("extraIncomeListInincomeCategoryTBL");
-        tableName.add("previousMonthListInincomeCategoryTBL");
-        tableName.add("depositListInincomeCategoryTBL");
-
-        for(int i=0; i<tableName.size(); i++){
-            fragList.add(i, CategoryIncomeFragment.newInstance("SELECT listItem FROM " + tableName.get(i) + " WHERE menuReference=" + (i+1) + ";", tableName.get(i), new String[]{"listItem", "menuReference"}));
+        List<Fragment> fragList = new ArrayList<>();
+        DataInit dataInit = new DataInit();
+        for(int i=0; i<dataInit.tableInIncomeCategory().size(); i++){
+            fragList.add(i, CategoryIncomeFragment.newInstance("SELECT listItem FROM " + dataInit.tableInIncomeCategory().get(i)
+                    + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInIncomeCategory().get(i), new String[]{"listItem", "menuReference"}));
         }
 
         CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), arrayIncomeMenuTab, fragList);

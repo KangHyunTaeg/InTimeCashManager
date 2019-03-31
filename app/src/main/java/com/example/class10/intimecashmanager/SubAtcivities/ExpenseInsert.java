@@ -1,13 +1,10 @@
 package com.example.class10.intimecashmanager.SubAtcivities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
-import com.example.class10.intimecashmanager.IncomeExpenseList;
 import com.example.class10.intimecashmanager.R;
 
 import java.util.ArrayList;
@@ -38,6 +34,7 @@ public class ExpenseInsert extends AppCompatActivity {
 
 
     public static DatabaseCreate myDB; // 데이터베이스 사용하기 위해서 my 데이터베이스 생성 클래스 불러오기
+    static SQLiteDatabase sqlDB;
     ArrayList<String> arrayList;
 
     // 입력 내용을 담을 변수들
@@ -48,11 +45,12 @@ public class ExpenseInsert extends AppCompatActivity {
     int paymentCheck; // 지불방법
     int acount; // 현금지불시 현금계좌
     int card; // 카드지불시 사용카드
-    int useCategory; // 분류
+    String useCategory; // 분류
     String tag; // 태그
     int favoiteExpense; // 자주쓰는 내역 여부
     int fixedExpense; // 고정비용 여부
     int timeValue; // 시간환산 가치
+
 
     // 입력된 데이터를 담을 배열 - List<InputData> 만들어서 담기
 
@@ -113,13 +111,25 @@ public class ExpenseInsert extends AppCompatActivity {
             }
         });
 
+
+        // 수입 입력 페이지로 전환
+        btnIncomeAtExpensePage = (Button)findViewById(R.id.btnIncomeAtExpensePage);
+        btnIncomeAtExpensePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), IncomeInsert.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         // 금액 입력 - 입력되지 않으면 저장되지 않는다
         try{
             if(edtAmountOfMoney.getText().toString() != null){
                 sumMoney = Integer.parseInt(edtAmountOfMoney.getText().toString());
             }
         } catch(NullPointerException e){
-            Toast.makeText(this, "금액을 입력하세요.", Toast.LENGTH_SHORT).show();
+
         }
 
         // 사용내역 입력 - 입력되지 않으면 저장되지 않는다
@@ -128,7 +138,7 @@ public class ExpenseInsert extends AppCompatActivity {
                 usage = edtUsage.getText().toString();
             }
         } catch(NullPointerException e){
-            Toast.makeText(this, "사용내역을 입력하세요.", Toast.LENGTH_SHORT).show();
+
         }
 
 
@@ -142,7 +152,8 @@ public class ExpenseInsert extends AppCompatActivity {
         }
 
 
-        // 카드 현금 체크
+        // 출금계좌 - 출력값 = 카드현금체크(paymentCheck), acount(paymentCheck=1) or card(paymentCheck=2)의 내역
+
         btnAcount = (Button)findViewById(R.id.btnAcount);
         btnAcount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,27 +163,29 @@ public class ExpenseInsert extends AppCompatActivity {
             }
         });
 
+
         // 카테고리 입력
         btnCategoryCheck = (Button)findViewById(R.id.btnCategoryCheck);
         btnCategoryCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // DialogLoad.DialogSearchCategory(ExpenseInsert.this, btnCategoryCheck);
+                // DialogLoad.DialogSearchCategory(ExpenseInsert.this);
                 Intent intent = new Intent(getApplicationContext(), ExpenseCategoryManager.class);
                 intent.putExtra("CHECK_INT", 1); // 인텐트된 액티비티에서 1을 받을 경우와 2를 받을 경우 다른 액션을 주기 위해
                 startActivity(intent);
+
             }
         });
 
         Intent inIntent = getIntent();
+        if(btnCategoryCheck.getText() == null){
+            btnCategoryCheck.setText("식비 > 외식");
+        }
         btnCategoryCheck.setText(inIntent.getStringExtra("menuName") + " > " + inIntent.getStringExtra("categoryID"));
-
-        // useCategory = inIntent.getStringExtra("categoryID"); 해당 분류의 아이디를 저장하기 Q.현재 String 값으로 받아왔는데, 어떻게 이것의 아이디를 선택해 변수에 할당할 것인가?
 
         try{
             if(btnCategoryCheck.getText().toString() != null){
-                // useCategory = btnCategoryCheck.getText().toString();
-
+                useCategory = btnCategoryCheck.getText().toString();
             }
         } catch (NullPointerException e){
 
@@ -180,15 +193,7 @@ public class ExpenseInsert extends AppCompatActivity {
 
 
 
-        btnIncomeAtExpensePage = (Button)findViewById(R.id.btnIncomeAtExpensePage);
-        btnIncomeAtExpensePage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), IncomeInsert.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+
 
 
 
@@ -218,6 +223,22 @@ public class ExpenseInsert extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+
+            }
+        });
+
+        btnSave = (Button)findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*if(edtAmountOfMoney.getText().toString() == null || edtUsage.getText().toString() == null){
+                    Toast.makeText(ExpenseInsert.this, "최소한 지출금액과 사용내역은 입력하셔야 합니다.", Toast.LENGTH_SHORT).show();
+                } else{
+                    sqlDB = myDB.getWritableDatabase();
+                    sqlDB.execSQL("INSERT INTO expenseTBL(dateExpenseIncome, sumMoney, usage, usePlace, paymentCheck, card, acount, useCategory, tag, favoiteExpense, fixedExpense, timeValue)" +
+                            " VALUES ('" + dateExpenseIncome + "', '" + sumMoney + "', '" + usage + "', '" + usedPlance + "', '" + paymentCheck + "', '" + card + "', '" + acount + "', '" +
+                            useCategory + "', '" + tag + "', '" + favoiteExpense + "', '" + fixedExpense + "', '" + timeValue + "', '" + "');");
+                }*/
             }
         });
     }
