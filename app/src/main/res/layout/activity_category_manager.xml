@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SubAtcivities.IncomeCategoryManager">
-
+    tools:context=".SubAtcivities.CategoryManager">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -26,7 +25,7 @@
                 android:fillViewport="true"
                 android:scrollbars="none">
                 <android.support.design.widget.TabLayout
-                    android:id="@+id/tabsInIncomeCategoryManager"
+                    android:id="@+id/tabsInCategoryManager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:tabGravity="fill"
@@ -38,11 +37,10 @@
 
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/pagerInIncomeCategoryManager"
+        android:id="@+id/pagerInCategoryManager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"></android.support.v4.view.ViewPager>
-
 
 
 

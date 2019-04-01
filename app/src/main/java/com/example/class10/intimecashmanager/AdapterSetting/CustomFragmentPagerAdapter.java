@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.class10.intimecashmanager.CategoryExpenseFragment.CategoryExpenseFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,17 +70,17 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
         }
         return null;
         /*switch (position){
-            case 0: return CategoryExpenseFragment.newInstance("SELECT foodsList FROM foodsListInExpnseCategoryTBL;", "foodsListInExpnseCategoryTBL", new String[]{"foodsList", "menuReference"});
-            case 1: return CategoryExpenseFragment.newInstance("SELECT homeList FROM homeListInExpnseCategoryTBL;", "homeListInExpnseCategoryTBL", new String[]{"homeList", "menuReference"});
-            case 2: return CategoryExpenseFragment.newInstance("SELECT livingList FROM livingListInExpnseCategoryTBL;", "livingListInExpnseCategoryTBL", new String[]{"livingList", "menuReference"});
-            case 3: return CategoryExpenseFragment.newInstance("SELECT beautyList FROM beautyListInExpnseCategoryTBL;", "beautyListInExpnseCategoryTBL", new String[]{"beautyList", "menuReference"});
-            case 4: return CategoryExpenseFragment.newInstance("SELECT healthList FROM healthListInExpnseCategoryTBL;", "healthListInExpnseCategoryTBL", new String[]{"healthList", "menuReference"});
-            case 5: return CategoryExpenseFragment.newInstance("SELECT educationList FROM educationListInExpnseCategoryTBL;", "educationListInExpnseCategoryTBL", new String[]{"educationList", "menuReference"});
-            case 6: return CategoryExpenseFragment.newInstance("SELECT trafficList FROM trafficListInExpnseCategoryTBL;", "trafficListInExpnseCategoryTBL", new String[]{"trafficList", "menuReference"});
-            case 7: return CategoryExpenseFragment.newInstance("SELECT eventList FROM eventListInExpnseCategoryTBL;", "eventListInExpnseCategoryTBL", new String[]{"eventList", "menuReference"});
-            case 8: return CategoryExpenseFragment.newInstance("SELECT taxList FROM taxListInExpnseCategoryTBL;", "taxListInExpnseCategoryTBL", new String[]{"taxList", "menuReference"});
-            case 9: return CategoryExpenseFragment.newInstance("SELECT etcList FROM etcListInExpnseCategoryTBL;", "etcListInExpnseCategoryTBL", new String[]{"etcList", "menuReference"});
-            case 10: return CategoryExpenseFragment.newInstance("SELECT depositList FROM depositListInExpnseCategoryTBL;", "depositListInExpnseCategoryTBL", new String[]{"depositList", "menuReference"});
+            case 0: return CategoryFragment.newInstance("SELECT foodsList FROM foodsListInExpnseCategoryTBL;", "foodsListInExpnseCategoryTBL", new String[]{"foodsList", "menuReference"});
+            case 1: return CategoryFragment.newInstance("SELECT homeList FROM homeListInExpnseCategoryTBL;", "homeListInExpnseCategoryTBL", new String[]{"homeList", "menuReference"});
+            case 2: return CategoryFragment.newInstance("SELECT livingList FROM livingListInExpnseCategoryTBL;", "livingListInExpnseCategoryTBL", new String[]{"livingList", "menuReference"});
+            case 3: return CategoryFragment.newInstance("SELECT beautyList FROM beautyListInExpnseCategoryTBL;", "beautyListInExpnseCategoryTBL", new String[]{"beautyList", "menuReference"});
+            case 4: return CategoryFragment.newInstance("SELECT healthList FROM healthListInExpnseCategoryTBL;", "healthListInExpnseCategoryTBL", new String[]{"healthList", "menuReference"});
+            case 5: return CategoryFragment.newInstance("SELECT educationList FROM educationListInExpnseCategoryTBL;", "educationListInExpnseCategoryTBL", new String[]{"educationList", "menuReference"});
+            case 6: return CategoryFragment.newInstance("SELECT trafficList FROM trafficListInExpnseCategoryTBL;", "trafficListInExpnseCategoryTBL", new String[]{"trafficList", "menuReference"});
+            case 7: return CategoryFragment.newInstance("SELECT eventList FROM eventListInExpnseCategoryTBL;", "eventListInExpnseCategoryTBL", new String[]{"eventList", "menuReference"});
+            case 8: return CategoryFragment.newInstance("SELECT taxList FROM taxListInExpnseCategoryTBL;", "taxListInExpnseCategoryTBL", new String[]{"taxList", "menuReference"});
+            case 9: return CategoryFragment.newInstance("SELECT etcList FROM etcListInExpnseCategoryTBL;", "etcListInExpnseCategoryTBL", new String[]{"etcList", "menuReference"});
+            case 10: return CategoryFragment.newInstance("SELECT depositList FROM depositListInExpnseCategoryTBL;", "depositListInExpnseCategoryTBL", new String[]{"depositList", "menuReference"});
             default: return null;}*/
     }
 

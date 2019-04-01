@@ -197,7 +197,7 @@ public class ExpenseInsert extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // DialogLoad.DialogSearchCategory(ExpenseInsert.this);
-                Intent intent = new Intent(getApplicationContext(), ExpenseCategoryManager.class);
+                Intent intent = new Intent(getApplicationContext(), CategoryManager.class);
                 intent.putExtra("CHECK_INT", 1); // 인텐트된 액티비티에서 1을 받을 경우와 2를 받을 경우 다른 액션을 주기 위해
                 startActivityForResult(intent, 101);
             }
