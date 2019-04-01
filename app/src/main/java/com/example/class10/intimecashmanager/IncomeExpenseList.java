@@ -152,7 +152,7 @@ public class IncomeExpenseList extends AppCompatActivity {
         listIncomeAndExpense = (ListView)findViewById(R.id.listIncomeAndExpense);
         List<ItemData> data = new ArrayList<>();
         for(int i=0; i<usageID.length; i++){
-            // data.add(new ItemData(imgBtnCategoryID[i], usageID[i], categoryID[i], moneyList[i]));
+            data.add(new ItemData(imgBtnCategoryID[i], usageID[i], categoryID[i], moneyList[i]));
         }
 
         adapter = new ListViewAdapter(this, data);

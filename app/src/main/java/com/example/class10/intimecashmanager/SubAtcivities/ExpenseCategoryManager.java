@@ -50,18 +50,6 @@ public class ExpenseCategoryManager extends AppCompatActivity {
 
         List<Fragment> fragList = new ArrayList<>();
         // 뷰 페이저 추가 - 데이터베이스 소메뉴 테이블들에서 불러오기
-        /*ArrayList<String> tableName = new ArrayList<>();
-        tableName.add("foodsListInExpnseCategoryTBL");
-        tableName.add("homeListInExpnseCategoryTBL");
-        tableName.add("livingListInExpnseCategoryTBL");
-        tableName.add("beautyListInExpnseCategoryTBL");
-        tableName.add("healthListInExpnseCategoryTBL");
-        tableName.add("educationListInExpnseCategoryTBL");
-        tableName.add("trafficListInExpnseCategoryTBL");
-        tableName.add("eventListInExpnseCategoryTBL");
-        tableName.add("taxListInExpnseCategoryTBL");
-        tableName.add("etcListInExpnseCategoryTBL");
-        tableName.add("depositListInExpnseCategoryTBL");*/
 
         DataInit dataInit = new DataInit();
 
@@ -70,17 +58,6 @@ public class ExpenseCategoryManager extends AppCompatActivity {
                     + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}));
         }
 
-        /*fragList.add(0, CategoryExpenseFragment.newInstance("SELECT listItem FROM foodsListInExpnseCategoryTBL WHERE menuReference=1;", "foodsListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(1, CategoryExpenseFragment.newInstance("SELECT listItem FROM homeListInExpnseCategoryTBL WHERE menuReference=2;", "homeListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(2, CategoryExpenseFragment.newInstance("SELECT listItem FROM livingListInExpnseCategoryTBL WHERE menuReference=3;", "livingListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(3, CategoryExpenseFragment.newInstance("SELECT listItem FROM beautyListInExpnseCategoryTBL WHERE menuReference=4;", "beautyListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(4, CategoryExpenseFragment.newInstance("SELECT listItem FROM healthListInExpnseCategoryTBL WHERE menuReference=5;", "healthListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(5, CategoryExpenseFragment.newInstance("SELECT listItem FROM educationListInExpnseCategoryTBL WHERE menuReference=6;", "educationListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(6, CategoryExpenseFragment.newInstance("SELECT listItem FROM trafficListInExpnseCategoryTBL WHERE menuReference=7;", "trafficListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(7, CategoryExpenseFragment.newInstance("SELECT listItem FROM eventListInExpnseCategoryTBL WHERE menuReference=8;", "eventListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(8, CategoryExpenseFragment.newInstance("SELECT listItem FROM taxListInExpnseCategoryTBL WHERE menuReference=9;", "taxListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(9, CategoryExpenseFragment.newInstance("SELECT listItem FROM etcListInExpnseCategoryTBL WHERE menuReference=10;", "etcListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));
-        fragList.add(10, CategoryExpenseFragment.newInstance("SELECT listItem FROM depositListInExpnseCategoryTBL WHERE menuReference=11;", "depositListInExpnseCategoryTBL", new String[]{"listItem", "menuReference"}));*/
 
         // 커스텀프래그먼트 어댑터 객체 생성, 매개변수로 탭과 뷰페이져용 데이터 배열 받으면 반복문을 통해 탭과 뷰페이저에 매칭시킨다
         CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), arrayExpenseMenuTab, fragList);

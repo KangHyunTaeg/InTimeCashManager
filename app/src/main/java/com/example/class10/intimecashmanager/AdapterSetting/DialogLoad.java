@@ -255,6 +255,7 @@ public class DialogLoad {
         int cmonth = c.get(Calendar.MONTH);
         int cday = c.get(Calendar.DAY_OF_MONTH);
 
+
         DatePickerDialog.OnDateSetListener mDateSetListener =
                 new DatePickerDialog.OnDateSetListener() {
                     // onDateSet method

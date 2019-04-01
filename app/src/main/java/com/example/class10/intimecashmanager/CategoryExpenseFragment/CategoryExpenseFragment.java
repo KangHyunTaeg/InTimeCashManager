@@ -62,8 +62,6 @@ public class CategoryExpenseFragment extends Fragment {
             sqlSelectSentence = getArguments().getString("ARG_sqlSelectSentence");
             table = getArguments().getString("ARG_table");
             columns = getArguments().getStringArray("ARG_colums");
-
-
         }
     }
 
@@ -82,8 +80,6 @@ public class CategoryExpenseFragment extends Fragment {
             DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList); // myDB로 생성된 DB에서 sqlSelectSentence을 통해 테이블 데이터를 읽고, 그것을 arrayList<String> 배열에 담기
         }
         adapter.notifyDataSetChanged();
-
-
 
 
         listViewCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,13 +108,15 @@ public class CategoryExpenseFragment extends Fragment {
                     }
                 }
 
-
+                // 데이터를 번들 형태로 다시 돌려보내기
                 String categoryID = selectedArrayList.get(0);
-
                 Intent putIntent = new Intent(getContext(), ExpenseInsert.class);
-                putIntent.putExtra("categoryID", categoryID);
-                putIntent.putExtra("menuName", menuName);
-                startActivity(putIntent);
+                Bundle bundle = new Bundle();
+                bundle.putString("categoryID", categoryID);
+                bundle.putString("menuName", menuName);
+                putIntent.putExtras(bundle);
+                getActivity().setResult(Activity.RESULT_OK, putIntent);
+
 
                 ExpenseCategoryManager expenseCategoryManager = (ExpenseCategoryManager)ExpenseCategoryManager._ExpenseCategoryManager;  // ExpenseCategoryManager를 여기서 죵료시키기 위해
                 // 여기에서 ExpenseCategoryManager를 선언하여 그 객체에 실제 ExpenseCategoryManager에 만들어 놓은 _ExpenseCategoryManager를 담는 것

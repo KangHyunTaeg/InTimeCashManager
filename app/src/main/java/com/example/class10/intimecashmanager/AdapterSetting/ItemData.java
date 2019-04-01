@@ -1,8 +1,7 @@
 package com.example.class10.intimecashmanager.AdapterSetting;
 
 public class ItemData {
-
-    /*
+        /*
             Cursor cursor;
             sqlDB = myDB.getReadableDatabase();
             cursor = sqlDB.rawQuery(sqlSelectSentence, null);
@@ -11,56 +10,95 @@ public class ItemData {
 
             sqlDB.close();
             cursor.close();
-
-               // 컬럼 참조하기
-            db.execSQL("CREATE TABLE `expenseTBL` (" +
-                    "`ID` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                    "`dateExpenseIncome` TEXT NOT NULL, " +
-                    "`sumMoney` INTEGER NOT NULL, " +
-                    "`usage` TEXT NOT NULL, " +
-                    "`usedPlance` TEXT NOT NULL, " +
-                    "`paymentCheck` INTEGER, " +
-                    "`acount` INTEGER, " +
-                    "`card` INTEGER, " +
-                    "`useCategory` REAL, " +
-                    "`tag` INTEGER, " +
-                    "`favorite` INTEGER, " +
-                    "`fixed` INTEGER, " +
-                    "`timeValue` INTEGER);");
-
         }*/
 
-    private String dateExpenseIncome; // 내역의 날짜
-    private int imgCategory; // 분류 이모티콘
-    private String usage; // 사용내역
-    private String useCategory; // 내역의 분류
-    private int sumMoney; // 사용금액
 
-    public ItemData(String dateExpenseIncome, int imgCategory, String usage, String useCategory, int sumMoney) {
-        this.dateExpenseIncome = dateExpenseIncome;
+    private int imgCategory; // 분류 이모티콘
+    private String dateExpenseIncome; // 날짜
+    private int sumMoney; // 금액
+    private String usage; // 사용내역
+    private String usedPlace; // 사용처
+    private int paymentCheck; // 지불방법
+    private int acount; // 현금지불시 현금계좌
+    private int card; // 카드지불시 사용카드
+    private String useCategory; // 분류
+    private String tag; // 태그
+    private int favoiteExpense; // 자주쓰는 내역 여부
+    private int fixedExpense; // 고정비용 여부
+    private int timeValue; // 시간환산 가치
+
+    public ItemData(int imgCategory, String usage, String useCategory, int sumMoney){
         this.imgCategory = imgCategory;
         this.usage = usage;
         this.useCategory = useCategory;
         this.sumMoney = sumMoney;
     }
 
-    public String getDateList(){
-        return dateExpenseIncome;
+    public ItemData(int imgCategory, String dateExpenseIncome, int sumMoney, String usage, String usedPlace, int paymentCheck, int acount, int card, String useCategory, String tag, int favoiteExpense, int fixedExpense, int timeValue){
+        this.imgCategory = imgCategory;
+        this.dateExpenseIncome = dateExpenseIncome;
+        this.sumMoney = sumMoney;
+        this.usage = usage;
+        this.usedPlace = usedPlace;
+        this.paymentCheck = paymentCheck;
+        this.acount = acount;
+        this.card = card;
+        this.useCategory = useCategory;
+        this.tag = tag;
+        this.favoiteExpense = favoiteExpense;
+        this.fixedExpense = fixedExpense;
+        this.timeValue = timeValue;
     }
 
     public int getImgCategory(){
         return imgCategory;
     }
 
+    public String getDateExpenseIncome(){
+        return dateExpenseIncome;
+    }
+
+    public int getSumMoney(){
+        return sumMoney;
+    }
+
     public String getUsage(){
         return usage;
+    }
+
+    public String getUsedPlance(){
+        return usedPlace;
+    }
+
+    public int getPaymentCheck(){
+        return paymentCheck;
+    }
+
+    public int getAcount(){
+        return acount;
+    }
+
+    public int getCard(){
+        return card;
     }
 
     public String getUseCategory(){
         return useCategory;
     }
 
-    public int getSumMoney(){
-        return sumMoney;
+    public String getTag(){
+        return tag;
+    }
+
+    public int getFavoiteExpense(){
+        return favoiteExpense;
+    }
+
+    public int getFixedExpense(){
+        return fixedExpense;
+    }
+
+    public int getTimeValue(){
+        return timeValue;
     }
 }

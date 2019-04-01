@@ -3,6 +3,7 @@ package com.example.class10.intimecashmanager.SubAtcivities;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -13,10 +14,12 @@ import android.widget.Toast;
 
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
+import com.example.class10.intimecashmanager.AdapterSetting.ItemData;
 import com.example.class10.intimecashmanager.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 // import static com.example.class10.intimecashmanager.AdapterSetting.DialogLoad.DialogSearchCategory;
 
@@ -41,7 +44,7 @@ public class ExpenseInsert extends AppCompatActivity {
     String dateExpenseIncome; // 날짜
     int sumMoney; // 금액
     String usage; // 사용내역
-    String usedPlance; // 사용처
+    String usedPlace; // 사용처
     int paymentCheck; // 지불방법
     int acount; // 현금지불시 현금계좌
     int card; // 카드지불시 사용카드
@@ -51,16 +54,33 @@ public class ExpenseInsert extends AppCompatActivity {
     int fixedExpense; // 고정비용 여부
     int timeValue; // 시간환산 가치
 
+    List<ItemData> data; // 입력된 데이터를 담을 배열 - List<InputData> 만들어서 담기
+    Integer[] imgBtnCategoryID = {R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house,
+            R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house}; // 임시 이미지버튼의 이름 배열, 10은 임의의 숫자
 
-    // 입력된 데이터를 담을 배열 - List<InputData> 만들어서 담기
+
+
 
 
     String weekdayResult =""; // 요일 문자열을 담을 변수
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_insert);
+
+        if (savedInstanceState != null) {
+            btnTodayOrSomeday.setText(savedInstanceState.getString("TodayOrSomeDay"));
+            edtAmountOfMoney.setText(savedInstanceState.getString("AmountOfMoney"));
+            tvInstallmentMonth.setText(savedInstanceState.getString("InstallmentMonth"));
+            edtUsage.setText(savedInstanceState.getString("Usage"));
+            edtUsedPlace.setText(savedInstanceState.getString("UsedPlace"));
+            // btnAcount.setText(savedInstanceState.getString("Account"));
+            // btnCategoryCheck.setText(savedInstanceState.getString("CategoryCheck"));
+            edtInputTagInExpenseInsert.setText(savedInstanceState.getString("Tag"));
+            chkFavorite.setChecked(savedInstanceState.getBoolean("FavoriteCheck"));
+        }
 
         // 날짜 입력하기
         btnTodayOrSomeday = (Button) findViewById(R.id.btnTodayOrSomeday);
@@ -73,18 +93,25 @@ public class ExpenseInsert extends AppCompatActivity {
         switch (cweekday){
             case 1:
                 weekdayResult = "(일요일)";
+                break;
             case 2:
                 weekdayResult = "(월요일)";
+                break;
             case 3:
                 weekdayResult = "(화요일)";
+                break;
             case 4:
                 weekdayResult = "(수요일)";
+                break;
             case 5:
                 weekdayResult = "(목요일)";
+                break;
             case 6:
                 weekdayResult = "(금요일)";
+                break;
             case 7:
                 weekdayResult = "(토요일)";
+                break;
         }
         btnTodayOrSomeday.setText(cyear+"년 "+cmonth+"월 "+cday+"일 " + weekdayResult);
         btnTodayOrSomeday.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +172,7 @@ public class ExpenseInsert extends AppCompatActivity {
         // 사용처 입력
         try{
             if(edtUsedPlace.getText().toString() != null){
-                usedPlance = edtUsedPlace.getText().toString();
+                usedPlace = edtUsedPlace.getText().toString();
             }
         } catch (NullPointerException e){
 
@@ -172,29 +199,9 @@ public class ExpenseInsert extends AppCompatActivity {
                 // DialogLoad.DialogSearchCategory(ExpenseInsert.this);
                 Intent intent = new Intent(getApplicationContext(), ExpenseCategoryManager.class);
                 intent.putExtra("CHECK_INT", 1); // 인텐트된 액티비티에서 1을 받을 경우와 2를 받을 경우 다른 액션을 주기 위해
-                startActivity(intent);
-
+                startActivityForResult(intent, 101);
             }
         });
-
-        Intent inIntent = getIntent();
-        if(btnCategoryCheck.getText() == null){
-            btnCategoryCheck.setText("식비 > 외식");
-        }
-        btnCategoryCheck.setText(inIntent.getStringExtra("menuName") + " > " + inIntent.getStringExtra("categoryID"));
-
-        try{
-            if(btnCategoryCheck.getText().toString() != null){
-                useCategory = btnCategoryCheck.getText().toString();
-            }
-        } catch (NullPointerException e){
-
-        }
-
-
-
-
-
 
 
         btnMonthlyInstallment = (Button)findViewById(R.id.btnMonthlyInstallment);
@@ -231,6 +238,12 @@ public class ExpenseInsert extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*data = new ArrayList<>();
+                data.add(new ItemData(imgBtnCategoryID[0], dateExpenseIncome, sumMoney, usage, usedPlace, paymentCheck, acount, card, useCategory, tag, favoiteExpense, fixedExpense, timeValue));*/
+
+
+
+
                 /*if(edtAmountOfMoney.getText().toString() == null || edtUsage.getText().toString() == null){
                     Toast.makeText(ExpenseInsert.this, "최소한 지출금액과 사용내역은 입력하셔야 합니다.", Toast.LENGTH_SHORT).show();
                 } else{
@@ -242,4 +255,74 @@ public class ExpenseInsert extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 101 && resultCode == RESULT_OK){
+            // 지출 카테고리 프레그먼트로 보냈다가 다시 받은 데이터를 처리
+            Bundle bundle = data.getExtras();
+            String menuName = bundle.getString("menuName");
+            String categoryID = bundle.getString("categoryID");
+            btnCategoryCheck.setText(menuName + " > " + categoryID);
+
+            try{
+                if(btnCategoryCheck.getText().toString() != null){
+                    useCategory = btnCategoryCheck.getText().toString();
+                }
+            } catch (NullPointerException e){
+
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        String todayOrSomeday = btnTodayOrSomeday.getText().toString();
+        String amountOfmoney = edtAmountOfMoney.getText().toString();
+        String installmentMonth = tvInstallmentMonth.getText().toString();
+
+        outState.putString("TodayOrSomeDay", todayOrSomeday);
+        outState.putString("AmountOfMoney", amountOfmoney);
+        outState.putString("InstallmentMonth", installmentMonth);
+        // outState.putString("Usage", edtUsage.getText().toString());
+        // outState.putString("UsedPlace", edtUsedPlace.getText().toString());
+        // outState.putString("Account", btnAcount.getText().toString());
+        // outState.putString("CategoryCheck", btnCategoryCheck.getText().toString());
+        // outState.putString("Tag", edtInputTagInExpenseInsert.getText().toString());
+        // outState.putBoolean("FavoriteCheck", chkFavorite.isChecked());
+
+        // 데이터도 별도로 저장상태에 둬야 하는가?
+        /*String dateExpenseIncome; // 날짜
+        int sumMoney; // 금액
+        String usage; // 사용내역
+        String usedPlance; // 사용처
+        int paymentCheck; // 지불방법
+        int acount; // 현금지불시 현금계좌
+        int card; // 카드지불시 사용카드
+        String useCategory; // 분류
+        String tag; // 태그
+        int favoiteExpense; // 자주쓰는 내역 여부
+        int fixedExpense; // 고정비용 여부
+        int timeValue; // 시간환산 가치*/
+
+        super.onSaveInstanceState(outState);
+    }
+
+    /*@Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        btnTodayOrSomeday.setText(savedInstanceState.getString("TodayOrSomeDay"));
+        edtAmountOfMoney.setText(savedInstanceState.getString("AmountOfMoney"));
+        tvInstallmentMonth.setText(savedInstanceState.getString("InstallmentMonth"));
+        edtUsage.setText(savedInstanceState.getString("Usage"));
+        edtUsedPlace.setText(savedInstanceState.getString("UsedPlace"));
+        // btnAcount.setText(savedInstanceState.getString("Account"));
+        // btnCategoryCheck.setText(savedInstanceState.getString("CategoryCheck"));
+        edtInputTagInExpenseInsert.setText(savedInstanceState.getString("Tag"));
+        chkFavorite.setChecked(savedInstanceState.getBoolean("FavoriteCheck"));
+
+        super.onRestoreInstanceState(savedInstanceState);
+    }*/
 }

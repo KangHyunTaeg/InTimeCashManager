@@ -100,7 +100,8 @@ public class ListViewAdapter extends BaseAdapter {
 
 
         ItemData itemData = itemDataList.get(position);
-        tvDate.setText(itemData.getDateList().toString());
+        tvDate.setText("오늘 날짜");
+        //tvDate.setText(itemData.getDateExpenseIncome().toString());
         ibtnCategory.setImageResource(itemData.getImgCategory());
         tvUsage.setText(itemData.getUsage());
         tvCategory.setText(itemData.getUseCategory());
