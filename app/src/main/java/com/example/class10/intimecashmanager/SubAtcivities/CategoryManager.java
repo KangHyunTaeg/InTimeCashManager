@@ -59,6 +59,8 @@ public class CategoryManager extends AppCompatActivity {
                 fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM " + dataInit.tableInIncomeCategory().get(i)
                         + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInIncomeCategory().get(i), new String[]{"listItem", "menuReference"}));
             }
+        } else if(inIntent.getIntExtra("CHECK_INT", 1) == 3){
+            // 카드/현금 관리 테이블에서 리스트 불러오기
         }
 
         cursor = sqlDB.rawQuery(sqlSelectSentence, null);
