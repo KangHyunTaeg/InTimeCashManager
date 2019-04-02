@@ -31,7 +31,7 @@ public class ExpenseInsert extends AppCompatActivity {
     EditText edtAmountOfMoney, edtUsage, edtUsedPlace; // 지출금액, 사용내역, 사용처 입력
     Button btnMonthlyInstallment; // 할부 적용하기, 다이얼로그 불러옴
     TextView tvInstallmentMonth; // 몇 개월 할부인지 setText
-    Button btnAcount, btnCategoryCheck; // 계좌, 범주 선택하기(다이얼로그로 불러오기)
+    Button btnAcountOrCard, btnCategoryCheck; // 계좌, 범주 선택하기(다이얼로그로 불러오기)
     EditText edtInputTagInExpenseInsert; // 태그 입력
     Button btnCancle, btnSave; // 취소, 저장 - 저장 시 데이터베이스 인서트 쿼리문
 
@@ -180,13 +180,15 @@ public class ExpenseInsert extends AppCompatActivity {
 
 
         // 출금계좌 - 출력값 = 카드현금체크(paymentCheck), acount(paymentCheck=1) or card(paymentCheck=2)의 내역
-
-        btnAcount = (Button)findViewById(R.id.btnAcount);
-        btnAcount.setOnClickListener(new View.OnClickListener() {
+        btnAcountOrCard = (Button)findViewById(R.id.btnAcountOrCard);
+        btnAcountOrCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // 왜 버튼이 안먹지?
                 paymentCheck = 1;
+                Intent intent = new Intent(getApplicationContext(), CategoryManager.class);
+                intent.putExtra("CHECK_INT", 3);
+                startActivityForResult(intent, 101);
             }
         });
 
@@ -214,15 +216,6 @@ public class ExpenseInsert extends AppCompatActivity {
             }
         });
 
-        btnAcount = (Button)findViewById(R.id.btnAcount);
-        final View[] dialogView = new View[1];
-        btnAcount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
 
 
         btnCancle = (Button)findViewById(R.id.btnCancle);
@@ -240,9 +233,6 @@ public class ExpenseInsert extends AppCompatActivity {
             public void onClick(View v) {
                 /*data = new ArrayList<>();
                 data.add(new ItemData(imgBtnCategoryID[0], dateExpenseIncome, sumMoney, usage, usedPlace, paymentCheck, acount, card, useCategory, tag, favoiteExpense, fixedExpense, timeValue));*/
-
-
-
 
                 /*if(edtAmountOfMoney.getText().toString() == null || edtUsage.getText().toString() == null){
                     Toast.makeText(ExpenseInsert.this, "최소한 지출금액과 사용내역은 입력하셔야 합니다.", Toast.LENGTH_SHORT).show();

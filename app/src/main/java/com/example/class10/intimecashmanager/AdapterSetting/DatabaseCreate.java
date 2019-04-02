@@ -183,6 +183,9 @@ public class DatabaseCreate extends SQLiteOpenHelper {
             db.execSQL("INSERT INTO depositListInincomeCategoryTBL(listItem, menuReference) VALUES ('" + menuItemIncome4.get(i) + "', 4);");
         }
 
+        // 카드/현금 테이블
+
+
         // 카드 테이블
         db.execSQL("CREATE TABLE `cardListTBL` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `cardCompany` INTEGER NOT NULL, `listItem` TEXT NOT NULL, `settlementDay` INTEGER, `usedPeriod` TEXT, `useOrNot` INTEGER, `useAccount` INTEGER);");
 

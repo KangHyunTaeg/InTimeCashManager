@@ -45,6 +45,10 @@ public class CategoryManager extends AppCompatActivity {
         // "CHECK_INT"에 담아서 받은 값이 1이면, 지출 테이블 불러오는 sql문을 담고, 2면, 수입 테이블을 불러오는 sql문을 담는다
         if(inIntent.getIntExtra("CHECK_INT", 1) == 1){
             sqlSelectSentence = "SELECT categoryMenu FROM expenseCategoryTBL;"; // 메뉴탭에 지출 분류 이름 담기위한 sql문
+            cursor = sqlDB.rawQuery(sqlSelectSentence, null);
+            while(cursor.moveToNext()){
+                arrayMenuTab.add(cursor.getString(0));
+            }
 
             // 뷰 페이저 추가 - 데이터베이스 지출 소메뉴 테이블들에서 불러오기
             for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
@@ -53,6 +57,10 @@ public class CategoryManager extends AppCompatActivity {
             }
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 2){
             sqlSelectSentence = "SELECT incomeType FROM incomeCategoryTBL;"; // 메뉴탭에 수입 분류 이름 담기위한 sql문
+            cursor = sqlDB.rawQuery(sqlSelectSentence, null);
+            while(cursor.moveToNext()){
+                arrayMenuTab.add(cursor.getString(0));
+            }
 
             // 뷰 페이저 추가 - 데이터베이스 수입 소메뉴 테이블들에서 불러오기
             for(int i=0; i<dataInit.tableInIncomeCategory().size(); i++){
@@ -61,11 +69,11 @@ public class CategoryManager extends AppCompatActivity {
             }
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 3){
             // 카드/현금 관리 테이블에서 리스트 불러오기
-        }
+            arrayMenuTab.add("카드");
+            arrayMenuTab.add("현금");
 
-        cursor = sqlDB.rawQuery(sqlSelectSentence, null);
-        while(cursor.moveToNext()){
-            arrayMenuTab.add(cursor.getString(0));
+            fragList.add(0, CategoryFragment.newInstance("SELECT listItem FROM cardListTBL;", "cardListTBL", new String[]{"listItem"}));
+            fragList.add(1, CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", new String[]{"listItem"}));
         }
 
         // 커스텀프래그먼트 어댑터 객체 생성, 매개변수로 탭과 뷰페이져용 데이터 배열 받으면 반복문을 통해 탭과 뷰페이저에 매칭시킨다

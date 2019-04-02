@@ -23,6 +23,7 @@ import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
 
+// CategoryManager의 ViewPager에 inflate시킬 fragment
 public class CategoryFragment extends Fragment {
 
 
