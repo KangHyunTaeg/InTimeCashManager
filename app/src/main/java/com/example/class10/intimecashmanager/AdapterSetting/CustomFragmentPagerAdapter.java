@@ -10,7 +10,7 @@ import java.util.List;
 
 // 탭과 탭에 대응되는 뷰페이저에 프래그먼트를 인플레이트 시키는 클래스 (동일 목적 공용 기능)
 public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
-    private  static int PAGE_NUMBER;
+    public  static int PAGE_NUMBER;
     ArrayList<String> tabArray; // TabLayout에 담을 데이터 배열 (String)
     List<Fragment> fragList; // ViewPager에 inflate시킬 데이터 배열
 

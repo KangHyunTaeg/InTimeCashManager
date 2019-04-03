@@ -81,6 +81,13 @@ public class CategoryManager extends AppCompatActivity {
 
         // 탭레이아웃, 뷰페이저에 장착하기
         TabLayout tabs = (TabLayout)findViewById(R.id.tabsInCategoryManager);
+        if(adapter.PAGE_NUMBER > 4){
+            tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        } else{
+            tabs.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabs.setTabMode(TabLayout.MODE_FIXED);
+        }
+
         final ViewPager pager = (ViewPager)findViewById(R.id.pagerInCategoryManager);
         pager.setAdapter(adapter); // 뷰페이저에 어댑터 장착
         tabs.setupWithViewPager(pager); // 탭레이아웃에 뷰페이저 연결

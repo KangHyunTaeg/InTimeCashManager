@@ -189,8 +189,10 @@ public class DatabaseCreate extends SQLiteOpenHelper {
         // 카드 테이블
         db.execSQL("CREATE TABLE `cardListTBL` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `cardCompany` INTEGER NOT NULL, `listItem` TEXT NOT NULL, `settlementDay` INTEGER, `usedPeriod` TEXT, `useOrNot` INTEGER, `useAccount` INTEGER);");
 
+
         // 현금계좌 테이블
         db.execSQL("CREATE TABLE `acountListTBL` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `listItem` TEXT NOT NULL, `propertyType` INTEGER, `bankCategory` INTEGER, `startAmount` INTEGER, `startDay` TEXT, `todayBalance` INTEGER);");
+
     }
 
     @Override

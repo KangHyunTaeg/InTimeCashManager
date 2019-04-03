@@ -196,26 +196,37 @@ public class DialogLoad {
     }
 
     public static void DialogDatePicker(final Button btn, Context context){
-        Calendar c = Calendar.getInstance();
-        int cyear = c.get(Calendar.YEAR);
-        int cmonth = c.get(Calendar.MONTH);
-        int cday = c.get(Calendar.DAY_OF_MONTH);
-
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        final int currentWeekday = calendar.get(Calendar.DAY_OF_WEEK);
+        final String[] weekdayString = {""};
 
         DatePickerDialog.OnDateSetListener mDateSetListener =
                 new DatePickerDialog.OnDateSetListener() {
+
                     // onDateSet method
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         String date_selected = String.valueOf(year) + "년 " + String.valueOf(monthOfYear+1)+
                                 "월 "+String.valueOf(dayOfMonth) + "일 ";
+                        switch (currentWeekday){
+                            case 1: weekdayString[0] = "(일요일)"; break;
+                            case 2: weekdayString[0] = "(월요일)"; break;
+                            case 3: weekdayString[0] = "(화요일)"; break;
+                            case 4: weekdayString[0] = "(수요일)"; break;
+                            case 5: weekdayString[0] = "(목요일)"; break;
+                            case 6: weekdayString[0] = "(금요일)"; break;
+                            case 7: weekdayString[0] = "(토요일)"; break;
+                        }
 
-                        btn.setText(date_selected);
+                        btn.setText(date_selected + weekdayString[0]);
                         /*Toast.makeText(IncomeExpenseList.this,
                                 "Selected Date is ="+date_selected, Toast.LENGTH_SHORT).show();*/
                     }
                 };
         DatePickerDialog alert = new DatePickerDialog(context,  mDateSetListener,
-                cyear, cmonth, cday);
+                currentYear, currentMonth, currentDay);
         alert.show();
     }
 

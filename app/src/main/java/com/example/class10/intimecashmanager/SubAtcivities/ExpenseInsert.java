@@ -62,7 +62,7 @@ public class ExpenseInsert extends AppCompatActivity {
 
 
 
-    String weekdayResult =""; // 요일 문자열을 담을 변수
+    String weekdayString =""; // 요일 문자열을 담을 변수
 
 
     @Override
@@ -70,50 +70,24 @@ public class ExpenseInsert extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_insert);
 
-        if (savedInstanceState != null) {
-            btnTodayOrSomeday.setText(savedInstanceState.getString("TodayOrSomeDay"));
-            edtAmountOfMoney.setText(savedInstanceState.getString("AmountOfMoney"));
-            tvInstallmentMonth.setText(savedInstanceState.getString("InstallmentMonth"));
-            edtUsage.setText(savedInstanceState.getString("Usage"));
-            edtUsedPlace.setText(savedInstanceState.getString("UsedPlace"));
-            // btnAcount.setText(savedInstanceState.getString("Account"));
-            // btnCategoryCheck.setText(savedInstanceState.getString("CategoryCheck"));
-            edtInputTagInExpenseInsert.setText(savedInstanceState.getString("Tag"));
-            chkFavorite.setChecked(savedInstanceState.getBoolean("FavoriteCheck"));
-        }
-
         // 날짜 입력하기
         btnTodayOrSomeday = (Button) findViewById(R.id.btnTodayOrSomeday);
-        Calendar c = Calendar.getInstance();
-        int cyear = c.get(Calendar.YEAR);
-        int cmonth = c.get(Calendar.MONTH)+1;
-        int cday = c.get(Calendar.DAY_OF_MONTH);
-        int cweekday = c.get(Calendar.DAY_OF_WEEK);
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        int currentMonth = calendar.get(Calendar.MONTH)+1;
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int currentWeekday = calendar.get(Calendar.DAY_OF_WEEK);
 
-        switch (cweekday){
-            case 1:
-                weekdayResult = "(일요일)";
-                break;
-            case 2:
-                weekdayResult = "(월요일)";
-                break;
-            case 3:
-                weekdayResult = "(화요일)";
-                break;
-            case 4:
-                weekdayResult = "(수요일)";
-                break;
-            case 5:
-                weekdayResult = "(목요일)";
-                break;
-            case 6:
-                weekdayResult = "(금요일)";
-                break;
-            case 7:
-                weekdayResult = "(토요일)";
-                break;
+        switch (currentWeekday){
+            case 1: weekdayString = "(일요일)"; break;
+            case 2: weekdayString = "(월요일)"; break;
+            case 3: weekdayString = "(화요일)"; break;
+            case 4: weekdayString = "(수요일)"; break;
+            case 5: weekdayString = "(목요일)"; break;
+            case 6: weekdayString = "(금요일)"; break;
+            case 7: weekdayString = "(토요일)"; break;
         }
-        btnTodayOrSomeday.setText(cyear+"년 "+cmonth+"월 "+cday+"일 " + weekdayResult);
+        btnTodayOrSomeday.setText(currentYear+"년 "+currentMonth+"월 "+currentDay+"일 " + weekdayString);
         btnTodayOrSomeday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -300,7 +274,7 @@ public class ExpenseInsert extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    /*@Override
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
 
         btnTodayOrSomeday.setText(savedInstanceState.getString("TodayOrSomeDay"));
@@ -314,5 +288,5 @@ public class ExpenseInsert extends AppCompatActivity {
         chkFavorite.setChecked(savedInstanceState.getBoolean("FavoriteCheck"));
 
         super.onRestoreInstanceState(savedInstanceState);
-    }*/
+    }
 }
