@@ -24,9 +24,12 @@ import android.widget.Toast;
 import com.example.class10.intimecashmanager.CategoryExpenseFragment.CategoryFragment;
 import com.example.class10.intimecashmanager.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class DialogLoad {
@@ -81,7 +84,6 @@ public class DialogLoad {
 
 
     }
-
 
     public static void DialogAddMenu(final Context context, final String table, final String[] columns, final ArrayList<String> arrayList){
         dialogView[0] = (View)View.inflate(context, R.layout.dialog_add_menu, null);
@@ -200,8 +202,6 @@ public class DialogLoad {
         int currentYear = calendar.get(Calendar.YEAR);
         int currentMonth = calendar.get(Calendar.MONTH);
         int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-        final int currentWeekday = calendar.get(Calendar.DAY_OF_WEEK);
-        final String[] weekdayString = {""};
 
         DatePickerDialog.OnDateSetListener mDateSetListener =
                 new DatePickerDialog.OnDateSetListener() {
@@ -210,17 +210,13 @@ public class DialogLoad {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         String date_selected = String.valueOf(year) + "년 " + String.valueOf(monthOfYear+1)+
                                 "월 "+String.valueOf(dayOfMonth) + "일 ";
-                        switch (currentWeekday){
-                            case 1: weekdayString[0] = "(일요일)"; break;
-                            case 2: weekdayString[0] = "(월요일)"; break;
-                            case 3: weekdayString[0] = "(화요일)"; break;
-                            case 4: weekdayString[0] = "(수요일)"; break;
-                            case 5: weekdayString[0] = "(목요일)"; break;
-                            case 6: weekdayString[0] = "(금요일)"; break;
-                            case 7: weekdayString[0] = "(토요일)"; break;
-                        }
 
-                        btn.setText(date_selected + weekdayString[0]);
+                        // 요일구하기
+                        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEEE", Locale.KOREA);
+                        Date date = new Date(year, monthOfYear, dayOfMonth-1);
+                        String dayOfWeek = simpledateformat.format(date);
+
+                        btn.setText(date_selected + dayOfWeek);
                         /*Toast.makeText(IncomeExpenseList.this,
                                 "Selected Date is ="+date_selected, Toast.LENGTH_SHORT).show();*/
                     }

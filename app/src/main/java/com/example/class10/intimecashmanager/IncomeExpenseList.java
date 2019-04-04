@@ -155,6 +155,9 @@ public class IncomeExpenseList extends AppCompatActivity {
             data.add(new ItemData(imgBtnCategoryID[i], usageID[i], categoryID[i], moneyList[i]));
         }
 
+        /*data = new ArrayList<>();
+        data.add(new ItemData(imgBtnCategoryID[0], dateExpenseIncome, sumMoney, usage, usedPlace, paymentCheck, acount, card, useCategory, tag, favoiteExpense, fixedExpense, timeValue));*/
+
         adapter = new ListViewAdapter(this, data);
         listIncomeAndExpense.setAdapter(adapter);
     }
