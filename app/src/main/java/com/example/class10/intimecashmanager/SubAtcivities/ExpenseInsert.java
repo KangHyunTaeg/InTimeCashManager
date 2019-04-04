@@ -1,6 +1,7 @@
 package com.example.class10.intimecashmanager.SubAtcivities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,7 +48,8 @@ public class ExpenseInsert extends AppCompatActivity {
     static int paymentCheck = 0; // 지불방법
     static int acount = 0; // 현금지불시 현금계좌
     static int card = 0; // 카드지불시 사용카드
-    static String useCategory = null; // 분류
+    static int useSupCategory = 0; // 대분류
+    static int useSubCategory = 0; // 소분류
     static String tag = null; // 태그
     static int favoiteExpense = 0; // 자주쓰는 내역 여부
     static int fixedExpense = 0; // 고정비용 여부
@@ -191,9 +193,10 @@ public class ExpenseInsert extends AppCompatActivity {
                     usage = edtUsage.getText().toString(); // 입력한 사용내역 변수에 담기 - 입력되지 않으면 저장되지 않는다
                     usedPlace = edtUsedPlace.getText().toString(); // 입력한 사용처 변수에 담기
 
+
                     sqlDB = myDB.getWritableDatabase();
-                    sqlDB.execSQL("INSERT INTO expenseTBL(dateExpenseIncome, sumMoney, usage, usePlace, paymentCheck, acount, card, useCategory, tag, favoiteExpense, fixedExpense, timeValue) " +
-                            "VALUES ('" + dateExpenseIncome + "', " + sumMoney + ", '" + usage + "', '" + usedPlace + "', " + paymentCheck + ", " + acount + ", " + card + ", '" + useCategory + "', '" + tag + "', " + favoiteExpense + ", " + fixedExpense + ", " + timeValue + ");");
+                    sqlDB.execSQL("INSERT INTO expenseTBL(dateExpenseIncome, sumMoney, usage, usePlace, paymentCheck, acount, card, useSupCategory, useSubCategory, tag, favoiteExpense, fixedExpense, timeValue) " +
+                            "VALUES ('" + dateExpenseIncome + "', " + sumMoney + ", '" + usage + "', '" + usedPlace + "', " + paymentCheck + ", " + acount + ", " + card + ", " + useSupCategory + ", " + useSubCategory + ", '" + tag + "', " + favoiteExpense + ", " + fixedExpense + ", " + timeValue + ");");
 
                     sqlDB.close();
 
@@ -224,7 +227,28 @@ public class ExpenseInsert extends AppCompatActivity {
 
             try{
                 if(btnCategoryCheck.getText().toString() != null){
-                    useCategory = btnCategoryCheck.getText().toString();
+                    Cursor cursor;
+                    cursor = sqlDB.rawQuery("SELECT id FROM expenseCategoryTBL WHERE categoryMenu = '" + menuName + "';", null);
+                    useSupCategory = cursor.getInt(0);
+                    cursor.close();
+
+                    String tableName = null;
+                    switch (menuName){
+                        case "식비": tableName = "foodsListInExpnseCategoryTBL"; break;
+                        case "주거, 통신": tableName = "homeListInExpnseCategoryTBL"; break;
+                        case "생활용품": tableName = "livingListInExpnseCategoryTBL"; break;
+                        case "의복, 미용": tableName = "beautyListInExpnseCategoryTBL"; break;
+                        case "건강, 문화": tableName = "healthListInExpnseCategoryTBL"; break;
+                        case "교육, 육아": tableName = "educationListInExpnseCategoryTBL"; break;
+                        case "교통, 차량": tableName = "trafficListInExpnseCategoryTBL"; break;
+                        case "경조사, 회비": tableName = "eventListInExpnseCategoryTBL"; break;
+                        case "세금, 이자": tableName = "taxListInExpnseCategoryTBL"; break;
+                        case "기타 비용": tableName = "etcListInExpnseCategoryTBL"; break;
+                        case "저축, 보험": tableName = "depositListInExpnseCategoryTBL"; break;
+                    }
+                    cursor = sqlDB.rawQuery("SELECT menuReference FROM " + tableName + " WHERE listItem = '" + categoryID + "';", null);
+                    useSubCategory = cursor.getInt(0);
+                    cursor.close();
                 }
             } catch (NullPointerException e){
 
