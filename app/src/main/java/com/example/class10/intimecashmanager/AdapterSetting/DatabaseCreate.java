@@ -135,6 +135,8 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 
 
 
+        // 수입 테이블
+
 
         // 수입분류 테이블 만들고, 컬럼에 수입타입 불러와서 인서트하기
         db.execSQL("CREATE TABLE `incomeCategoryTBL` (" +
@@ -189,9 +191,27 @@ public class DatabaseCreate extends SQLiteOpenHelper {
         // 카드 테이블
         db.execSQL("CREATE TABLE `cardListTBL` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `cardCompany` INTEGER NOT NULL, `listItem` TEXT NOT NULL, `settlementDay` INTEGER, `usedPeriod` TEXT, `useOrNot` INTEGER, `useAccount` INTEGER);");
 
+        // 임시 데이터
+        db.execSQL("INSERT INTO cardListTBL(cardCompany, listItem) VALUES(1, '현대카드');");
+        db.execSQL("INSERT INTO cardListTBL(cardCompany, listItem) VALUES(2, '신한카드');");
+        db.execSQL("INSERT INTO cardListTBL(cardCompany, listItem) VALUES(3, '삼성카드');");
+        db.execSQL("INSERT INTO cardListTBL(cardCompany, listItem) VALUES(4, '롯데카드');");
+        db.execSQL("INSERT INTO cardListTBL(cardCompany, listItem) VALUES(5, '씨티카드');");
+        db.execSQL("INSERT INTO cardListTBL(cardCompany, listItem) VALUES(6, '국민카드');");
+        db.execSQL("INSERT INTO cardListTBL(cardCompany, listItem) VALUES(7, '카카오카드');");
+        db.execSQL("INSERT INTO cardListTBL(cardCompany, listItem) VALUES(8, '농협카드');");
 
         // 현금계좌 테이블
         db.execSQL("CREATE TABLE `acountListTBL` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `listItem` TEXT NOT NULL, `propertyType` INTEGER, `bankCategory` INTEGER, `startAmount` INTEGER, `startDay` TEXT, `todayBalance` INTEGER);");
+
+        // 임시 데이터
+        db.execSQL("INSERT INTO acountListTBL(listItem) VALUES('기업은행');");
+        db.execSQL("INSERT INTO acountListTBL(listItem) VALUES('신한은행');");
+        db.execSQL("INSERT INTO acountListTBL(listItem) VALUES('국민은행');");
+        db.execSQL("INSERT INTO acountListTBL(listItem) VALUES('제일은행');");
+        db.execSQL("INSERT INTO acountListTBL(listItem) VALUES('한국은행');");
+        db.execSQL("INSERT INTO acountListTBL(listItem) VALUES('서울은행');");
+        db.execSQL("INSERT INTO acountListTBL(listItem) VALUES('산업은행');");
 
     }
 

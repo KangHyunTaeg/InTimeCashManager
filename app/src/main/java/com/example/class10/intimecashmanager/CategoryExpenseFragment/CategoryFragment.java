@@ -40,8 +40,10 @@ public class CategoryFragment extends Fragment {
     static String sqlSelectSentence;
     static String table;
     static String[] columns;
+    static int checkNum; // CategoryManager에서 생성자로 받은 숫자 (1 = 지출항목, 2 = 수입항목, 3 = 카드항목, 4 = 현금항목)
+    // 인플레이트 시킬 페이지로 보낼 정보 분별에도 사용됨
 
-    public static CategoryFragment newInstance(String sqlSelectSentence, String table, String[] columns) {
+    public static CategoryFragment newInstance(String sqlSelectSentence, String table, String[] columns, int checkNum) {
         // Required empty public constructor
         Bundle args = new Bundle();
         CategoryFragment fragment = new CategoryFragment();
@@ -49,6 +51,7 @@ public class CategoryFragment extends Fragment {
         args.putString("ARG_sqlSelectSentence", sqlSelectSentence);
         args.putString("ARG_table", table);
         args.putStringArray("ARG_colums", columns);
+        args.putInt("ARS_checkNum", checkNum);
 
         fragment.setArguments(args); // 생성자의 파라미터로 받은 데이터를 번들에 담아 onCreate에서 받을 수 있도록 한다. (프레그먼트에서의 생성자 매개변수 처리)
         return fragment;
@@ -62,6 +65,7 @@ public class CategoryFragment extends Fragment {
             sqlSelectSentence = getArguments().getString("ARG_sqlSelectSentence");
             table = getArguments().getString("ARG_table");
             columns = getArguments().getStringArray("ARG_colums");
+            checkNum = getArguments().getInt("ARS_checkNum");
         }
     }
 
@@ -98,23 +102,45 @@ public class CategoryFragment extends Fragment {
 
                 // 대메뉴 이름을 배열에 담는다
                 ArrayList<String> menuNameList = new ArrayList<>();
-                MenuSetting.expenseMenuItem(menuNameList);
 
                 // 선택된 메뉴이름을 담을 변수
                 String menuName = null;
 
                 // 대메뉴 테이블만큼 반복해서 증가시킬 때, 현재 불러와진 테이블이름이 일치하는 테이블 이름 배열이 나타나면, 대메뉴이름 배열에서 해당인덱스의 메뉴이름을 가져와 menuName에 담는다
-                for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
-                    if(table ==  dataInit.tableInExpenseCategory().get(i)){
-                        menuName = menuNameList.get(i);
-                    }
+                switch (checkNum){
+                    case 1:
+                        // 지출 테이블
+                        MenuSetting.expenseMenuItem(menuNameList);
+                        for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
+                            if(table ==  dataInit.tableInExpenseCategory().get(i)){
+                                menuName = menuNameList.get(i);
+                            }
+                        }
+                        break;
+                    case 2:
+                        // 수입 테이블
+                        MenuSetting.incomeMenuItem(menuNameList);
+                        for(int i=0; i<dataInit.tableInIncomeCategory().size(); i++){
+                            if(table ==  dataInit.tableInIncomeCategory().get(i)){
+                                menuName = menuNameList.get(i);
+                            }
+                        }
+                        break;
+                    case 3:
+                        menuName = "카드";
+                        break;
+                    case 4:
+                        menuName = "현금";
+                        break;
                 }
+
 
                 // 데이터를 번들 형태로 다시 돌려보내기
                 Intent putIntent = new Intent(getContext(), ExpenseInsert.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("categoryID", categoryID); // 리스트뷰에서 클릭한 항목
                 bundle.putString("menuName", menuName); // categoryID 항목이 포함된 대메뉴이름을 담은 String 변수
+                bundle.putInt("checkNum", checkNum);
                 putIntent.putExtras(bundle);
                 getActivity().setResult(Activity.RESULT_OK, putIntent);
                 getActivity().finish();

@@ -31,5 +31,15 @@ public class DataInit {
         return tableInIncomeCategory;
     }
 
+    public String tableInAccount(){
+        String tableInAccount = "acountListTBL";
+        return tableInAccount;
+    }
+
+    public String tableInCard(){
+        String tableInCard = "cardListTBL";
+        return tableInCard;
+    }
+
 
 }

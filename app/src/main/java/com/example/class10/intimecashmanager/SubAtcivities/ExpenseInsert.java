@@ -59,6 +59,8 @@ public class ExpenseInsert extends AppCompatActivity {
     String weekdayString =""; // 요일 문자열을 담을 변수
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +143,7 @@ public class ExpenseInsert extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 왜 버튼이 안먹지?
-                paymentCheck = 1;
+
                 Intent intent = new Intent(getApplicationContext(), CategoryManager.class);
                 intent.putExtra("CHECK_INT", 3);
                 startActivityForResult(intent, 101);
@@ -188,16 +190,16 @@ public class ExpenseInsert extends AppCompatActivity {
             public void onClick(View v) {
 
                 try{
+                    sqlDB = myDB.getWritableDatabase();
+
                     dateExpenseIncome = btnTodayOrSomeday.getText().toString();
                     sumMoney = Integer.parseInt(edtAmountOfMoney.getText().toString()); // 입력한 금액 변수에 담기 - 입력되지 않으면 저장되지 않는다 (NOT NULL)
                     usage = edtUsage.getText().toString(); // 입력한 사용내역 변수에 담기 - 입력되지 않으면 저장되지 않는다
                     usedPlace = edtUsedPlace.getText().toString(); // 입력한 사용처 변수에 담기
 
 
-                    sqlDB = myDB.getWritableDatabase();
                     sqlDB.execSQL("INSERT INTO expenseTBL(dateExpenseIncome, sumMoney, usage, usePlace, paymentCheck, acount, card, useSupCategory, useSubCategory, tag, favoiteExpense, fixedExpense, timeValue) " +
                             "VALUES ('" + dateExpenseIncome + "', " + sumMoney + ", '" + usage + "', '" + usedPlace + "', " + paymentCheck + ", " + acount + ", " + card + ", " + useSupCategory + ", " + useSubCategory + ", '" + tag + "', " + favoiteExpense + ", " + fixedExpense + ", " + timeValue + ");");
-
                     sqlDB.close();
 
                     Toast.makeText(ExpenseInsert.this, "입력 내용이 저장되었습니다", Toast.LENGTH_SHORT).show();
@@ -223,35 +225,62 @@ public class ExpenseInsert extends AppCompatActivity {
             Bundle bundle = data.getExtras();
             String menuName = bundle.getString("menuName");
             String categoryID = bundle.getString("categoryID");
-            btnCategoryCheck.setText(menuName + " > " + categoryID);
+            int checkNum = bundle.getInt("checkNum");
 
-            try{
-                if(btnCategoryCheck.getText().toString() != null){
-                    Cursor cursor;
-                    cursor = sqlDB.rawQuery("SELECT id FROM expenseCategoryTBL WHERE categoryMenu = '" + menuName + "';", null);
-                    useSupCategory = cursor.getInt(0);
-                    cursor.close();
+            sqlDB = myDB.getReadableDatabase();
+            Cursor cursor;
 
-                    String tableName = null;
-                    switch (menuName){
-                        case "식비": tableName = "foodsListInExpnseCategoryTBL"; break;
-                        case "주거, 통신": tableName = "homeListInExpnseCategoryTBL"; break;
-                        case "생활용품": tableName = "livingListInExpnseCategoryTBL"; break;
-                        case "의복, 미용": tableName = "beautyListInExpnseCategoryTBL"; break;
-                        case "건강, 문화": tableName = "healthListInExpnseCategoryTBL"; break;
-                        case "교육, 육아": tableName = "educationListInExpnseCategoryTBL"; break;
-                        case "교통, 차량": tableName = "trafficListInExpnseCategoryTBL"; break;
-                        case "경조사, 회비": tableName = "eventListInExpnseCategoryTBL"; break;
-                        case "세금, 이자": tableName = "taxListInExpnseCategoryTBL"; break;
-                        case "기타 비용": tableName = "etcListInExpnseCategoryTBL"; break;
-                        case "저축, 보험": tableName = "depositListInExpnseCategoryTBL"; break;
-                    }
-                    cursor = sqlDB.rawQuery("SELECT menuReference FROM " + tableName + " WHERE listItem = '" + categoryID + "';", null);
-                    useSubCategory = cursor.getInt(0);
-                    cursor.close();
+            String tableNameInSuper = "expenseCategoryTBL"; // incomeCategoryTBL,
+            String columnNameInSuper = "categoryMenu"; // incomeType,
+
+            if(checkNum == 1){
+                btnCategoryCheck.setText(menuName + " > " + categoryID);
+
+                cursor = sqlDB.rawQuery("SELECT id FROM " + tableNameInSuper + " WHERE " + columnNameInSuper + " = '" + menuName + "';", null);
+                cursor.moveToFirst();
+                useSupCategory = cursor.getInt(0); // useSupCategory 대메뉴의 ID를 담는다
+                cursor.close();
+
+                String tableName = null;
+                switch (menuName) {
+                    case "식비": tableName = "foodsListInExpnseCategoryTBL"; break;
+                    case "주거, 통신": tableName = "homeListInExpnseCategoryTBL"; break;
+                    case "생활용품": tableName = "livingListInExpnseCategoryTBL"; break;
+                    case "의복, 미용": tableName = "beautyListInExpnseCategoryTBL"; break;
+                    case "건강, 문화": tableName = "healthListInExpnseCategoryTBL"; break;
+                    case "교육, 육아": tableName = "educationListInExpnseCategoryTBL"; break;
+                    case "교통, 차량": tableName = "trafficListInExpnseCategoryTBL"; break;
+                    case "경조사, 회비": tableName = "eventListInExpnseCategoryTBL"; break;
+                    case "세금, 이자": tableName = "taxListInExpnseCategoryTBL"; break;
+                    case "기타 비용": tableName = "etcListInExpnseCategoryTBL"; break;
+                    case "저축, 보험": tableName = "depositListInExpnseCategoryTBL"; break;
+                        /*case "주수입": tableName = "revenewListInincomeCategoryTBL"; break;
+                        case "부수입": tableName = "extraIncomeListInincomeCategoryTBL"; break;
+                        case "전월이월": tableName = "previousMonthListInincomeCategoryTBL"; break;
+                        case "저축, 보험(수입)": tableName = "depositListInincomeCategoryTBL"; break;*/ // 수입관련 테이블은 수입입력 페이지에서 적용
                 }
-            } catch (NullPointerException e){
+                cursor = sqlDB.rawQuery("SELECT id FROM " + tableName + " WHERE listItem = '" + categoryID + "';", null);
+                cursor.moveToFirst();
+                useSubCategory = cursor.getInt(0); // useSubCategory 소범주의 id를 담는다, 출력할 때 menuReference에 해당하는 대메뉴 이름과 (인덱스가 같은) 함께 불러온다
+                cursor.close();
+            }
+            if(checkNum == 3){
+                btnAcountOrCard.setText(menuName + " > " + categoryID);
+                paymentCheck = 2;
 
+                cursor = sqlDB.rawQuery("SELECT id FROM cardListTBL WHERE listItem = '" + categoryID + "';", null);
+                cursor.moveToFirst();
+                card = cursor.getInt(0); // 선택한 카드에 해당하는 ID를 담기, cardListTBL에서 찾아
+                cursor.close();
+            }
+            if(checkNum == 4){
+                btnAcountOrCard.setText(menuName + " > " + categoryID);
+                paymentCheck = 1;
+
+                cursor = sqlDB.rawQuery("SELECT id FROM acountListTBL WHERE listItem = '" + categoryID + "';", null);
+                cursor.moveToFirst();
+                acount = cursor.getInt(0); // 선택한 현금계좌에 해당하는 ID를 담기, acountListTBL에서 찾아
+                cursor.close();
             }
         }
     }

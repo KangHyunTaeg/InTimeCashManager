@@ -110,7 +110,7 @@ public class MenuSetting {
         tabArray.add("주수입");
         tabArray.add("부수입");
         tabArray.add("전월이월");
-        tabArray.add("저축, 보험");
+        tabArray.add("저축, 보험(수입)");
     }
 
     public static void revenueListInIncomeMenuItem(ArrayList<String> tabArray){
