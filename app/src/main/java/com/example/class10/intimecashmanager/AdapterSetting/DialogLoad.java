@@ -77,8 +77,6 @@ public class DialogLoad {
         //DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList);
 
 
-
-
         // 리스트뷰에 리스트뷰 아답터 장착
 
 
@@ -170,7 +168,7 @@ public class DialogLoad {
         dlg.show();
     }
 
-    public static void DialogMonthlyInstallment(final Context context, final EditText edt, final TextView tv){
+    public static void DialogMonthlyInstallment(final Context context, final EditText edt, final TextView tv1, final TextView tv2){
         dialogView[0] = (View)View.inflate(context, R.layout.dialog_input_monthly_installment, null);
         edtInputMonth = (EditText)dialogView[0].findViewById(R.id.edtInputMonth);
 
@@ -184,8 +182,9 @@ public class DialogLoad {
                 try{
                     String month = edtInputMonth.getText().toString();
                     int monthlyInstallment = Integer.parseInt(edt.getText().toString())/Integer.parseInt(month);
-                    tv.setText(" ("+ month + "개월)");
-                    tv.setTextColor(Color.RED);
+                    tv1.setText(month);
+                    tv2.setVisibility(View.VISIBLE);
+                    tv1.setTextColor(Color.RED);
                     edt.setText(""+monthlyInstallment);
                 } catch(NumberFormatException e){
                     Toast.makeText(context, "금액을 먼저 입력하세요.", Toast.LENGTH_SHORT).show();

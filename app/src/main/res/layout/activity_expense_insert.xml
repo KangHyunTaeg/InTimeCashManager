@@ -104,11 +104,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="원"/>
+                android:text="원   "/>
             <TextView
-                android:id="@+id/tvInstallmentMonth"
+                android:id="@+id/tvInstallmentMonth1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvInstallmentMonth2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 개월"
+                android:visibility="invisible"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

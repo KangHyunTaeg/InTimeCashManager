@@ -31,7 +31,7 @@ public class ExpenseInsert extends AppCompatActivity {
     Button btnExpenseAtExpensePage, btnIncomeAtExpensePage; // 수입입력, 지출입력 페이지 불러오기
     EditText edtAmountOfMoney, edtUsage, edtUsedPlace; // 지출금액, 사용내역, 사용처 입력
     Button btnMonthlyInstallment; // 할부 적용하기, 다이얼로그 불러옴
-    TextView tvInstallmentMonth; // 몇 개월 할부인지 setText
+    TextView tvInstallmentMonth1, tvInstallmentMonth2; // 몇 개월 할부인지 setText
     Button btnAcountOrCard, btnCategoryCheck; // 계좌, 범주 선택하기(다이얼로그로 불러오기)
     EditText edtInputTagInExpenseInsert; // 태그 입력
     Button btnCancle, btnSave; // 취소, 저장 - 저장 시 데이터베이스 인서트 쿼리문
@@ -52,7 +52,7 @@ public class ExpenseInsert extends AppCompatActivity {
     static int useSubCategory = 0; // 소분류
     static String tag = null; // 태그
     static int favoiteExpense = 0; // 자주쓰는 내역 여부
-    static int fixedExpense = 0; // 고정비용 여부
+    static int installmentExpense = 0; // 고정비용 여부
     static int timeValue = 0; // 시간환산 가치
 
 
@@ -74,7 +74,8 @@ public class ExpenseInsert extends AppCompatActivity {
         btnIncomeAtExpensePage = (Button)findViewById(R.id.btnIncomeAtExpensePage);
         edtAmountOfMoney = (EditText)findViewById(R.id.edtAmountOfMoney);
         btnMonthlyInstallment = (Button)findViewById(R.id.btnMonthlyInstallment);
-        tvInstallmentMonth = (TextView)findViewById(R.id.tvInstallmentMonth);
+        tvInstallmentMonth1 = (TextView)findViewById(R.id.tvInstallmentMonth1);
+        tvInstallmentMonth2 = (TextView)findViewById(R.id.tvInstallmentMonth2);
         edtUsage = (EditText)findViewById(R.id.edtUsage);
         edtUsedPlace = (EditText)findViewById(R.id.edtUsedPlace);
         btnAcountOrCard = (Button)findViewById(R.id.btnAcountOrCard);
@@ -82,6 +83,7 @@ public class ExpenseInsert extends AppCompatActivity {
         edtInputTagInExpenseInsert = (EditText)findViewById(R.id.edtInputTagInExpenseInsert);
         btnCancle = (Button)findViewById(R.id.btnCancle);
         btnSave = (Button)findViewById(R.id.btnSave);
+        chkFavorite = (CheckBox)findViewById(R.id.chkFavorite);
 
         // 날짜 입력하기
         Calendar calendar = Calendar.getInstance();
@@ -131,14 +133,12 @@ public class ExpenseInsert extends AppCompatActivity {
         btnMonthlyInstallment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogLoad.DialogMonthlyInstallment(ExpenseInsert.this, edtAmountOfMoney, tvInstallmentMonth);
+                DialogLoad.DialogMonthlyInstallment(ExpenseInsert.this, edtAmountOfMoney, tvInstallmentMonth1, tvInstallmentMonth2);
             }
         });
 
-        //지불 방법
-
-
-        // 출금계좌 - 출력값 = 카드현금체크(paymentCheck), acount(paymentCheck=1) or card(paymentCheck=2)의 내역
+        //지불 방법 체크는 결과 인텐트로 받은 값의 여부에 따라 값 할당 (checkNum==4일 때, acount(paymentCheck=1).. checkNum==3일 때, card(paymentCheck=2))
+        // 출금계좌 또는 카드 선택한 것 출력
         btnAcountOrCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,9 +149,6 @@ public class ExpenseInsert extends AppCompatActivity {
                 startActivityForResult(intent, 101);
             }
         });
-
-        // 카드
-
 
         // 카테고리 입력
         btnCategoryCheck.setOnClickListener(new View.OnClickListener() {
@@ -164,14 +161,8 @@ public class ExpenseInsert extends AppCompatActivity {
             }
         });
 
-        // 태그 입력
-
-
-
-
-
-        // 자주쓰는 내역 저장 여부
-
+        // 태그 입력은 저장버튼 클릭시 이벤트 발생 (editText에 입력한 text를 변수에 담기)
+        // 자주쓰는 내역 저장 여부는 저장버튼 클릭시 이벤트 발생 (checkbox에 체크 여부를 (체크:1, 미체크:0) favoriteExpense 변수에 담기
 
         // 시간 환산 가치 연산 (출력 시)
 
@@ -196,10 +187,21 @@ public class ExpenseInsert extends AppCompatActivity {
                     sumMoney = Integer.parseInt(edtAmountOfMoney.getText().toString()); // 입력한 금액 변수에 담기 - 입력되지 않으면 저장되지 않는다 (NOT NULL)
                     usage = edtUsage.getText().toString(); // 입력한 사용내역 변수에 담기 - 입력되지 않으면 저장되지 않는다
                     usedPlace = edtUsedPlace.getText().toString(); // 입력한 사용처 변수에 담기
+                    tag = edtInputTagInExpenseInsert.getText().toString(); // 입력한 태그 변수에 담기
+
+                    // 자주쓰는 내역에 체크
+                    if(chkFavorite.isChecked()){
+                        favoiteExpense = 1;
+                    }
+
+                    // 일시불 버튼을 클릭했을 때의 데이터 저장
+                    if(tvInstallmentMonth1.getText().toString() != null){
+                        installmentExpense = Integer.parseInt(tvInstallmentMonth1.getText().toString());
+                    }
 
 
-                    sqlDB.execSQL("INSERT INTO expenseTBL(dateExpenseIncome, sumMoney, usage, usePlace, paymentCheck, acount, card, useSupCategory, useSubCategory, tag, favoiteExpense, fixedExpense, timeValue) " +
-                            "VALUES ('" + dateExpenseIncome + "', " + sumMoney + ", '" + usage + "', '" + usedPlace + "', " + paymentCheck + ", " + acount + ", " + card + ", " + useSupCategory + ", " + useSubCategory + ", '" + tag + "', " + favoiteExpense + ", " + fixedExpense + ", " + timeValue + ");");
+                    sqlDB.execSQL("INSERT INTO expenseTBL(dateExpenseIncome, sumMoney, usage, usePlace, paymentCheck, acount, card, useSupCategory, useSubCategory, tag, favoiteExpense, installmentExpense, timeValue) " +
+                            "VALUES ('" + dateExpenseIncome + "', " + sumMoney + ", '" + usage + "', '" + usedPlace + "', " + paymentCheck + ", " + acount + ", " + card + ", " + useSupCategory + ", " + useSubCategory + ", '" + tag + "', " + favoiteExpense + ", " + installmentExpense + ", " + timeValue + ");");
                     sqlDB.close();
 
                     Toast.makeText(ExpenseInsert.this, "입력 내용이 저장되었습니다", Toast.LENGTH_SHORT).show();
@@ -290,11 +292,11 @@ public class ExpenseInsert extends AppCompatActivity {
 
         String todayOrSomeday = btnTodayOrSomeday.getText().toString();
         String amountOfmoney = edtAmountOfMoney.getText().toString();
-        String installmentMonth = tvInstallmentMonth.getText().toString();
+        String installmentMonth1 = tvInstallmentMonth1.getText().toString();
 
         outState.putString("TodayOrSomeDay", todayOrSomeday);
         outState.putString("AmountOfMoney", amountOfmoney);
-        outState.putString("InstallmentMonth", installmentMonth);
+        outState.putString("InstallmentMonth", installmentMonth1);
         outState.putString("Usage", edtUsage.getText().toString());
         outState.putString("UsedPlace", edtUsedPlace.getText().toString());
         outState.putString("Account", btnAcountOrCard.getText().toString());
@@ -310,7 +312,7 @@ public class ExpenseInsert extends AppCompatActivity {
 
         btnTodayOrSomeday.setText(savedInstanceState.getString("TodayOrSomeDay"));
         edtAmountOfMoney.setText(savedInstanceState.getString("AmountOfMoney"));
-        tvInstallmentMonth.setText(savedInstanceState.getString("InstallmentMonth"));
+        tvInstallmentMonth1.setText(savedInstanceState.getString("InstallmentMonth"));
         edtUsage.setText(savedInstanceState.getString("Usage"));
         edtUsedPlace.setText(savedInstanceState.getString("UsedPlace"));
         btnAcountOrCard.setText(savedInstanceState.getString("Account"));

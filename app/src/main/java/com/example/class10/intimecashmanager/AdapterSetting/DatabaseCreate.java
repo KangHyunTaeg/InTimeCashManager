@@ -20,7 +20,8 @@ public class DatabaseCreate extends SQLiteOpenHelper {
         // 지출 테이블
         db.execSQL("CREATE TABLE `expenseTBL` (`dateExpenseIncome` TEXT NOT NULL, `sumMoney` INTEGER NOT NULL,  `usage` TEXT NOT NULL,  " +
                 "`usePlace` TEXT,  `paymentCheck` INTEGER,  `card` INTEGER,  `acount` INTEGER,  `useSupCategory` INTEGER, `useSubCategory` INTEGER, `tag` TEXT,  " +
-                "`favoiteExpense` INTEGER,  `fixedExpense` INTEGER,  `timeValue` INTEGER );");
+                "`favoiteExpense` INTEGER,  `installmentExpense` INTEGER,  `timeValue` INTEGER );");
+        // installmentExpense = 설정된 할부 개월 - 해당 개월만큼의 오늘날짜에 자동 입력
 
         // 메뉴 테이블 만들고, 컬럼에 메뉴 불러와서 인서트하기
         db.execSQL("CREATE TABLE `expenseCategoryTBL` (" +
