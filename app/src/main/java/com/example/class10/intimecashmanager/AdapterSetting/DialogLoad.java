@@ -47,16 +47,46 @@ public class DialogLoad {
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);
         ListView listFavorite = (ListView) dialogView[0].findViewById(R.id.listFavorite);
 
-        // 데이터베이스 사용 전 임시로 값 넣어보기
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, arrayList);
-        listFavorite.setAdapter(adapter);
+        // 지출/수입내역리스트에서 favoiteExpense=1값들을 리스트뷰에 뿌려주기 (커스텀 리스트뷰 공유)
+        ListViewAdapter adapter;
+        ArrayList<String> dateList = new ArrayList<>();
+        ArrayList<Integer> imgBtnCategoryID = new ArrayList<>();
+        ArrayList<String> usageID = new ArrayList<>();
+        ArrayList<Integer> supCategoryID = new ArrayList<>();
+        ArrayList<Integer> subCategoryID = new ArrayList<>();
+        ArrayList<Integer> moneyList = new ArrayList<>();
 
         myDB = new DatabaseCreate(context);
-        arrayList.clear();
-        if(adapter.isEmpty()){
-            String sqlSelectSentence = "SELECT foodsList FROM foodsListInExpnseCategoryTBL;";
-            DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList);
+        sqlDB = myDB.getReadableDatabase();
+        Cursor cursor;
+        cursor = sqlDB.rawQuery("SELECT dateExpenseIncome, usage, useSupCategory, useSubCategory, sumMoney FROM expenseTBL WHERE favoiteExpense = 1;", null); // WHERE문 추가
+        while(cursor.moveToNext()){
+            imgBtnCategoryID.add(R.drawable.house);
+            dateList.add(cursor.getString(0));
+            usageID.add(cursor.getString(1));
+            supCategoryID.add(cursor.getInt(2));
+            subCategoryID.add(cursor.getInt(3));
+            moneyList.add(cursor.getInt(4));
         }
+        sqlDB.close();
+        cursor.close();
+
+
+        // my 리스트뷰 세팅
+        List<ItemData> data = new ArrayList<>();
+        for(int i=0; i<usageID.size(); i++){
+            data.add(new ItemData(dateList.get(i), imgBtnCategoryID.get(i), usageID.get(i), supCategoryID.get(i), subCategoryID.get(i), moneyList.get(i)));
+        }
+
+        adapter = new ListViewAdapter(context, data);
+        listFavorite.setAdapter(adapter);
+
+
+
+
+
+
+
 
         dlg.setTitle("# 항목 추가");
         dlg.setView(dialogView[0]);

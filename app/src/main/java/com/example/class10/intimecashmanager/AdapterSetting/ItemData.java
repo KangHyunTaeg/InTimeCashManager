@@ -21,20 +21,23 @@ public class ItemData {
     private int paymentCheck; // 지불방법
     private int acount; // 현금지불시 현금계좌
     private int card; // 카드지불시 사용카드
-    private String useCategory; // 분류
+    private int useCategory; // 분류
+    private int useSubCategory; // 소분류
     private String tag; // 태그
     private int favoiteExpense; // 자주쓰는 내역 여부
     private int fixedExpense; // 고정비용 여부
     private int timeValue; // 시간환산 가치
 
-    public ItemData(int imgCategory, String usage, String useCategory, int sumMoney){
+    public ItemData(String dateExpenseIncome, int imgCategory, String usage, int useCategory, int useSubCategory, int sumMoney){
+        this.dateExpenseIncome = dateExpenseIncome;
         this.imgCategory = imgCategory;
         this.usage = usage;
         this.useCategory = useCategory;
+        this.useSubCategory = useSubCategory;
         this.sumMoney = sumMoney;
     }
 
-    public ItemData(int imgCategory, String dateExpenseIncome, int sumMoney, String usage, String usedPlace, int paymentCheck, int acount, int card, String useCategory, String tag, int favoiteExpense, int fixedExpense, int timeValue){
+    public ItemData(int imgCategory, String dateExpenseIncome, int sumMoney, String usage, String usedPlace, int paymentCheck, int acount, int card, int useCategory, String tag, int favoiteExpense, int fixedExpense, int timeValue){
         this.imgCategory = imgCategory;
         this.dateExpenseIncome = dateExpenseIncome;
         this.sumMoney = sumMoney;
@@ -82,9 +85,11 @@ public class ItemData {
         return card;
     }
 
-    public String getUseCategory(){
+    public int getUseCategory(){
         return useCategory;
     }
+
+    public int getUseSubCategory(){return useSubCategory;}
 
     public String getTag(){
         return tag;

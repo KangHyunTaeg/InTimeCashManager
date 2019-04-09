@@ -2,6 +2,8 @@ package com.example.class10.intimecashmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
 import com.example.class10.intimecashmanager.AdapterSetting.ItemData;
 import com.example.class10.intimecashmanager.AdapterSetting.ListViewAdapter;
@@ -25,8 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IncomeExpenseList extends AppCompatActivity {
-    /*DatabaseCreate myDB;
-    SQLiteDatabase sqlDB;*/
+    DatabaseCreate myDB;
+    SQLiteDatabase sqlDB;
 
     ListView listIncomeAndExpense;
     ListViewAdapter adapter;
@@ -37,12 +40,18 @@ public class IncomeExpenseList extends AppCompatActivity {
     EditText edtInputTag;
 
     // 임시 배열
-    // String[] dateList = {};
-    Integer[] imgBtnCategoryID = {R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house,
+    ArrayList<String> dateList;
+    ArrayList<Integer> imgBtnCategoryID;
+    ArrayList<String> usageID;
+    ArrayList<Integer> supCategoryID;
+    ArrayList<Integer> subCategoryID;
+    ArrayList<Integer> moneyList;
+
+    /*Integer[] imgBtnCategoryID = {R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house,
             R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house}; // 이미지버튼의 이름 배열, 10은 임의의 숫자
     String[] usageID = {"순대국", "짜장면", "짬뽕", "탕수육", "핸드폰요금", "쇼핑", "택시비", "버스비", "빕스", "한식부폐", "순대국", "짜장면", "짬뽕", "탕수육", "핸드폰요금", "쇼핑", "택시비", "버스비", "빕스", "한식부폐"};
     String[] categoryID = {"외식", "외식", "외식", "외식", "통신비", "쇼핑", "교통비", "교통비", "외식", "외식", "외식", "외식", "외식", "외식", "통신비", "쇼핑", "교통비", "교통비", "외식", "외식"};
-    Integer[] moneyList = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};
+    Integer[] moneyList = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};*/
 
 
     @Override
@@ -147,12 +156,35 @@ public class IncomeExpenseList extends AppCompatActivity {
 
 
 
+        // DB 내용을 배열에 담기
+        dateList = new ArrayList<>();
+        imgBtnCategoryID = new ArrayList<>();
+        usageID = new ArrayList<>();
+        supCategoryID = new ArrayList<>();
+        subCategoryID = new ArrayList<>();
+        moneyList = new ArrayList<>();
+
+        myDB = new DatabaseCreate(this);
+        sqlDB = myDB.getReadableDatabase();
+        Cursor cursor;
+        cursor = sqlDB.rawQuery("SELECT dateExpenseIncome, usage, useSupCategory, useSubCategory, sumMoney FROM expenseTBL", null); // WHERE문 추가
+        while(cursor.moveToNext()){
+            imgBtnCategoryID.add(R.drawable.house);
+            dateList.add(cursor.getString(0));
+            usageID.add(cursor.getString(1));
+            supCategoryID.add(cursor.getInt(2));
+            subCategoryID.add(cursor.getInt(3));
+            moneyList.add(cursor.getInt(4));
+        }
+        sqlDB.close();
+        cursor.close();
+
 
         // my 리스트뷰 세팅
         listIncomeAndExpense = (ListView)findViewById(R.id.listIncomeAndExpense);
         List<ItemData> data = new ArrayList<>();
-        for(int i=0; i<usageID.length; i++){
-            data.add(new ItemData(imgBtnCategoryID[i], usageID[i], categoryID[i], moneyList[i]));
+        for(int i=0; i<usageID.size(); i++){
+            data.add(new ItemData(dateList.get(i), imgBtnCategoryID.get(i), usageID.get(i), supCategoryID.get(i), subCategoryID.get(i), moneyList.get(i)));
         }
 
         /*data = new ArrayList<>();
