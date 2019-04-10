@@ -137,6 +137,9 @@ public class DatabaseCreate extends SQLiteOpenHelper {
 
 
         // 수입 테이블
+        db.execSQL("CREATE TABLE `incomeTBL` (`dateExpenseIncome` TEXT NOT NULL, `sumMoney` INTEGER NOT NULL,  `earnings` TEXT NOT NULL,  " +
+                "`acount` INTEGER,  `incomeSupCategory` INTEGER, `incomeSubCategory` INTEGER, `tag` TEXT,  " +
+                "`favoiteIncome` INTEGER,  `timeValue` INTEGER );");
 
 
         // 수입분류 테이블 만들고, 컬럼에 수입타입 불러와서 인서트하기

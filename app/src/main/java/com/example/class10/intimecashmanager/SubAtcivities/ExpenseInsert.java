@@ -34,7 +34,7 @@ public class ExpenseInsert extends AppCompatActivity {
     TextView tvInstallmentMonth1, tvInstallmentMonth2; // 몇 개월 할부인지 setText
     Button btnAcountOrCard, btnCategoryCheck; // 계좌, 범주 선택하기(다이얼로그로 불러오기)
     EditText edtInputTagInExpenseInsert; // 태그 입력
-    Button btnCancle, btnSave; // 취소, 저장 - 저장 시 데이터베이스 인서트 쿼리문
+    Button btnCancle, btnSaveInExpense; // 취소, 저장 - 저장 시 데이터베이스 인서트 쿼리문
 
 
     public static DatabaseCreate myDB; // 데이터베이스 사용하기 위해서 my 데이터베이스 생성 클래스 불러오기
@@ -82,7 +82,7 @@ public class ExpenseInsert extends AppCompatActivity {
         btnCategoryCheck = (Button)findViewById(R.id.btnCategoryCheck);
         edtInputTagInExpenseInsert = (EditText)findViewById(R.id.edtInputTagInExpenseInsert);
         btnCancle = (Button)findViewById(R.id.btnCancle);
-        btnSave = (Button)findViewById(R.id.btnSave);
+        btnSaveInExpense = (Button)findViewById(R.id.btnSaveInExpense);
         chkFavorite = (CheckBox)findViewById(R.id.chkFavorite);
 
         // 날짜 입력하기
@@ -176,7 +176,7 @@ public class ExpenseInsert extends AppCompatActivity {
         });
 
         // 저장
-        btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSaveInExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -256,15 +256,12 @@ public class ExpenseInsert extends AppCompatActivity {
                     case "세금, 이자": tableName = "taxListInExpnseCategoryTBL"; break;
                     case "기타 비용": tableName = "etcListInExpnseCategoryTBL"; break;
                     case "저축, 보험": tableName = "depositListInExpnseCategoryTBL"; break;
-                        /*case "주수입": tableName = "revenewListInincomeCategoryTBL"; break;
-                        case "부수입": tableName = "extraIncomeListInincomeCategoryTBL"; break;
-                        case "전월이월": tableName = "previousMonthListInincomeCategoryTBL"; break;
-                        case "저축, 보험(수입)": tableName = "depositListInincomeCategoryTBL"; break;*/ // 수입관련 테이블은 수입입력 페이지에서 적용
                 }
                 cursor = sqlDB.rawQuery("SELECT id FROM " + tableName + " WHERE listItem = '" + categoryID + "';", null);
                 cursor.moveToFirst();
                 useSubCategory = cursor.getInt(0); // useSubCategory 소범주의 id를 담는다, 출력할 때 menuReference에 해당하는 대메뉴 이름과 (인덱스가 같은) 함께 불러온다
                 cursor.close();
+                sqlDB.close();
             }
             if(checkNum == 3){
                 btnAcountOrCard.setText(menuName + " > " + categoryID);
@@ -274,6 +271,7 @@ public class ExpenseInsert extends AppCompatActivity {
                 cursor.moveToFirst();
                 card = cursor.getInt(0); // 선택한 카드에 해당하는 ID를 담기, cardListTBL에서 찾아
                 cursor.close();
+                sqlDB.close();
             }
             if(checkNum == 4){
                 btnAcountOrCard.setText(menuName + " > " + categoryID);
@@ -283,6 +281,7 @@ public class ExpenseInsert extends AppCompatActivity {
                 cursor.moveToFirst();
                 acount = cursor.getInt(0); // 선택한 현금계좌에 해당하는 ID를 담기, acountListTBL에서 찾아
                 cursor.close();
+                sqlDB.close();
             }
         }
     }

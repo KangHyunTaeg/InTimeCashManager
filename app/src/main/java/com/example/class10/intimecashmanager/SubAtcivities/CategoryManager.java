@@ -55,6 +55,8 @@ public class CategoryManager extends AppCompatActivity {
                 fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM " + dataInit.tableInExpenseCategory().get(i)
                         + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}, 1));
             }
+            cursor.close();
+            sqlDB.close();
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 2){
             sqlSelectSentence = "SELECT incomeType FROM incomeCategoryTBL;"; // 메뉴탭에 수입 분류 이름 담기위한 sql문
             cursor = sqlDB.rawQuery(sqlSelectSentence, null);
@@ -67,6 +69,8 @@ public class CategoryManager extends AppCompatActivity {
                 fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM " + dataInit.tableInIncomeCategory().get(i)
                         + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInIncomeCategory().get(i), new String[]{"listItem", "menuReference"}, 2));
             }
+            cursor.close();
+            sqlDB.close();
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 3){
             // 카드/현금 관리 테이블에서 리스트 불러오기
             arrayMenuTab.add("카드");
@@ -74,6 +78,10 @@ public class CategoryManager extends AppCompatActivity {
 
             fragList.add(0, CategoryFragment.newInstance("SELECT listItem FROM cardListTBL;", "cardListTBL", new String[]{"listItem"}, 3));
             fragList.add(1, CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", new String[]{"listItem"}, 4));
+        } else if(inIntent.getIntExtra("CHECK_INT", 1) == 4){
+            // 현금 관리 테이블에서 리스트 불러오기
+            arrayMenuTab.add("현금");
+            fragList.add(0, CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", new String[]{"listItem"}, 4));
         }
 
         // 커스텀프래그먼트 어댑터 객체 생성, 매개변수로 탭과 뷰페이져용 데이터 배열 받으면 반복문을 통해 탭과 뷰페이저에 매칭시킨다

@@ -58,8 +58,9 @@ public class DialogLoad {
 
         myDB = new DatabaseCreate(context);
         sqlDB = myDB.getReadableDatabase();
+        String checkedFavorite = "favoiteExpense";  // favoiteIncome
         Cursor cursor;
-        cursor = sqlDB.rawQuery("SELECT dateExpenseIncome, usage, useSupCategory, useSubCategory, sumMoney FROM expenseTBL WHERE favoiteExpense = 1;", null); // WHERE문 추가
+        cursor = sqlDB.rawQuery("SELECT dateExpenseIncome, usage, useSupCategory, useSubCategory, sumMoney FROM expenseTBL WHERE " + checkedFavorite + " = 1;", null); // WHERE문 추가
         while(cursor.moveToNext()){
             imgBtnCategoryID.add(R.drawable.house);
             dateList.add(cursor.getString(0));
