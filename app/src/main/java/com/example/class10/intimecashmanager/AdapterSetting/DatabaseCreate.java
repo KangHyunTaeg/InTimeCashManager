@@ -153,6 +153,15 @@ public class DatabaseCreate extends SQLiteOpenHelper {
                 "`favoiteIncome` INTEGER,  `timeValue` INTEGER );");
 
 
+        // 수입 서브카테고리 테이블
+        db.execSQL("CREATE TABLE `incomeSubCategory` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `listItem` TEXT NOT NULL, `menuReference` INTEGER NOT NULL);");
+        List<SubMenuArray> menuArraysIncome = new ArrayList<>();
+        MenuSetting.incomeSubMenuItem(menuArraysIncome);
+        for(int i=0; i<menuArraysIncome.size(); i++){
+            db.execSQL("INSERT INTO incomeSubCategory(listItem, menuReference) VALUES ('" + menuArraysIncome.get(i).getSubMenuName() + "', " + menuArraysIncome.get(i).getSubMenuNum() + ");");
+        }
+
+
         // 수입분류 테이블 만들고, 컬럼에 수입타입 불러와서 인서트하기
         db.execSQL("CREATE TABLE `incomeCategoryTBL` (" +
                 "`id`INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +

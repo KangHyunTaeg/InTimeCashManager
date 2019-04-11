@@ -179,11 +179,33 @@ public class MenuSetting {
         arrayList.add("기타");
     }
 
+
     public static void incomeMenuItem(ArrayList<String> tabArray){
         tabArray.add("주수입");
         tabArray.add("부수입");
         tabArray.add("전월이월");
         tabArray.add("저축, 보험(수입)");
+    }
+
+
+    public static void incomeSubMenuItem(List<SubMenuArray> menuArraysIncome){
+        menuArraysIncome.add(new SubMenuArray("급여", 1));
+        menuArraysIncome.add(new SubMenuArray("상여", 1));
+        menuArraysIncome.add(new SubMenuArray("사업소득", 1));
+        menuArraysIncome.add(new SubMenuArray("기타", 1));
+        menuArraysIncome.add(new SubMenuArray("이자/배당금", 2));
+        menuArraysIncome.add(new SubMenuArray("카드캐쉬백", 2));
+        menuArraysIncome.add(new SubMenuArray("중고판매", 2));
+        menuArraysIncome.add(new SubMenuArray("기타", 2));
+        menuArraysIncome.add(new SubMenuArray("전월이월", 3));
+        menuArraysIncome.add(new SubMenuArray("잔액조정", 3));
+        menuArraysIncome.add(new SubMenuArray("기타", 3));
+        menuArraysIncome.add(new SubMenuArray("예금", 4));
+        menuArraysIncome.add(new SubMenuArray("적금", 4));
+        menuArraysIncome.add(new SubMenuArray("펀드", 4));
+        menuArraysIncome.add(new SubMenuArray("보험", 4));
+        menuArraysIncome.add(new SubMenuArray("투자", 4));
+        menuArraysIncome.add(new SubMenuArray("기타", 4));
     }
 
     public static void revenueListInIncomeMenuItem(ArrayList<String> tabArray){

@@ -61,7 +61,7 @@ public class CategoryManager extends AppCompatActivity {
             // arrayMenuTab이 "식비"이면, expenseSubCategory 테이블에서 menuReference=1인 값들을 가져와서, 해당 tab의 리스트에 뿌려준다
 
             for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
-                fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=" + arrayMenuTabNum.get(i+1) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}, 1));
+                fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=" + arrayMenuTabNum.get(i) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}, 1));
             }
 
             cursor.close();
