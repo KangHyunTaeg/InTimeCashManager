@@ -195,10 +195,19 @@ public class ExpenseInsert extends AppCompatActivity {
                     }
 
                     // 일시불 버튼을 클릭했을 때의 데이터 저장
-                    if(tvInstallmentMonth1.getText().toString() != null){
+                    /*if(tvInstallmentMonth1.getText().toString() != null){
+                        installmentExpense = Integer.parseInt(tvInstallmentMonth1.getText().toString());
+                    }*/
+
+                    if(tvInstallmentMonth1.getText().toString().equals("일시불")){
+                        installmentExpense = 1;
+                    } else{
                         installmentExpense = Integer.parseInt(tvInstallmentMonth1.getText().toString());
                     }
 
+                    if(sumMoney == 0 || usage.equals("")){
+                        throw new Exception();
+                    }
 
                     sqlDB.execSQL("INSERT INTO expenseTBL(dateExpenseIncome, sumMoney, usage, usePlace, paymentCheck, acount, card, useSupCategory, useSubCategory, tag, favoiteExpense, installmentExpense, timeValue) " +
                             "VALUES ('" + dateExpenseIncome + "', " + sumMoney + ", '" + usage + "', '" + usedPlace + "', " + paymentCheck + ", " + acount + ", " + card + ", " + useSupCategory + ", " + useSubCategory + ", '" + tag + "', " + favoiteExpense + ", " + installmentExpense + ", " + timeValue + ");");
@@ -207,12 +216,7 @@ public class ExpenseInsert extends AppCompatActivity {
                     Toast.makeText(ExpenseInsert.this, "입력 내용이 저장되었습니다", Toast.LENGTH_SHORT).show();
                     finish();
                 } catch (Exception e){
-                    if(sumMoney == 0){
-                        Toast.makeText(ExpenseInsert.this, "금액을 입력하셔야 합니다.", Toast.LENGTH_SHORT).show();
-                    }
-                    if(usage == null){
-                        Toast.makeText(ExpenseInsert.this, "사용내역을 입력하셔야 합니다.", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(ExpenseInsert.this, "금액과 사용내역은 꼭 입력하셔야 합니다.", Toast.LENGTH_SHORT).show();
                 }
 
             }

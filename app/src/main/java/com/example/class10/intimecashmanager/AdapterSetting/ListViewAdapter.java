@@ -59,6 +59,7 @@ public class ListViewAdapter extends BaseAdapter {
         TextView tvCategory = (TextView)itemView.findViewById(R.id.tvCategory);
         TextView tvSubCategory = (TextView)itemView.findViewById(R.id.tvSubCategory);
         TextView tvSumMoney = (TextView)itemView.findViewById(R.id.tvSumMoney);
+        TextView tvCategorySignal = (TextView)itemView.findViewById(R.id.tvCategorySignal);
 
 
         ItemData itemData = itemDataList.get(position);
@@ -66,8 +67,13 @@ public class ListViewAdapter extends BaseAdapter {
         tvDate.setText(itemData.getDateExpenseIncome().substring(6, 13));
         ibtnCategory.setImageResource(itemData.getImgCategory());
         tvUsage.setText(itemData.getUsage());
-        tvCategory.setText(String.valueOf(itemData.getUseCategory()));
-        tvSubCategory.setText(String.valueOf(itemData.getUseSubCategory()));
+        tvCategory.setText(itemData.getSupCategoryName());
+        if(!tvCategory.getText().equals("")){
+            tvCategorySignal.setVisibility(View.VISIBLE);
+        }
+        tvSubCategory.setText(itemData.getSubCategoryName());
+        // tvCategory.setText(String.valueOf(itemData.getUseCategory())); // category name test
+        // tvSubCategory.setText(String.valueOf(itemData.getUseSubCategory())); // category name test
         tvSumMoney.setText(new String(String.valueOf(itemData.getSumMoney())));
         return itemView;
     }

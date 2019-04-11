@@ -25,6 +25,7 @@ public class CategoryManager extends AppCompatActivity {
     SQLiteDatabase sqlDB;
     Cursor cursor;
     ArrayList<String> arrayMenuTab = new ArrayList<>();
+    ArrayList<Integer> arrayMenuTabNum = new ArrayList<>();
     String sqlSelectSentence;
 
 
@@ -44,17 +45,25 @@ public class CategoryManager extends AppCompatActivity {
         Intent inIntent = getIntent();
         // "CHECK_INT"에 담아서 받은 값이 1이면, 지출 테이블 불러오는 sql문을 담고, 2면, 수입 테이블을 불러오는 sql문을 담는다
         if(inIntent.getIntExtra("CHECK_INT", 1) == 1){
-            sqlSelectSentence = "SELECT categoryMenu FROM expenseCategoryTBL;"; // 메뉴탭에 지출 분류 이름 담기위한 sql문
+            sqlSelectSentence = "SELECT id, categoryMenu FROM expenseCategoryTBL;"; // 메뉴탭에 지출 분류 이름 담기위한 sql문
             cursor = sqlDB.rawQuery(sqlSelectSentence, null);
             while(cursor.moveToNext()){
-                arrayMenuTab.add(cursor.getString(0));
+                arrayMenuTabNum.add(cursor.getInt(0));
+                arrayMenuTab.add(cursor.getString(1));
             }
 
             // 뷰 페이저 추가 - 데이터베이스 지출 소메뉴 테이블들에서 불러오기
-            for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
+            /*for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
                 fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM " + dataInit.tableInExpenseCategory().get(i)
                         + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}, 1));
+            }*/
+
+            // arrayMenuTab이 "식비"이면, expenseSubCategory 테이블에서 menuReference=1인 값들을 가져와서, 해당 tab의 리스트에 뿌려준다
+
+            for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
+                fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=" + arrayMenuTabNum.get(i+1) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}, 1));
             }
+
             cursor.close();
             sqlDB.close();
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 2){

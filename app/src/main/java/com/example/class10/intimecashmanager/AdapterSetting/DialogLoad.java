@@ -76,7 +76,7 @@ public class DialogLoad {
         // my 리스트뷰 세팅
         List<ItemData> data = new ArrayList<>();
         for(int i=0; i<usageID.size(); i++){
-            data.add(new ItemData(dateList.get(i), imgBtnCategoryID.get(i), usageID.get(i), supCategoryID.get(i), subCategoryID.get(i), moneyList.get(i)));
+            // data.add(new ItemData(dateList.get(i), imgBtnCategoryID.get(i), usageID.get(i), supCategoryID.get(i), subCategoryID.get(i), moneyList.get(i)));
         }
 
         adapter = new ListViewAdapter(context, data);

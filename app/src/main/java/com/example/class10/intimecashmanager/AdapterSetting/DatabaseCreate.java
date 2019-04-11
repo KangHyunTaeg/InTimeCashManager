@@ -4,9 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.view.MenuItem;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseCreate extends SQLiteOpenHelper {
     static SQLiteDatabase sqlDB;
@@ -35,6 +37,15 @@ public class DatabaseCreate extends SQLiteOpenHelper {
         }
 
         // 서브메뉴별로 테이블 만들고, 기본값 인서트하기
+        db.execSQL("CREATE TABLE `expenseSubCategory` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `listItem` TEXT NOT NULL, `menuReference` INTEGER NOT NULL);");
+        List<SubMenuArray> menuArrays = new ArrayList<>();
+        MenuSetting.ExpenseSubMenuItem(menuArrays);
+        for(int i=0; i<menuArrays.size(); i++){
+            db.execSQL("INSERT INTO expenseSubCategory(listItem, menuReference) VALUES ('" + menuArrays.get(i).getSubMenuName() + "', " + menuArrays.get(i).getSubMenuNum() + ");");
+        }
+
+
+
         // 식비 테이블
         db.execSQL("CREATE TABLE `foodsListInExpnseCategoryTBL` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 "`listItem` TEXT NOT NULL, `menuReference` INTEGER NOT NULL);");

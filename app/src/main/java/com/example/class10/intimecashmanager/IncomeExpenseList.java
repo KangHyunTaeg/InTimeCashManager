@@ -47,12 +47,6 @@ public class IncomeExpenseList extends AppCompatActivity {
     ArrayList<Integer> subCategoryID;
     ArrayList<Integer> moneyList;
 
-    /*Integer[] imgBtnCategoryID = {R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house,
-            R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house, R.drawable.house}; // 이미지버튼의 이름 배열, 10은 임의의 숫자
-    String[] usageID = {"순대국", "짜장면", "짬뽕", "탕수육", "핸드폰요금", "쇼핑", "택시비", "버스비", "빕스", "한식부폐", "순대국", "짜장면", "짬뽕", "탕수육", "핸드폰요금", "쇼핑", "택시비", "버스비", "빕스", "한식부폐"};
-    String[] categoryID = {"외식", "외식", "외식", "외식", "통신비", "쇼핑", "교통비", "교통비", "외식", "외식", "외식", "외식", "외식", "외식", "통신비", "쇼핑", "교통비", "교통비", "외식", "외식"};
-    Integer[] moneyList = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};*/
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,27 +158,36 @@ public class IncomeExpenseList extends AppCompatActivity {
         subCategoryID = new ArrayList<>();
         moneyList = new ArrayList<>();
 
+        ArrayList<String> supCategoryName = new ArrayList<>(); // category name test
+        ArrayList<String> subCategoryName = new ArrayList<>(); // category name test
+
+        String subCategoryTBL = "foodsListInExpnseCategoryTBL"; // how to : 슈퍼 카테고리의 ID = 서브 카테고리의 menuReference인 조건의 서브 카테고리 테이블을 불러오기
+
         myDB = new DatabaseCreate(this);
         sqlDB = myDB.getReadableDatabase();
         Cursor cursor;
-        cursor = sqlDB.rawQuery("SELECT dateExpenseIncome, usage, useSupCategory, useSubCategory, sumMoney FROM expenseTBL", null); // WHERE문 추가
+        cursor = sqlDB.rawQuery("SELECT dateExpenseIncome, usage, useSupCategory, useSubCategory, sumMoney, expenseCategoryTBL.categoryMenu, " + subCategoryTBL + ".listItem FROM expenseTBL " +
+                "LEFT JOIN expenseCategoryTBL ON expenseTBL.useSupCategory =  expenseCategoryTBL.id " +
+                "LEFT JOIN " + subCategoryTBL + " ON expenseTBL.useSubCategory = " + subCategoryTBL + ".id;", null); // WHERE문 추가
         while(cursor.moveToNext()){
             imgBtnCategoryID.add(R.drawable.house);
             dateList.add(cursor.getString(0));
             usageID.add(cursor.getString(1));
-            supCategoryID.add(cursor.getInt(2));
-            subCategoryID.add(cursor.getInt(3));
+            // supCategoryID.add(cursor.getInt(2)); // category name test
+            //subCategoryID.add(cursor.getInt(3)); // category name test
+            supCategoryName.add(cursor.getString(5)); // category name test
+            subCategoryName.add(cursor.getString(6)); // category name test
             moneyList.add(cursor.getInt(4));
         }
         sqlDB.close();
         cursor.close();
 
-
         // my 리스트뷰 세팅
         listIncomeAndExpense = (ListView)findViewById(R.id.listIncomeAndExpense);
         List<ItemData> data = new ArrayList<>();
         for(int i=0; i<usageID.size(); i++){
-            data.add(new ItemData(dateList.get(i), imgBtnCategoryID.get(i), usageID.get(i), supCategoryID.get(i), subCategoryID.get(i), moneyList.get(i)));
+            // data.add(new ItemData(dateList.get(i), imgBtnCategoryID.get(i), usageID.get(i), supCategoryID.get(i), subCategoryID.get(i), moneyList.get(i))); // category name test
+            data.add(new ItemData(dateList.get(i), imgBtnCategoryID.get(i), usageID.get(i), supCategoryName.get(i), subCategoryName.get(i), moneyList.get(i)));
         }
 
         /*data = new ArrayList<>();

@@ -28,14 +28,21 @@ public class ItemData {
     private int fixedExpense; // 고정비용 여부
     private int timeValue; // 시간환산 가치
 
-    public ItemData(String dateExpenseIncome, int imgCategory, String usage, int useCategory, int useSubCategory, int sumMoney){
+    private String supCategoryName;  // category name test
+    private String subCategoryName;  // category name test
+
+    //public ItemData(String dateExpenseIncome, int imgCategory, String usage, int useCategory, int useSubCategory, int sumMoney){ // category name test
+    public ItemData(String dateExpenseIncome, int imgCategory, String usage, String supCategoryName, String subCategoryName, int sumMoney){
         this.dateExpenseIncome = dateExpenseIncome;
         this.imgCategory = imgCategory;
         this.usage = usage;
-        this.useCategory = useCategory;
-        this.useSubCategory = useSubCategory;
+        this.supCategoryName = supCategoryName;
+        this.subCategoryName = subCategoryName;
         this.sumMoney = sumMoney;
     }
+
+    public String getSupCategoryName(){return supCategoryName;}
+    public String getSubCategoryName(){return subCategoryName;}
 
     public ItemData(int imgCategory, String dateExpenseIncome, int sumMoney, String usage, String usedPlace, int paymentCheck, int acount, int card, int useCategory, String tag, int favoiteExpense, int fixedExpense, int timeValue){
         this.imgCategory = imgCategory;
