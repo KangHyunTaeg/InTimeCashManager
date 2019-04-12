@@ -26,6 +26,7 @@ public class CategoryManager extends AppCompatActivity {
 
     ArrayList<String> arrayMenuTab = new ArrayList<>();
     ArrayList<Integer> arrayMenuTabNum = new ArrayList<>();
+    int menuReferenceNum;
 
 
     @Override
@@ -53,17 +54,10 @@ public class CategoryManager extends AppCompatActivity {
             cursor.close();
 
             // 뷰 페이저 추가 - 데이터베이스 지출 소메뉴 테이블들에서 불러오기
-            /*for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
-                fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM " + dataInit.tableInExpenseCategory().get(i)
-                        + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}, 1));
-            }*/
-
             // arrayMenuTab이 "식비"이면, expenseSubCategory 테이블에서 menuReference=1인 값들을 가져와서, 해당 tab의 리스트에 뿌려준다
-
-            for(int i=0; i<arrayMenuTabNum.size(); i++){
-                fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=" + arrayMenuTabNum.get(i) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}, 1));
+            for(int i=0; i<arrayMenuTab.size(); i++){
+                fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=" + (i+1) + ";", "expenseSubCategory", 1));
             }
-
             cursor.close();
             sqlDB.close();
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 2){
@@ -77,8 +71,7 @@ public class CategoryManager extends AppCompatActivity {
 
             // 뷰 페이저 추가 - 데이터베이스 수입 소메뉴 테이블들에서 불러오기
             for(int i=0; i<dataInit.tableInIncomeCategory().size(); i++){
-                fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM " + dataInit.tableInIncomeCategory().get(i)
-                        + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInIncomeCategory().get(i), new String[]{"listItem", "menuReference"}, 2));
+                fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM incomeSubCategory WHERE menuReference=" + (i+1) + ";", "incomeSubCategory", 2));
             }
 
             cursor.close();
@@ -88,28 +81,28 @@ public class CategoryManager extends AppCompatActivity {
             arrayMenuTab.add("카드");
             arrayMenuTab.add("현금");
 
-            fragList.add(0, CategoryFragment.newInstance("SELECT listItem FROM cardListTBL;", "cardListTBL", new String[]{"listItem"}, 3));
-            fragList.add(1, CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", new String[]{"listItem"}, 4));
+            fragList.add(0, CategoryFragment.newInstance("SELECT listItem FROM cardListTBL;", "cardListTBL", 3));
+            fragList.add(1, CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", 4));
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 4){
             // 현금 관리 테이블에서 리스트 불러오기
             arrayMenuTab.add("현금");
-            fragList.add(0, CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", new String[]{"listItem"}, 4));
+            fragList.add(0, CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", 4));
         }
 
         // 커스텀프래그먼트 어댑터 객체 생성, 매개변수로 탭과 뷰페이져용 데이터 배열 받으면 반복문을 통해 탭과 뷰페이저에 매칭시킨다
-        CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), arrayMenuTab, fragList);
+        CustomFragmentPagerAdapter fragmentPagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), arrayMenuTab, fragList);
 
         // 탭레이아웃, 뷰페이저에 장착하기
         TabLayout tabs = (TabLayout)findViewById(R.id.tabsInCategoryManager);
-        if(adapter.PAGE_NUMBER > 4){
+        if(fragmentPagerAdapter.PAGE_NUMBER > 4){
             tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         } else{
             tabs.setTabGravity(TabLayout.GRAVITY_FILL);
             tabs.setTabMode(TabLayout.MODE_FIXED);
         }
 
-        final ViewPager pager = (ViewPager)findViewById(R.id.pagerInCategoryManager);
-        pager.setAdapter(adapter); // 뷰페이저에 어댑터 장착
+        ViewPager pager = (ViewPager)findViewById(R.id.pagerInCategoryManager);
+        pager.setAdapter(fragmentPagerAdapter); // 뷰페이저에 어댑터 장착
         tabs.setupWithViewPager(pager); // 탭레이아웃에 뷰페이저 연결
     }
 

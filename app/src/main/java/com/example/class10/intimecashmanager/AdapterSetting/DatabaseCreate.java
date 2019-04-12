@@ -44,9 +44,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
             db.execSQL("INSERT INTO expenseSubCategory(listItem, menuReference) VALUES ('" + menuArrays.get(i).getSubMenuName() + "', " + menuArrays.get(i).getSubMenuNum() + ");");
         }
 
-
-
-        // 식비 테이블
+        /*// 식비 테이블
         db.execSQL("CREATE TABLE `foodsListInExpnseCategoryTBL` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 "`listItem` TEXT NOT NULL, `menuReference` INTEGER NOT NULL);");
         ArrayList<String> menuItem1 = new ArrayList<>();
@@ -143,7 +141,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
         MenuSetting.depositListInExpenseMenuItem(menuItem11);
         for(int i=0; i<menuItem11.size(); i++){
             db.execSQL("INSERT INTO depositListInExpnseCategoryTBL(listItem, menuReference) VALUES ('" + menuItem11.get(i) + "', 11);");
-        }
+        }*/
 
 
 
@@ -151,16 +149,6 @@ public class DatabaseCreate extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE `incomeTBL` (`dateExpenseIncome` TEXT NOT NULL, `sumMoney` INTEGER NOT NULL,  `earnings` TEXT NOT NULL,  " +
                 "`acount` INTEGER,  `incomeSupCategory` INTEGER, `incomeSubCategory` INTEGER, `tag` TEXT,  " +
                 "`favoiteIncome` INTEGER,  `timeValue` INTEGER );");
-
-
-        // 수입 서브카테고리 테이블
-        db.execSQL("CREATE TABLE `incomeSubCategory` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `listItem` TEXT NOT NULL, `menuReference` INTEGER NOT NULL);");
-        List<SubMenuArray> menuArraysIncome = new ArrayList<>();
-        MenuSetting.incomeSubMenuItem(menuArraysIncome);
-        for(int i=0; i<menuArraysIncome.size(); i++){
-            db.execSQL("INSERT INTO incomeSubCategory(listItem, menuReference) VALUES ('" + menuArraysIncome.get(i).getSubMenuName() + "', " + menuArraysIncome.get(i).getSubMenuNum() + ");");
-        }
-
 
         // 수입분류 테이블 만들고, 컬럼에 수입타입 불러와서 인서트하기
         db.execSQL("CREATE TABLE `incomeCategoryTBL` (" +
@@ -173,7 +161,15 @@ public class DatabaseCreate extends SQLiteOpenHelper {
             db.execSQL("INSERT INTO incomeCategoryTBL (incomeType) VALUES ('" + arrayIncomeMenuTab.get(i) + "');");
         }
 
-        // 주수입 테이블
+        // 수입 서브카테고리 테이블
+        db.execSQL("CREATE TABLE `incomeSubCategory` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `listItem` TEXT NOT NULL, `menuReference` INTEGER NOT NULL);");
+        List<SubMenuArray> menuArraysIncome = new ArrayList<>();
+        MenuSetting.incomeSubMenuItem(menuArraysIncome);
+        for(int i=0; i<menuArraysIncome.size(); i++){
+            db.execSQL("INSERT INTO incomeSubCategory(listItem, menuReference) VALUES ('" + menuArraysIncome.get(i).getSubMenuName() + "', " + menuArraysIncome.get(i).getSubMenuNum() + ");");
+        }
+
+        /*// 주수입 테이블
         db.execSQL("CREATE TABLE `revenewListInincomeCategoryTBL` (`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 "`listItem` TEXT NOT NULL, `menuReference` INTEGER NOT NULL);");
         ArrayList<String> menuItemIncome = new ArrayList<>();
@@ -207,7 +203,7 @@ public class DatabaseCreate extends SQLiteOpenHelper {
         MenuSetting.depositListInIncomeMenuItem(menuItemIncome4);
         for(int i=0; i<menuItemIncome4.size(); i++){
             db.execSQL("INSERT INTO depositListInincomeCategoryTBL(listItem, menuReference) VALUES ('" + menuItemIncome4.get(i) + "', 4);");
-        }
+        }*/
 
         // 카드/현금 테이블
 
@@ -245,8 +241,10 @@ public class DatabaseCreate extends SQLiteOpenHelper {
     }
 
     // 데이터 검색
-    public static void selectDB(String sqlSelectSentence, DatabaseCreate myDB, ArrayList<String> arrayList){
+    public static void selectSingleDB(String sqlSelectSentence, DatabaseCreate myDB, ArrayList<String> arrayList){
+        SQLiteDatabase sqlDB;
         Cursor cursor;
+
         sqlDB = myDB.getReadableDatabase();
         cursor = sqlDB.rawQuery(sqlSelectSentence, null);
         while(cursor.moveToNext()){

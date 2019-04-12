@@ -114,11 +114,9 @@ public class DialogLoad {
 
     }
 
-    public static void DialogAddMenu(final Context context, final String table, final String[] columns, final ArrayList<String> arrayList){
+    public static void DialogAddMenu(final Context context, final String table, final int menuReferenceNum, final ArrayList<String> arrayList){
         dialogView[0] = (View)View.inflate(context, R.layout.dialog_add_menu, null);
         final EditText edtAddMenu = (EditText)dialogView[0].findViewById(R.id.edtAddMenu);
-        myDB = new DatabaseCreate(context);
-        sqlDB = myDB.getWritableDatabase();
 
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);
         dlg.setTitle("# 항목 추가");
@@ -126,15 +124,14 @@ public class DialogLoad {
         dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                myDB = new DatabaseCreate(context);
+                sqlDB = myDB.getWritableDatabase();
                 String menuData = edtAddMenu.getText().toString();
                 try{
                     if(menuData != null){
-                        sqlDB.execSQL("INSERT INTO " + table + "(" + columns[0] + ", " + columns[1] + ") VALUES ('" + menuData + "', 1);");
+                        sqlDB.execSQL("INSERT INTO " + table + " (listItem, menuReference) VALUES ('" + menuData + "', " + menuReferenceNum + ");");
                     }
                     edtAddMenu.setText("");
-                    DatabaseCreate.selectDB("SELECT " + columns[0] + " FROM " + table + " WHERE " + columns[0] + "='" + menuData + "';", myDB, arrayList);
-
-                    sqlDB.close();
 
                 } catch(SQLiteException e){
                     Toast.makeText(context, "중복되지 않은 항목으로 다시 입력하세요", Toast.LENGTH_SHORT).show();

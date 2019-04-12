@@ -93,7 +93,7 @@ public class MenuSetting {
         menuArrays.add(new SubMenuArray("기타", 11));
     }
 
-    public static void foodsListInExpenseMenuItem(ArrayList<String>  arrayList){
+    /*public static void foodsListInExpenseMenuItem(ArrayList<String>  arrayList){
         arrayList.add("주식");
         arrayList.add("부식");
         arrayList.add("간식");
@@ -177,7 +177,7 @@ public class MenuSetting {
         arrayList.add("보험");
         arrayList.add("투자");
         arrayList.add("기타");
-    }
+    }*/
 
 
     public static void incomeMenuItem(ArrayList<String> tabArray){
@@ -208,7 +208,7 @@ public class MenuSetting {
         menuArraysIncome.add(new SubMenuArray("기타", 4));
     }
 
-    public static void revenueListInIncomeMenuItem(ArrayList<String> tabArray){
+    /*public static void revenueListInIncomeMenuItem(ArrayList<String> tabArray){
         tabArray.add("급여");
         tabArray.add("상여");
         tabArray.add("사업소득");
@@ -235,7 +235,7 @@ public class MenuSetting {
         tabArray.add("보험");
         tabArray.add("투자");
         tabArray.add("기타");
-    }
+    }*/
 
 
 }
