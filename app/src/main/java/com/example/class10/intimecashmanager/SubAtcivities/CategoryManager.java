@@ -23,10 +23,9 @@ public class CategoryManager extends AppCompatActivity {
 
     DatabaseCreate myDB;
     SQLiteDatabase sqlDB;
-    Cursor cursor;
+
     ArrayList<String> arrayMenuTab = new ArrayList<>();
     ArrayList<Integer> arrayMenuTabNum = new ArrayList<>();
-    String sqlSelectSentence;
 
 
     @Override
@@ -43,14 +42,15 @@ public class CategoryManager extends AppCompatActivity {
         List<Fragment> fragList = new ArrayList<>();
 
         Intent inIntent = getIntent();
-        // "CHECK_INT"에 담아서 받은 값이 1이면, 지출 테이블 불러오는 sql문을 담고, 2면, 수입 테이블을 불러오는 sql문을 담는다
+        // "CHECK_INT"에 담아서 받은 값이 1이면, 지출 테이블 불러오는 sql문을 담고, 2면, 수입 테이블을 불러오는 sql문을 담는다, 3,4번은 출금계좌/입금계좌 부분에서 처리할 프로세스
         if(inIntent.getIntExtra("CHECK_INT", 1) == 1){
-            sqlSelectSentence = "SELECT id, categoryMenu FROM expenseCategoryTBL;"; // 메뉴탭에 지출 분류 이름 담기위한 sql문
-            cursor = sqlDB.rawQuery(sqlSelectSentence, null);
+            Cursor cursor;
+            cursor = sqlDB.rawQuery("SELECT id, categoryMenu FROM expenseCategoryTBL;", null); // 메뉴탭에 지출 분류 이름 담기위한 sql문
             while(cursor.moveToNext()){
-                arrayMenuTabNum.add(cursor.getInt(0));
-                arrayMenuTab.add(cursor.getString(1));
+                arrayMenuTabNum.add(cursor.getInt(0)); // 아이디 1... // 식비에 해당되는 테이블을 불러오려면, expenseCategoryTBL의 아이디와 expenseSubCategory의 menuReference를 일치시키면 되겠지?
+                arrayMenuTab.add(cursor.getString(1)); // 메뉴 "식비"... // 이 String 배열이 tabLayout에 담길 이름
             }
+            cursor.close();
 
             // 뷰 페이저 추가 - 데이터베이스 지출 소메뉴 테이블들에서 불러오기
             /*for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
@@ -60,24 +60,27 @@ public class CategoryManager extends AppCompatActivity {
 
             // arrayMenuTab이 "식비"이면, expenseSubCategory 테이블에서 menuReference=1인 값들을 가져와서, 해당 tab의 리스트에 뿌려준다
 
-            for(int i=0; i<dataInit.tableInExpenseCategory().size(); i++){
+            for(int i=0; i<arrayMenuTabNum.size(); i++){
                 fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=" + arrayMenuTabNum.get(i) + ";", dataInit.tableInExpenseCategory().get(i), new String[]{"listItem", "menuReference"}, 1));
             }
 
             cursor.close();
             sqlDB.close();
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 2){
-            sqlSelectSentence = "SELECT incomeType FROM incomeCategoryTBL;"; // 메뉴탭에 수입 분류 이름 담기위한 sql문
-            cursor = sqlDB.rawQuery(sqlSelectSentence, null);
+            Cursor cursor;
+            cursor = sqlDB.rawQuery("SELECT id, incomeType FROM incomeCategoryTBL;", null); // 메뉴탭에 수입 분류 이름 담기위한 sql문
             while(cursor.moveToNext()){
-                arrayMenuTab.add(cursor.getString(0));
+                arrayMenuTabNum.add(cursor.getInt(0));
+                arrayMenuTab.add(cursor.getString(1));
             }
+
 
             // 뷰 페이저 추가 - 데이터베이스 수입 소메뉴 테이블들에서 불러오기
             for(int i=0; i<dataInit.tableInIncomeCategory().size(); i++){
                 fragList.add(i, CategoryFragment.newInstance("SELECT listItem FROM " + dataInit.tableInIncomeCategory().get(i)
                         + " WHERE menuReference=" + (i+1) + ";", dataInit.tableInIncomeCategory().get(i), new String[]{"listItem", "menuReference"}, 2));
             }
+
             cursor.close();
             sqlDB.close();
         } else if(inIntent.getIntExtra("CHECK_INT", 1) == 3){

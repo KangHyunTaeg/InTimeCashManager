@@ -2,6 +2,8 @@ package com.example.class10.intimecashmanager.CategoryExpenseFragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -29,6 +31,7 @@ public class CategoryFragment extends Fragment {
 
 
     public static DatabaseCreate myDB;
+
     public static ArrayAdapter<String> adapter;
     ListView listViewCategory;
     Button btnAddItem;
@@ -76,14 +79,24 @@ public class CategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_category, container, false);
         listViewCategory = (ListView)view.findViewById(R.id.listViewCategory);
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, arrayList); // 정보를 아답터에 담아서 리스트뷰에 장착시킨다
-        listViewCategory.setAdapter(adapter);
+
 
         // 어뎁터에 담을 데이터 배열 (데이터베이스에서 불러오기)
         myDB = new DatabaseCreate(getContext());
         arrayList.removeAll(arrayList); // 먼저 배열에 뿌리기 전에 배열을 비워준다
         if(adapter.isEmpty()){
-            DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList); // myDB로 생성된 DB에서 sqlSelectSentence을 통해 테이블 데이터를 읽고, 그것을 arrayList<String> 배열에 담기
+            // DatabaseCreate.selectDB(sqlSelectSentence, myDB, arrayList); // myDB로 생성된 DB에서 sqlSelectSentence을 통해 테이블 데이터를 읽고, 그것을 arrayList<String> 배열에 담기
+            SQLiteDatabase sqlDB;
+            Cursor cursor;
+            sqlDB = myDB.getReadableDatabase();
+            cursor = sqlDB.rawQuery(sqlSelectSentence, null);
+            while(cursor.moveToNext()){
+                arrayList.add(cursor.getString(0));
+            }
+            sqlDB.close();
+            cursor.close();
         }
+        listViewCategory.setAdapter(adapter);
         adapter.notifyDataSetChanged(); // 어뎁터 새로고침 (리스트뷰에 값변화를 실시간으로 반영)
 
 
