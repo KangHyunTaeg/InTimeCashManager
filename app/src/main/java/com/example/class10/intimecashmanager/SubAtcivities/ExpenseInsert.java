@@ -1,7 +1,6 @@
 package com.example.class10.intimecashmanager.SubAtcivities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,12 +14,10 @@ import android.widget.Toast;
 
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
-import com.example.class10.intimecashmanager.AdapterSetting.ItemData;
+import com.example.class10.intimecashmanager.IncomeExpenseList;
 import com.example.class10.intimecashmanager.R;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 // import static com.example.class10.intimecashmanager.AdapterSetting.DialogLoad.DialogSearchCategory;
 
@@ -45,7 +42,7 @@ public class ExpenseInsert extends AppCompatActivity {
     static int sumMoney = 0; // 금액
     static String usage = null; // 사용내역
     static String usedPlace = null; // 사용처
-    static int paymentCheck = 0; // 지불방법
+    static int paymentCheck = 0; // 지불방법, 1 = 카드, 2 = 현금
     static int acount = 0; // 현금지불시 현금계좌
     static int card = 0; // 카드지불시 사용카드
     static int useSupCategory = 0; // 대분류
@@ -54,6 +51,8 @@ public class ExpenseInsert extends AppCompatActivity {
     static int favoiteExpense = 0; // 자주쓰는 내역 여부
     static int installmentExpense = 0; // 고정비용 여부
     static int timeValue = 0; // 시간환산 가치
+
+    final int EXEPENCE_CODE = 1, INCOME_CODE = 2, CARD_CODE = 3, ACCOUNT_CODE = 4;
 
 
     String weekdayString =""; // 요일 문자열을 담을 변수
@@ -213,7 +212,24 @@ public class ExpenseInsert extends AppCompatActivity {
                             "VALUES ('" + dateExpenseIncome + "', " + sumMoney + ", '" + usage + "', '" + usedPlace + "', " + paymentCheck + ", " + acount + ", " + card + ", " + useSupCategory + ", " + useSubCategory + ", '" + tag + "', " + favoiteExpense + ", " + installmentExpense + ", " + timeValue + ");");
                     sqlDB.close();
 
+                    // 변수 초기화
+                    dateExpenseIncome = null; // 날짜
+                    sumMoney = 0; // 금액
+                    usage = null; // 사용내역
+                    usedPlace = null; // 사용처
+                    paymentCheck = 0; // 지불방법
+                    acount = 0; // 현금지불시 현금계좌
+                    card = 0; // 카드지불시 사용카드
+                    useSupCategory = 0; // 대분류
+                    useSubCategory = 0; // 소분류
+                    tag = null; // 태그
+                    favoiteExpense = 0; // 자주쓰는 내역 여부
+                    installmentExpense = 0; // 고정비용 여부
+                    timeValue = 0; // 시간환산 가치
+
                     Toast.makeText(ExpenseInsert.this, "입력 내용이 저장되었습니다", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.IncomeExpenseList.class);
+                    startActivity(intent);
                     finish();
                 } catch (Exception e){
                     Toast.makeText(ExpenseInsert.this, "금액과 사용내역은 꼭 입력하셔야 합니다.", Toast.LENGTH_SHORT).show();
@@ -229,50 +245,28 @@ public class ExpenseInsert extends AppCompatActivity {
         if(requestCode == 101 && resultCode == RESULT_OK){
             // 지출 카테고리 프레그먼트로 보냈다가 다시 받은 데이터를 처리
             Bundle bundle = data.getExtras();
-            String menuName = bundle.getString("menuName");
-            String selectedItem = bundle.getString("selectedItem");
+
+            int supMenuNameID = bundle.getInt("supMenuNameID");
+            String supMenuName = bundle.getString("supMenuName");
+            int subMenuNameID = bundle.getInt("subMenuNameID");
+            String subMenuName = bundle.getString("subMenuName");
             int checkNum = bundle.getInt("checkNum");
 
-            sqlDB = myDB.getReadableDatabase();
-            Cursor cursor;
+            if(checkNum == EXEPENCE_CODE){
+                btnCategoryCheck.setText(supMenuName + " > " + subMenuName);
 
-            String tableNameInSuper = "expenseCategoryTBL"; // incomeCategoryTBL,
-            String columnNameInSuper = "categoryMenu"; // incomeType,
+                useSupCategory = supMenuNameID;
+                useSubCategory = subMenuNameID;
+            } if(checkNum == CARD_CODE){
+                btnAcountOrCard.setText(supMenuName + " > " + subMenuName);
 
-            if(checkNum == 1){
-                btnCategoryCheck.setText(menuName + " > " + selectedItem);
+                paymentCheck = supMenuNameID;
+                card = subMenuNameID;
+            } if(checkNum == ACCOUNT_CODE){
+                btnAcountOrCard.setText(supMenuName + " > " + subMenuName);
 
-                cursor = sqlDB.rawQuery("SELECT id FROM " + tableNameInSuper + " WHERE " + columnNameInSuper + " = '" + menuName + "';", null);
-                cursor.moveToFirst();
-                useSupCategory = cursor.getInt(0); // useSupCategory 대메뉴의 ID를 담는다
-                cursor.close();
-
-                cursor = sqlDB.rawQuery("SELECT id FROM expenseSubCategory WHERE  menuReference = " + useSupCategory + ";", null);
-
-                cursor.moveToFirst();
-                useSubCategory = cursor.getInt(0); // useSubCategory 소범주의 id를 담는다, 출력할 때 menuReference에 해당하는 대메뉴 이름과 (인덱스가 같은) 함께 불러온다
-                cursor.close();
-                sqlDB.close();
-            }
-            if(checkNum == 3){
-                btnAcountOrCard.setText(menuName + " > " + selectedItem);
-                paymentCheck = 2;
-
-                cursor = sqlDB.rawQuery("SELECT id FROM cardListTBL WHERE listItem = '" + selectedItem + "';", null);
-                cursor.moveToFirst();
-                card = cursor.getInt(0); // 선택한 카드에 해당하는 ID를 담기, cardListTBL에서 찾아
-                cursor.close();
-                sqlDB.close();
-            }
-            if(checkNum == 4){
-                btnAcountOrCard.setText(menuName + " > " + selectedItem);
-                paymentCheck = 1;
-
-                cursor = sqlDB.rawQuery("SELECT id FROM acountListTBL WHERE listItem = '" + selectedItem + "';", null);
-                cursor.moveToFirst();
-                acount = cursor.getInt(0); // 선택한 현금계좌에 해당하는 ID를 담기, acountListTBL에서 찾아
-                cursor.close();
-                sqlDB.close();
+                paymentCheck = supMenuNameID;
+                acount = subMenuNameID;
             }
         }
     }

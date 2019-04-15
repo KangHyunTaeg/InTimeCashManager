@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IncomeExpenseList extends AppCompatActivity {
+    public static Context context;
+
     DatabaseCreate myDB;
     SQLiteDatabase sqlDB;
 
@@ -52,6 +54,8 @@ public class IncomeExpenseList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_income_expense_list);
+
+        context = this;
 
         btnCalendar = (Button)findViewById(R.id.btnCalendar);
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
@@ -161,7 +165,7 @@ public class IncomeExpenseList extends AppCompatActivity {
         ArrayList<String> supCategoryName = new ArrayList<>(); // category name test
         ArrayList<String> subCategoryName = new ArrayList<>(); // category name test
 
-        String subCategoryTBL = "foodsListInExpnseCategoryTBL"; // how to : 슈퍼 카테고리의 ID = 서브 카테고리의 menuReference인 조건의 서브 카테고리 테이블을 불러오기
+        String subCategoryTBL = "expenseSubCategory"; // how to : 슈퍼 카테고리의 ID = 서브 카테고리의 menuReference인 조건의 서브 카테고리 테이블을 불러오기
 
         myDB = new DatabaseCreate(this);
         sqlDB = myDB.getReadableDatabase();
@@ -173,11 +177,12 @@ public class IncomeExpenseList extends AppCompatActivity {
             imgBtnCategoryID.add(R.drawable.house);
             dateList.add(cursor.getString(0));
             usageID.add(cursor.getString(1));
-            // supCategoryID.add(cursor.getInt(2)); // category name test
-            //subCategoryID.add(cursor.getInt(3)); // category name test
+            supCategoryID.add(cursor.getInt(2)); // category name test
+            subCategoryID.add(cursor.getInt(3)); // category name test
+            moneyList.add(cursor.getInt(4));
             supCategoryName.add(cursor.getString(5)); // category name test
             subCategoryName.add(cursor.getString(6)); // category name test
-            moneyList.add(cursor.getInt(4));
+
         }
         sqlDB.close();
         cursor.close();
@@ -195,8 +200,8 @@ public class IncomeExpenseList extends AppCompatActivity {
 
         adapter = new ListViewAdapter(this, data);
         listIncomeAndExpense.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
-
 
     public void colorSetting(){
         btnCalendar.setBackgroundColor(Color.parseColor("#eeeeee"));

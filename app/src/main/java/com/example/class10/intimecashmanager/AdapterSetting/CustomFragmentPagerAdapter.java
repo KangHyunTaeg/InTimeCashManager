@@ -4,14 +4,83 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.class10.intimecashmanager.CategoryExpenseFragment.CategoryFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticBudgetFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCardFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCategoryFragment;
+import com.example.class10.intimecashmanager.StatisticsFragment.StatisticGoalFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // 탭과 탭에 대응되는 뷰페이저에 프래그먼트를 인플레이트 시키는 클래스 (동일 목적 공용 기능)
-public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
+public class CustomFragmentPagerAdapter extends FragmentStatePagerAdapter {
+    private  int tabCount;
+    int checkNum; // 인자로 받은 checkNum을 변수에 저장 - 1이면 지출 서브카테고리에서, 2면, 수입 서브카테고리에서, 3,4면 카드,현금 리스트에서 불러온 데이터를 리스트뷰에 인플레이트시킴
+
+    public CustomFragmentPagerAdapter(FragmentManager fm, int tabCount, int checkNum) {
+        super(fm);
+        this.tabCount = tabCount;
+        this.checkNum = checkNum;
+    }
+
+
+    @Override
+    public Fragment getItem(int position) {
+        if(checkNum == 1){
+            for(int i=0; i<tabCount; i++){
+                if(position == i){
+                    return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=" + (i+1) + ";", "expenseSubCategory", 1);
+                }
+            }
+        } else if(checkNum == 2){
+            for(int i=0; i<tabCount; i++){
+                if(position == i){
+                    return CategoryFragment.newInstance("SELECT listItem FROM incomeSubCategory WHERE menuReference=" + (i+1) + ";", "incomeSubCategory", 2);
+                }
+            }
+        } else if(checkNum == 3){
+            switch (position){
+                case 0:
+                    return CategoryFragment.newInstance("SELECT listItem FROM cardListTBL;", "cardListTBL", 3);
+                case 1:
+                    return CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", 4);
+            }
+        } else if(checkNum == 4){
+            switch (position){
+                case 0:
+                    return CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", 4);
+            }
+        } else if(checkNum == 5){
+            switch (position){
+                case 0:
+                    return StatisticCategoryFragment.newInstance();
+                case 1:
+                    return StatisticCardFragment.newInstance();
+                case 2:
+                    return StatisticBudgetFragment.newInstance();
+                case 3:
+                    return StatisticGoalFragment.newInstance();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public int getCount() {
+        return tabCount;
+    }
+}
+
+
+
+// 이전 코드
+/*
+// 탭과 탭에 대응되는 뷰페이저에 프래그먼트를 인플레이트 시키는 클래스 (동일 목적 공용 기능)
+public class CustomFragmentPagerAdapter extends FragmentStatePagerAdapter {
     public  static int PAGE_NUMBER;
     ArrayList<String> tabArray; // TabLayout에 담을 데이터 배열 (String)
     List<Fragment> fragList; // ViewPager에 inflate시킬 데이터 배열
@@ -45,21 +114,6 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
             }
         }
         return null;
-        /*switch (position){
-            case 0: return tabArray.get(0);
-            case 1: return tabArray.get(1);
-            case 2: return tabArray.get(2);
-            case 3: return tabArray.get(3);
-            case 4: return tabArray.get(4);
-            case 5: return tabArray.get(5);
-            case 6: return tabArray.get(6);
-            case 7: return tabArray.get(7);
-            case 8: return tabArray.get(8);
-            case 9: return tabArray.get(9);
-            case 10: return tabArray.get(10);
-            default: return null;
-        }*/
-
     }
 
     @Override
@@ -71,23 +125,10 @@ public class CustomFragmentPagerAdapter extends FragmentPagerAdapter {
             }
         }
         return null;
-        /*switch (position){
-            case 0: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=1;", "expenseSubCategory", new String[]{"foodsList", "menuReference"}, 1);
-            case 1: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=2;", "expenseSubCategory", new String[]{"homeList", "menuReference"}, 1);
-            case 2: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=3;", "expenseSubCategory", new String[]{"livingList", "menuReference"},1);
-            case 3: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=4;", "expenseSubCategory", new String[]{"beautyList", "menuReference"}, 1);
-            case 4: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=5;", "expenseSubCategory", new String[]{"healthList", "menuReference"}, 1);
-            case 5: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=6;",  "expenseSubCategory", new String[]{"educationList", "menuReference"},1);
-            case 6: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=7;", "expenseSubCategory", new String[]{"trafficList", "menuReference"},1);
-            case 7: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=8;", "expenseSubCategory", new String[]{"eventList", "menuReference"},1);
-            case 8: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=9;", "expenseSubCategory", new String[]{"taxList", "menuReference"},1);
-            case 9: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=10;", "expenseSubCategory", new String[]{"etcList", "menuReference"},1);
-            case 10: return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=11;", "expenseSubCategory", new String[]{"depositList", "menuReference"},1);
-            default: return null;}*/
     }
 
     @Override
     public int getCount() {
         return PAGE_NUMBER;
     }
-}
+}*/

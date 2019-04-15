@@ -1,11 +1,10 @@
 package com.example.class10.intimecashmanager.SubAtcivities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
 import com.example.class10.intimecashmanager.R;
-import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.Calendar;
 
@@ -44,6 +42,8 @@ public class IncomeInsert extends AppCompatActivity {
     static String tag = null; // 태그
     static int favoiteIncome = 0; // 자주쓰는 내역 여부
     static int timeValue = 0; // 시간환산 가치
+
+    final int EXEPENCE_CODE = 1, INCOME_CODE = 2, CARD_CODE = 3, ACCOUNT_CODE = 4;
 
 
     String weekdayString =""; // 요일 문자열을 담을 변수
@@ -165,7 +165,20 @@ public class IncomeInsert extends AppCompatActivity {
                             "VALUES ('" + dateExpenseIncome + "', " + sumMoney + ", '" + earnings + "', " + acount + ", " + incomeSupCategory + ", " + incomeSubCategory + ", '" + tag + "', " + favoiteIncome + ", " + timeValue + ");");
                     sqlDB.close();
 
+                    // 변수 초기화
+                    dateExpenseIncome = null; // 날짜
+                    sumMoney = 0; // 금액
+                    earnings = null; // 수입내역
+                    acount = 0; // 입금된 현금계좌
+                    incomeSupCategory = 0; // 대분류
+                    incomeSubCategory = 0; // 소분류
+                    tag = null; // 태그
+                    favoiteIncome = 0; // 자주쓰는 내역 여부
+                    timeValue = 0; // 시간환산 가치
+
                     Toast.makeText(IncomeInsert.this, "입력 내용이 저장되었습니다", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), com.example.class10.intimecashmanager.IncomeExpenseList.class);
+                    startActivity(intent);
                     finish();
                 } catch (Exception e){
                     if(sumMoney == 0){
@@ -183,47 +196,28 @@ public class IncomeInsert extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 101 && resultCode == RESULT_OK){
-            // 지출 카테고리 프레그먼트로 보냈다가 다시 받은 데이터를 처리
-            Bundle bundle = data.getExtras();
-            String menuName = bundle.getString("menuName");
-            String categoryID = bundle.getString("categoryID");
-            int checkNum = bundle.getInt("checkNum");
+        if (requestCode == 101 && resultCode == RESULT_OK) {
+            if (requestCode == 101 && resultCode == RESULT_OK) {
+                // 지출 카테고리 프레그먼트로 보냈다가 다시 받은 데이터를 처리
+                Bundle bundle = data.getExtras();
 
-            sqlDB = myDB.getReadableDatabase();
-            Cursor cursor;
+                int supMenuNameID = bundle.getInt("supMenuNameID");
+                String supMenuName = bundle.getString("supMenuName");
+                int subMenuNameID = bundle.getInt("subMenuNameID");
+                String subMenuName = bundle.getString("subMenuName");
+                int checkNum = bundle.getInt("checkNum");
 
-            String tableNameInSuper = "incomeCategoryTBL";
-            String columnNameInSuper = "incomeType";
+                if (checkNum == INCOME_CODE) {
+                    btnIncomeCategoryType.setText(supMenuName + " > " + subMenuName);
 
-            if(checkNum == 2){
-                btnIncomeCategoryType.setText(menuName + " > " + categoryID);
-
-                cursor = sqlDB.rawQuery("SELECT id FROM " + tableNameInSuper + " WHERE " + columnNameInSuper + " = '" + menuName + "';", null);
-                cursor.moveToFirst();
-                incomeSupCategory = cursor.getInt(0); // useSupCategory 대메뉴의 ID를 담는다
-
-                String tableName = null;
-                switch (menuName) {
-                    case "주수입": tableName = "revenewListInincomeCategoryTBL"; break;
-                    case "부수입": tableName = "extraIncomeListInincomeCategoryTBL"; break;
-                    case "전월이월": tableName = "previousMonthListInincomeCategoryTBL"; break;
-                    case "저축, 보험(수입)": tableName = "depositListInincomeCategoryTBL"; break; // 수입관련 테이블은 수입입력 페이지에서 적용
+                    incomeSupCategory = supMenuNameID;
+                    incomeSubCategory = subMenuNameID;
                 }
-                cursor = sqlDB.rawQuery("SELECT id FROM " + tableName + " WHERE listItem = '" + categoryID + "';", null);
-                cursor.moveToFirst();
-                incomeSubCategory = cursor.getInt(0); // useSubCategory 소범주의 id를 담는다, 출력할 때 menuReference에 해당하는 대메뉴 이름과 (인덱스가 같은) 함께 불러온다
-                cursor.close();
-                sqlDB.close();
-            }
-            if(checkNum == 4){
-                btnAcountTypeInIncome.setText(menuName + " > " + categoryID);
+                if (checkNum == ACCOUNT_CODE) {
+                    btnAcountTypeInIncome.setText(supMenuName + " > " + subMenuName);
 
-                cursor = sqlDB.rawQuery("SELECT id FROM acountListTBL WHERE listItem = '" + categoryID + "';", null);
-                cursor.moveToFirst();
-                acount = cursor.getInt(0); // 선택한 현금계좌에 해당하는 ID를 담기, acountListTBL에서 찾아
-                cursor.close();
-                sqlDB.close();
+                    acount = subMenuNameID;
+                }
             }
         }
     }

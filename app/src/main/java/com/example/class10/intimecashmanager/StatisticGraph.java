@@ -23,13 +23,16 @@ import java.util.List;
 public class StatisticGraph extends AppCompatActivity {
     Button btnCalendar, btnInOutList, btnStatistic, btnSetting, btnAddMoney;
 
+    int checkNum = 5;
+    ArrayList<String> arrayTabName;
+    TabLayout tabs;
+    ViewPager pager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic_graph);
-
-
 
         btnCalendar = (Button)findViewById(R.id.btnCalendar);
         btnInOutList = (Button)findViewById(R.id.btnInOutList);
@@ -84,30 +87,40 @@ public class StatisticGraph extends AppCompatActivity {
         });
 
         // 프레그먼트어뎁터
-        ArrayList<String> tabArray = new ArrayList<>();
-        tabArray.add("분류별");
-        tabArray.add("카드별");
-        tabArray.add("예산비교");
-        tabArray.add("목표현황");
+        arrayTabName = new ArrayList<>();
 
-        List<Fragment> fragList = new ArrayList<>();
-        fragList.add(StatisticCategoryFragment.newInstance());
-        fragList.add(StatisticCardFragment.newInstance());
-        fragList.add(StatisticBudgetFragment.newInstance());
-        fragList.add(StatisticGoalFragment.newInstance());
+        tabs = (TabLayout)findViewById(R.id.tabs);
+        arrayTabName.add("분류별");
+        arrayTabName.add("카드별");
+        arrayTabName.add("예산비교");
+        arrayTabName.add("목표현황");
 
-        CustomFragmentPagerAdapter adapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabArray, fragList);
-        TabLayout tabs = (TabLayout)findViewById(R.id.tabs);
-        ViewPager pager = (ViewPager)findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-        tabs.setupWithViewPager(pager);
+        // arrayTabName 배열의 원소를 차례대로 탭에 뿌려준다
+        for(int i=0; i<arrayTabName.size(); i++){
+            tabs.addTab(tabs.newTab().setText(arrayTabName.get(i)));
+        }
 
+        pager = (ViewPager)findViewById(R.id.pager);
+        CustomFragmentPagerAdapter customFragmentPagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), arrayTabName.size(), checkNum);
+        pager.setAdapter(customFragmentPagerAdapter);
 
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager.setCurrentItem(tab.getPosition());
+            }
 
-//        tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
-//        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
+            }
 
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     public void colorSetting(){
