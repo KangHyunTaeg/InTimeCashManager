@@ -17,6 +17,7 @@ import java.util.List;
 
 // 탭과 탭에 대응되는 뷰페이저에 프래그먼트를 인플레이트 시키는 클래스 (동일 목적 공용 기능)
 public class CustomFragmentPagerAdapter extends FragmentStatePagerAdapter {
+    final int EXEPENCE_CODE = 1, INCOME_CODE = 2, CARD_CODE = 3, ACCOUNT_CODE = 4, STATISTICS_CODE = 5;
     private  int tabCount;
     int checkNum; // 인자로 받은 checkNum을 변수에 저장 - 1이면 지출 서브카테고리에서, 2면, 수입 서브카테고리에서, 3,4면 카드,현금 리스트에서 불러온 데이터를 리스트뷰에 인플레이트시킴
 
@@ -29,31 +30,31 @@ public class CustomFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if(checkNum == 1){
+        if(checkNum == EXEPENCE_CODE){
             for(int i=0; i<tabCount; i++){
                 if(position == i){
                     return CategoryFragment.newInstance("SELECT listItem FROM expenseSubCategory WHERE menuReference=" + (i+1) + ";", "expenseSubCategory", 1);
                 }
             }
-        } else if(checkNum == 2){
+        } else if(checkNum == INCOME_CODE){
             for(int i=0; i<tabCount; i++){
                 if(position == i){
                     return CategoryFragment.newInstance("SELECT listItem FROM incomeSubCategory WHERE menuReference=" + (i+1) + ";", "incomeSubCategory", 2);
                 }
             }
-        } else if(checkNum == 3){
+        } else if(checkNum == CARD_CODE){
             switch (position){
                 case 0:
                     return CategoryFragment.newInstance("SELECT listItem FROM cardListTBL;", "cardListTBL", 3);
                 case 1:
                     return CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", 4);
             }
-        } else if(checkNum == 4){
+        } else if(checkNum == ACCOUNT_CODE){
             switch (position){
                 case 0:
                     return CategoryFragment.newInstance("SELECT listItem FROM acountListTBL;", "acountListTBL", 4);
             }
-        } else if(checkNum == 5){
+        } else if(checkNum == STATISTICS_CODE){
             switch (position){
                 case 0:
                     return StatisticCategoryFragment.newInstance();

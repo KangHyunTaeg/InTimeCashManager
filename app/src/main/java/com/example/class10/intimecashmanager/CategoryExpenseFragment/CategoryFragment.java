@@ -1,48 +1,47 @@
 package com.example.class10.intimecashmanager.CategoryExpenseFragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.class10.intimecashmanager.AdapterSetting.DataInit;
 import com.example.class10.intimecashmanager.AdapterSetting.DatabaseCreate;
 import com.example.class10.intimecashmanager.AdapterSetting.DialogLoad;
-import com.example.class10.intimecashmanager.AdapterSetting.MenuSetting;
 import com.example.class10.intimecashmanager.R;
+import com.example.class10.intimecashmanager.SubAtcivities.CategoryManager;
 import com.example.class10.intimecashmanager.SubAtcivities.ExpenseInsert;
 
 import java.util.ArrayList;
 
 // CategoryManager의 ViewPager에 inflate시킬 fragment
 public class CategoryFragment extends Fragment {
+
+    Button btnAddItem;
+    TextView tvButtonMessage;
+
     String sqlSelectSentence;
     String table;
     int checkNum;
+    final int EXEPENCE_CODE = 1, INCOME_CODE = 2, CARD_CODE = 3, ACCOUNT_CODE = 4;
 
     DatabaseCreate myDB;
-    ArrayList<String> itemList = new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
+    public ArrayList<String> itemList = new ArrayList<>();
+    public ArrayAdapter<String> arrayAdapter;
     ListView listView;
 
     String selectedItem; // 리스트뷰에서 선택한 아이템 값을 담는 변수
+    int tabPosition; // 현재 선택된 탭이 몇 번째인지를 담는 변수
 
     ArrayList<String> supMenuNameList = new ArrayList<>(); // 대메뉴 이름 구할 배열
     String supMenuName; // 대메뉴 이름
@@ -69,6 +68,7 @@ public class CategoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(getArguments() != null){
             sqlSelectSentence = getArguments().getString("ARGs_sqlSelectSentence");
             table = getArguments().getString("ARGs_table");
@@ -99,7 +99,7 @@ public class CategoryFragment extends Fragment {
                 Cursor cursor;
 
                 switch (checkNum){
-                    case 1: // 지출일 때,
+                    case EXEPENCE_CODE: // 지출일 때,
                         sqlDB = myDB.getReadableDatabase();
                         cursor = sqlDB.rawQuery("SELECT expenseCategoryTBL.id, expenseCategoryTBL.categoryMenu, expenseSubCategory.id, expenseSubCategory.listItem FROM expenseCategoryTBL " +
                                 "LEFT JOIN expenseSubCategory ON expenseCategoryTBL.id = expenseSubCategory.menuReference WHERE expenseSubCategory.listItem = '" + selectedItem +"';", null);
@@ -116,7 +116,7 @@ public class CategoryFragment extends Fragment {
                         subMenuNameID = subMenuNameListID.get(0);
                         subMenuName = subMenuNameList.get(0);
                         break;
-                    case 2: // 수입일 때,
+                    case INCOME_CODE: // 수입일 때,
                         sqlDB = myDB.getReadableDatabase();
                         cursor = sqlDB.rawQuery("SELECT incomeCategoryTBL.id, incomeCategoryTBL.incomeType, incomeSubCategory.id, incomeSubCategory.listItem FROM incomeCategoryTBL " +
                                 "LEFT JOIN incomeSubCategory ON incomeCategoryTBL.id = incomeSubCategory.menuReference WHERE incomeSubCategory.listItem = '" + selectedItem +"';", null);
@@ -133,7 +133,7 @@ public class CategoryFragment extends Fragment {
                         subMenuNameID = subMenuNameListID.get(0);
                         subMenuName = subMenuNameList.get(0);
                         break;
-                    case 3: // 카드일 때,
+                    case CARD_CODE: // 카드일 때,
                         sqlDB = myDB.getReadableDatabase();
                         cursor = sqlDB.rawQuery("SELECT id FROM cardListTBL WHERE listItem = '" + selectedItem +"';", null);
                         while(cursor.moveToNext()){
@@ -146,7 +146,7 @@ public class CategoryFragment extends Fragment {
                         subMenuNameID = subMenuNameListID.get(0);
                         subMenuName = selectedItem;
                         break;
-                    case 4: // 현금일 때,
+                    case ACCOUNT_CODE: // 현금일 때,
                         sqlDB = myDB.getReadableDatabase();
                         cursor = sqlDB.rawQuery("SELECT id FROM acountListTBL WHERE listItem = '" + selectedItem +"';", null);
                         while(cursor.moveToNext()){
@@ -175,6 +175,28 @@ public class CategoryFragment extends Fragment {
                 getActivity().setResult(Activity.RESULT_OK, putIntent);
                 getActivity().finish();
 
+            }
+        });
+
+
+        btnAddItem = (Button)view.findViewById(R.id.btnAddItem);
+        tvButtonMessage = (TextView)view.findViewById(R.id.tvButtonMessage);
+        if(checkNum == EXEPENCE_CODE || checkNum == INCOME_CODE){
+            btnAddItem.setVisibility(View.VISIBLE);
+            tvButtonMessage.setVisibility(View.VISIBLE);
+        }
+        btnAddItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                tabPosition = CategoryManager.tabPosition + 1; // 탭의 포지션을 받아 해당 숫자 +1 을 menuReference를 설정
+                DialogLoad.DialogAddMenu(getContext(), table, tabPosition);
+
+
+                /*itemList.removeAll(itemList);
+                DatabaseCreate.selectSingleDB(sqlSelectSentence, myDB, itemList);
+                listView.setAdapter(arrayAdapter);
+                arrayAdapter.notifyDataSetChanged();*/
             }
         });
 

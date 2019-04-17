@@ -114,14 +114,14 @@ public class DialogLoad {
 
     }
 
-    public static void DialogAddMenu(final Context context, final String table, final int menuReferenceNum, final ArrayList<String> arrayList){
+    public static void DialogAddMenu(final Context context, final String table, final int menuReferenceNum){
         dialogView[0] = (View)View.inflate(context, R.layout.dialog_add_menu, null);
         final EditText edtAddMenu = (EditText)dialogView[0].findViewById(R.id.edtAddMenu);
 
         AlertDialog.Builder dlg = new AlertDialog.Builder(context);
         dlg.setTitle("# 항목 추가");
         dlg.setView(dialogView[0]);
-        dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+        dlg.setPositiveButton("추가하기", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 myDB = new DatabaseCreate(context);
@@ -132,6 +132,13 @@ public class DialogLoad {
                         sqlDB.execSQL("INSERT INTO " + table + " (listItem, menuReference) VALUES ('" + menuData + "', " + menuReferenceNum + ");");
                     }
                     edtAddMenu.setText("");
+                    sqlDB.close();
+
+                    /*CategoryFragment cf = new CategoryFragment();
+                    cf.itemList.add(menuData);*/
+
+
+
 
                 } catch(SQLiteException e){
                     Toast.makeText(context, "중복되지 않은 항목으로 다시 입력하세요", Toast.LENGTH_SHORT).show();
