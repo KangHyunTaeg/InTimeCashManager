@@ -8,10 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -114,7 +110,7 @@ public class DialogLoad {
 
     }
 
-    public static void DialogAddMenu(final Context context, final String table, final int menuReferenceNum){
+    public static void DialogAddMenu(final Context context, final String table, final int menuReferenceNum, final ArrayList<String> itemList){
         dialogView[0] = (View)View.inflate(context, R.layout.dialog_add_menu, null);
         final EditText edtAddMenu = (EditText)dialogView[0].findViewById(R.id.edtAddMenu);
 
@@ -134,11 +130,7 @@ public class DialogLoad {
                     edtAddMenu.setText("");
                     sqlDB.close();
 
-                    /*CategoryFragment cf = new CategoryFragment();
-                    cf.itemList.add(menuData);*/
-
-
-
+                    itemList.add(menuData);
 
                 } catch(SQLiteException e){
                     Toast.makeText(context, "중복되지 않은 항목으로 다시 입력하세요", Toast.LENGTH_SHORT).show();
@@ -178,13 +170,14 @@ public class DialogLoad {
         dlg.show();
     }
 
-    public static void DialogDeleteMenu(ArrayList<String> arrayList, DatabaseCreate myDB, int num, String selectedItem, ListView list, ArrayAdapter<String> adapter, final String table, final String[] columns){
+    public static void DialogDeleteMenu(Context context, final String table, ArrayList<String> itemList, int num, String selectedItem){
+        itemList.remove(itemList.get(num));
 
-        arrayList.remove(arrayList.get(num));
-
+        myDB = new DatabaseCreate(context);
         sqlDB = myDB.getWritableDatabase();
+
         // sqlDB.execSQL("DELETE FROM homeListInExpnseCategoryTBL WHERE homeList='"+ selectedItem +"'");
-        sqlDB.execSQL("DELETE FROM " + table + " WHERE " + columns[0] + " ='" + selectedItem + "';");
+        sqlDB.execSQL("DELETE FROM " + table + " WHERE listItem ='" + selectedItem + "';");
     }
 
     public static void DialogInputTag(final Button btn, Context context){

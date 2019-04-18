@@ -7,12 +7,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,6 +45,7 @@ public class CategoryFragment extends Fragment {
 
     String selectedItem; // 리스트뷰에서 선택한 아이템 값을 담는 변수
     int tabPosition; // 현재 선택된 탭이 몇 번째인지를 담는 변수
+    int num; // 롱클릭시 선택한 아이템의 position
 
     ArrayList<String> supMenuNameList = new ArrayList<>(); // 대메뉴 이름 구할 배열
     String supMenuName; // 대메뉴 이름
@@ -178,6 +182,16 @@ public class CategoryFragment extends Fragment {
             }
         });
 
+        registerForContextMenu(listView); // 리스트뷰에 컨텍스트메뉴 장착
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                num = position; // 포지션의 인덱스 번호
+                selectedItem = listView.getItemAtPosition(position).toString(); // 포지션에 해당되는 아이템이름
+                return false;
+            }
+        });
+
 
         btnAddItem = (Button)view.findViewById(R.id.btnAddItem);
         tvButtonMessage = (TextView)view.findViewById(R.id.tvButtonMessage);
@@ -190,17 +204,43 @@ public class CategoryFragment extends Fragment {
             public void onClick(View v) {
 
                 tabPosition = CategoryManager.tabPosition + 1; // 탭의 포지션을 받아 해당 숫자 +1 을 menuReference를 설정
-                DialogLoad.DialogAddMenu(getContext(), table, tabPosition);
+                DialogLoad.DialogAddMenu(getContext(), table, tabPosition, itemList);
 
-
-                /*itemList.removeAll(itemList);
-                DatabaseCreate.selectSingleDB(sqlSelectSentence, myDB, itemList);
-                listView.setAdapter(arrayAdapter);
+                // AddDialog에서 추가하면, 리스트뷰를 새로 고침하려 했지만, 그냥 listView에 추가한 텍스트를 추가해주는 것으로 마무리함
+                /*listView.setAdapter(arrayAdapter);
                 arrayAdapter.notifyDataSetChanged();*/
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, 1, 0, "삭제"); // 컨텍스트 메뉴
+        menu.add(0, 2, 0, "수정");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+        switch (item.getItemId()){
+            case 1:
+                DialogLoad.DialogDeleteMenu(getContext(), table, itemList, num, selectedItem);
+                itemList.clear();
+                DatabaseCreate.selectSingleDB(sqlSelectSentence, myDB, itemList);
+                arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, itemList);
+                listView.setAdapter(arrayAdapter);
+                arrayAdapter.notifyDataSetChanged();
+                return true;
+            case 2:
+
+                // DialogLoad.DialogUpdateMenu(getContext(), num, table, columns, listViewCategory, arrayList, selectedItem);
+                arrayAdapter.notifyDataSetChanged();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 }
 
