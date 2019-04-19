@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -44,8 +45,9 @@ public class CategoryFragment extends Fragment {
     ListView listView;
 
     String selectedItem; // 리스트뷰에서 선택한 아이템 값을 담는 변수
+    String selectedItemLong = ""; // 리스트뷰에서 롱클릭시 선택한 아이템 값을 담는 변수
     int tabPosition; // 현재 선택된 탭이 몇 번째인지를 담는 변수
-    int num; // 롱클릭시 선택한 아이템의 position
+    long num; // 롱클릭시 선택한 아이템의 position
 
     ArrayList<String> supMenuNameList = new ArrayList<>(); // 대메뉴 이름 구할 배열
     String supMenuName; // 대메뉴 이름
@@ -178,19 +180,20 @@ public class CategoryFragment extends Fragment {
                 putIntent.putExtras(bundle);
                 getActivity().setResult(Activity.RESULT_OK, putIntent);
                 getActivity().finish();
-
             }
         });
 
         registerForContextMenu(listView); // 리스트뷰에 컨텍스트메뉴 장착
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                num = position; // 포지션의 인덱스 번호
-                selectedItem = listView.getItemAtPosition(position).toString(); // 포지션에 해당되는 아이템이름
+                num = id; // 포지션의 인덱스 번호
+                selectedItemLong = listView.getItemAtPosition(position).toString(); // 포지션에 해당되는 아이템이름
+
+                Log.i("동환", "1. 롱클릭 시 선택된 항목들 : " + CategoryManager.tabPosition + " 번째 탭  /  " + num + " 번째 아이템" + "  /  선택한 항목 : " + selectedItemLong);
                 return false;
             }
-        });
+        });*/
 
 
         btnAddItem = (Button)view.findViewById(R.id.btnAddItem);
@@ -227,12 +230,16 @@ public class CategoryFragment extends Fragment {
         super.onContextItemSelected(item);
         switch (item.getItemId()){
             case 1:
-                DialogLoad.DialogDeleteMenu(getContext(), table, itemList, num, selectedItem);
+                Log.i("동환", "1. 롱클릭 삭제시 선택된 항목들 : " + CategoryManager.tabPosition + " 번째 탭  /  " + num + " 번째 아이템" + "  /  선택한 항목 : " + selectedItemLong);
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+                selectedItemLong = arrayAdapter.getItem(info.position);
+
+                // Log.i("동환", "2. 롱클릭 삭제 선택 시 선택된 탭 : " + CategoryManager.tabPosition + "  /  롱클릭 삭제 선택 시 선택된 아이템 : "+ selectedItemLong);
+                DialogLoad.DialogDeleteMenu(getContext(), table, arrayAdapter, itemList, num, selectedItemLong);
                 itemList.clear();
                 DatabaseCreate.selectSingleDB(sqlSelectSentence, myDB, itemList);
-                arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, itemList);
-                listView.setAdapter(arrayAdapter);
                 arrayAdapter.notifyDataSetChanged();
+                Log.i("동환", "3. DELETE 실행 후 selectedItem 변수에 남은 값 : " + selectedItemLong);
                 return true;
             case 2:
 

@@ -5,12 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.example.class10.intimecashmanager.CategoryExpenseFragment.CategoryFragment;
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticBudgetFragment;
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCardFragment;
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticCategoryFragment;
 import com.example.class10.intimecashmanager.StatisticsFragment.StatisticGoalFragment;
+import com.example.class10.intimecashmanager.SubAtcivities.CategoryManager;
 
 import java.util.ArrayList;
 import java.util.List;

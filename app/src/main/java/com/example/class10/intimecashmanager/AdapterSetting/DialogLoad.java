@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -170,14 +171,15 @@ public class DialogLoad {
         dlg.show();
     }
 
-    public static void DialogDeleteMenu(Context context, final String table, ArrayList<String> itemList, int num, String selectedItem){
-        itemList.remove(itemList.get(num));
+    public static void DialogDeleteMenu(Context context, final String table, ArrayAdapter<String> arrayAdapter, ArrayList<String> itemList, long num, String selectedItem){
 
         myDB = new DatabaseCreate(context);
         sqlDB = myDB.getWritableDatabase();
 
-        // sqlDB.execSQL("DELETE FROM homeListInExpnseCategoryTBL WHERE homeList='"+ selectedItem +"'");
         sqlDB.execSQL("DELETE FROM " + table + " WHERE listItem ='" + selectedItem + "';");
+        Log.i("동환","2. DELETE 문이 실행될 때 선택된 아이템 : " + selectedItem);
+
+        sqlDB.close();
     }
 
     public static void DialogInputTag(final Button btn, Context context){
